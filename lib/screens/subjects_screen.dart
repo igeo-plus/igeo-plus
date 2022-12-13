@@ -3,6 +3,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import '../models/subject.dart';
 import '../components/subject_item.dart';
+import '../components/new_subject_form.dart';
 
 class SubjectsScreen extends StatefulWidget {
   const SubjectsScreen({super.key});
@@ -27,6 +28,16 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
         ),
       );
     });
+    Navigator.of(context).pop();
+  }
+
+  _openNewSubjectFormModal(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (_) {
+        return NewSubjectForm(_addSubject);
+      },
+    );
   }
 
   @override
@@ -42,7 +53,7 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => {},
+        onPressed: () => _openNewSubjectFormModal(context),
         backgroundColor: Theme.of(context).primaryColor,
         child: Icon(Icons.add),
       ),

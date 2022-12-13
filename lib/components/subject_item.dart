@@ -57,7 +57,7 @@ class SubjectItem extends StatelessWidget {
                   bottom: 20,
                   right: 10,
                   child: Container(
-                    width: 300,
+                    width: 250,
                     color: Colors.black54,
                     padding: EdgeInsets.symmetric(
                       vertical: 5,
