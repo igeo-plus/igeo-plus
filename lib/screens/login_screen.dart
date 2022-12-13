@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import '../utils/routes.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
+
+  void _goToSubjectsScreen(BuildContext context) {
+    Navigator.of(context).popAndPushNamed(AppRoutes.SUBJECTS);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,8 +44,8 @@ class LoginScreen extends StatelessWidget {
               ),
             ),
             ElevatedButton(
-              onPressed: () {},
-              child: Text("Login"),
+              onPressed: () => _goToSubjectsScreen(context),
+              child: const Text("Login"),
             )
           ],
         ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'utils/routes.dart';
 import 'screens/login_screen.dart';
+import 'screens/subjects_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         AppRoutes.HOME: (ctx) => const LoginScreen(),
+        AppRoutes.SUBJECTS: (ctx) => const SubjectsScreen(),
       },
     );
   }
