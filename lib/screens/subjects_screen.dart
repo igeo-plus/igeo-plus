@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../models/subject.dart';
 import '../components/subject_item.dart';
 import '../components/new_subject_form.dart';
+import '../components/main_drawer.dart';
 
 class SubjectsScreen extends StatefulWidget {
   const SubjectsScreen({super.key});
@@ -52,6 +53,7 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
           return SubjectItem(_subjects[index]);
         },
       ),
+      drawer: MainDrawer(),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _openNewSubjectFormModal(context),
         backgroundColor: Theme.of(context).primaryColor,
