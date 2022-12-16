@@ -3,6 +3,8 @@ import 'utils/routes.dart';
 import 'screens/login_screen.dart';
 import 'screens/subjects_screen.dart';
 import 'screens/tabs_screen.dart';
+import 'screens/subject_points_screen.dart';
+import 'screens/point_details_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -25,6 +27,8 @@ class MyApp extends StatelessWidget {
       routes: {
         AppRoutes.HOME: (ctx) => LoginScreen(),
         AppRoutes.HOME2: (ctx) => TabsScreen(),
+        AppRoutes.SUBJECT_POINTS: (ctx) => SubjectPointsScreen(),
+        AppRoutes.POINT_DETAIL: (ctx) => PointDetailScreen(),
       },
     );
   }

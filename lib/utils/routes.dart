@@ -3,4 +3,5 @@ class AppRoutes {
   static const HOME2 = '/tabs-screen';
   static const SUBJECTS = '/subjects';
   static const SUBJECT_POINTS = '/subject-points';
+  static const POINT_DETAIL = '/point-detail';
 }

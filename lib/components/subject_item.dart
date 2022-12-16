@@ -21,7 +21,8 @@ class SubjectItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      splashColor: Theme.of(context).errorColor,
+      splashColor: Colors.amber,
+      hoverColor: Color.fromARGB(255, 181, 220, 238),
       borderRadius: BorderRadius.only(
         topLeft: Radius.circular(15),
         topRight: Radius.circular(15),

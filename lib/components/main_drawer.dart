@@ -7,7 +7,10 @@ class MainDrawer extends StatelessWidget {
 
   Widget _createDrawerItem(IconData icon, String label, Function onTap) {
     return ListTile(
-      leading: Icon(icon),
+      leading: Icon(
+        icon,
+        color: Color.fromARGB(255, 7, 163, 221),
+      ),
       title: Text(label),
     );
   }
@@ -19,7 +22,7 @@ class MainDrawer extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            color: Theme.of(context).primaryColor,
+            color: Color.fromARGB(255, 7, 163, 221),
             height: 55,
             width: double.infinity,
             child: Container(
@@ -32,9 +35,12 @@ class MainDrawer extends StatelessWidget {
                     Icons.settings,
                     color: Colors.black,
                   ),
-                  Text(
-                    "Configurações",
-                    style: TextStyle(color: Colors.white, fontSize: 18),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 5),
+                    child: Text(
+                      "Configurações",
+                      style: TextStyle(color: Colors.white, fontSize: 18),
+                    ),
                   ),
                 ],
               ),
