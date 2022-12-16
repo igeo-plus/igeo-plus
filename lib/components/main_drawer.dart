@@ -22,9 +22,22 @@ class MainDrawer extends StatelessWidget {
             color: Theme.of(context).primaryColor,
             height: 55,
             width: double.infinity,
-            child: Text(
-              "Configurações",
-              style: TextStyle(color: Colors.white, fontSize: 18),
+            child: Container(
+              margin: EdgeInsets.only(
+                left: 15,
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.settings,
+                    color: Colors.black,
+                  ),
+                  Text(
+                    "Configurações",
+                    style: TextStyle(color: Colors.white, fontSize: 18),
+                  ),
+                ],
+              ),
             ),
           ),
           _createDrawerItem(Icons.person, "Editar conta", () => {}),

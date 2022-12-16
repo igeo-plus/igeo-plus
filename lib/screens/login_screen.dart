@@ -7,7 +7,7 @@ class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
   void _goToSubjectsScreen(BuildContext context) {
-    Navigator.of(context).popAndPushNamed(AppRoutes.SUBJECTS);
+    Navigator.of(context).popAndPushNamed(AppRoutes.HOME2);
   }
 
   @override

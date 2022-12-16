@@ -44,9 +44,9 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Campos"),
-      ),
+      // appBar: AppBar(
+      //   title: Text("Campos"),
+      // ),
       body: ListView.builder(
         itemCount: _subjects.length,
         itemBuilder: (ctx, index) {

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'utils/routes.dart';
 import 'screens/login_screen.dart';
 import 'screens/subjects_screen.dart';
+import 'screens/tabs_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -22,8 +23,8 @@ class MyApp extends StatelessWidget {
         canvasColor: const Color.fromRGBO(255, 244, 244, 244),
       ),
       routes: {
-        AppRoutes.HOME: (ctx) => const LoginScreen(),
-        AppRoutes.SUBJECTS: (ctx) => const SubjectsScreen(),
+        AppRoutes.HOME: (ctx) => LoginScreen(),
+        AppRoutes.HOME2: (ctx) => TabsScreen(),
       },
     );
   }
