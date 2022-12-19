@@ -1,6 +1,13 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:intl/intl.dart';
+
+import 'package:flutter_map/flutter_map.dart';
+import 'package:mapbox_gl/mapbox_gl.dart';
+import 'package:latlong2/latlong.dart' as latLng;
 
 import '../models/point.dart';
 import '../models/subject.dart';
@@ -17,110 +24,142 @@ class PointDetailScreen extends StatelessWidget {
     final subject = arguments["subject"] as Subject;
     return Scaffold(
       appBar: AppBar(
-        title: FittedBox(child: Text("Ponto ${point.id} de ${subject.name}")),
+        title: FittedBox(
+            child: Text(
+                "Ponto ${point.id} de ${subject.name.substring(0, 5)}...")),
       ),
       body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Container(
-              width: double.infinity,
-              padding: EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                border: Border.all(color: Color.fromARGB(255, 7, 163, 221)),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: Text(
-                      "${point.name}",
-                      style: TextStyle(
-                          color: Color.fromARGB(255, 7, 163, 221),
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold),
-                    ),
+        child: Column(
+          children: [
+            // FlutterMap(
+            //   options: MapOptions(
+            //     center: latLng.LatLng(51.509364, -0.128928),
+            //     zoom: 9.2,
+            //   ),
+            //   nonRotatedChildren: [
+            //     AttributionWidget.defaultWidget(
+            //       source: 'OpenStreetMap contributors',
+            //       onSourceTapped: null,
+            //     ),
+            //   ],
+            //   children: [
+            //     TileLayer(
+            //       urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+            //       userAgentPackageName: 'com.example.app',
+            //     ),
+            //   ],
+            // ),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Color.fromARGB(255, 7, 163, 221)),
+                    borderRadius: BorderRadius.circular(10),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.gps_fixed_sharp,
-                          size: 14,
-                          color: Colors.grey,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: FittedBox(
+                          child: Text(
+                            "${point.name}",
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 7, 163, 221),
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
+                          ),
                         ),
-                        Text(" ${point.date}"),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.calendar_month,
-                          size: 14,
-                          color: Colors.grey,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: FittedBox(
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.calendar_month,
+                                size: 14,
+                                color: Colors.grey,
+                              ),
+                              Text(
+                                  " ${DateFormat("d/M/yyyy").format(point.date)}"),
+                            ],
+                          ),
                         ),
-                        Text(" Lat: ${point.lat} - Long: ${point.long}"),
-                      ],
-                    ),
-                  ),
-                  Divider(),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: Column(
-                      children: [
-                        Row(
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: FittedBox(
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.gps_fixed_sharp,
+                                size: 14,
+                                color: Colors.grey,
+                              ),
+                              Text(
+                                  " Lat: ${point.lat + 1031029102} - Long: ${point.long}"),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Divider(),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: Column(
                           children: [
-                            Icon(
-                              Icons.textsms,
-                              size: 14,
-                              color: Colors.grey,
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.textsms,
+                                  size: 14,
+                                  color: Colors.grey,
+                                ),
+                                Text(
+                                  " Descrição",
+                                  style: TextStyle(
+                                      color: Color.fromARGB(255, 7, 163, 221)),
+                                ),
+                              ],
                             ),
-                            Text(
-                              " Descrição",
-                              style: TextStyle(
-                                  color: Color.fromARGB(255, 7, 163, 221)),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10),
+                              child: Text("${point.description}"),
                             ),
                           ],
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10),
-                          child: Text("${point.description}"),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Divider(),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: Column(
-                      children: [
-                        Row(
+                      ),
+                      Divider(),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: Column(
                           children: [
-                            Icon(
-                              Icons.photo,
-                              size: 14,
-                              color: Colors.grey,
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.photo,
+                                  size: 14,
+                                  color: Colors.grey,
+                                ),
+                                Text(
+                                  " Fotos",
+                                  style: TextStyle(
+                                      color: Color.fromARGB(255, 7, 163, 221)),
+                                ),
+                              ],
                             ),
-                            Text(
-                              " Fotos",
-                              style: TextStyle(
-                                  color: Color.fromARGB(255, 7, 163, 221)),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10),
+                              child: Text("Fotos do ponto"),
                             ),
                           ],
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10),
-                          child: Text("Fotos do ponto"),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              )),
+                      ),
+                    ],
+                  )),
+            ),
+          ],
         ),
       ),
     );
