@@ -41,35 +41,83 @@ class PointDetailScreen extends StatelessWidget {
                           fontWeight: FontWeight.bold),
                     ),
                   ),
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.gps_fixed_sharp,
-                        size: 14,
-                        color: Colors.grey,
-                      ),
-                      Text(" ${point.date}"),
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.gps_fixed_sharp,
+                          size: 14,
+                          color: Colors.grey,
+                        ),
+                        Text(" ${point.date}"),
+                      ],
+                    ),
                   ),
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.calendar_month,
-                        size: 14,
-                        color: Colors.grey,
-                      ),
-                      Text(" Lat: ${point.lat} - Long: ${point.long}"),
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.calendar_month,
+                          size: 14,
+                          color: Colors.grey,
+                        ),
+                        Text(" Lat: ${point.lat} - Long: ${point.long}"),
+                      ],
+                    ),
                   ),
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.textsms,
-                        size: 14,
-                        color: Colors.grey,
-                      ),
-                      Text(" ${point.description}"),
-                    ],
+                  Divider(),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.textsms,
+                              size: 14,
+                              color: Colors.grey,
+                            ),
+                            Text(
+                              " Descrição",
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 7, 163, 221)),
+                            ),
+                          ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: Text("${point.description}"),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Divider(),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.photo,
+                              size: 14,
+                              color: Colors.grey,
+                            ),
+                            Text(
+                              " Fotos",
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 7, 163, 221)),
+                            ),
+                          ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: Text("Fotos do ponto"),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               )),

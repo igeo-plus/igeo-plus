@@ -57,6 +57,11 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
         title: Text("${subject.name.toString()}"),
       ),
       body: PointItem(selectedPoints),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => {},
+        backgroundColor: Theme.of(context).primaryColor,
+        child: Icon(Icons.add),
+      ),
     );
   }
 }
