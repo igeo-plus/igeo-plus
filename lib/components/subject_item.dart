@@ -20,64 +20,67 @@ class SubjectItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      splashColor: Colors.amber,
-      hoverColor: Color.fromARGB(255, 181, 220, 238),
-      borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(15),
-        topRight: Radius.circular(15),
-        bottomLeft: Radius.circular(15),
-        bottomRight: Radius.circular(15),
-      ),
-      onTap: () => _selectSubject(context),
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(25),
+    return Padding(
+      padding: const EdgeInsets.all(2.0),
+      child: InkWell(
+        splashColor: Colors.amber,
+        hoverColor: Color.fromARGB(255, 181, 220, 238),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(15),
+          topRight: Radius.circular(15),
+          bottomLeft: Radius.circular(15),
+          bottomRight: Radius.circular(15),
         ),
-        elevation: 4,
-        margin: EdgeInsets.all(10),
-        child: Column(
-          children: [
-            Stack(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(15),
-                    topRight: Radius.circular(15),
-                    bottomLeft: Radius.circular(15),
-                    bottomRight: Radius.circular(15),
-                  ),
-                  child: Image.network(
-                    IMAGE_URL,
-                    height: 150,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                Positioned(
-                  bottom: 20,
-                  right: 10,
-                  child: Container(
-                    width: 250,
-                    color: Colors.black54,
-                    padding: EdgeInsets.symmetric(
-                      vertical: 5,
-                      horizontal: 20,
+        onTap: () => _selectSubject(context),
+        child: Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(25),
+          ),
+          elevation: 4,
+          margin: EdgeInsets.all(10),
+          child: Column(
+            children: [
+              Stack(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(15),
+                      topRight: Radius.circular(15),
+                      bottomLeft: Radius.circular(15),
+                      bottomRight: Radius.circular(15),
                     ),
-                    child: Text(
-                      subject.name,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
+                    child: Image.network(
+                      IMAGE_URL,
+                      height: 150,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 20,
+                    right: 10,
+                    child: Container(
+                      width: 250,
+                      color: Colors.black54,
+                      padding: EdgeInsets.symmetric(
+                        vertical: 5,
+                        horizontal: 20,
                       ),
-                      softWrap: true,
-                      overflow: TextOverflow.fade,
+                      child: Text(
+                        subject.name,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                        ),
+                        softWrap: true,
+                        overflow: TextOverflow.fade,
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
