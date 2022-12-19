@@ -6,6 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:igeo_flutter/models/subject.dart';
 import 'package:igeo_flutter/models/point.dart';
 
+import '../utils/routes.dart';
+import '../screens/point_details_screen.dart';
+
+import '../components/point_item.dart';
+
 class SubjectPointsScreen extends StatefulWidget {
   //final List<Point> points;
   SubjectPointsScreen();
@@ -31,6 +36,17 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
         subject_id: 1,
         user_id: 1,
       ),
+      Point(
+        id: 2,
+        name: "Teste",
+        lat: -22,
+        long: -43,
+        date: DateTime.now(),
+        time: DateTime.now(),
+        description: "bla bla bla",
+        subject_id: 1,
+        user_id: 1,
+      ),
     ];
 
     final selectedPoints =
@@ -40,12 +56,7 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
       appBar: AppBar(
         title: Text("${subject.name.toString()}"),
       ),
-      body: ListView.builder(
-        itemCount: selectedPoints.length,
-        itemBuilder: (ctx, index) {
-          return Text(selectedPoints[index].name as String);
-        },
-      ),
+      body: PointItem(selectedPoints),
     );
   }
 }
