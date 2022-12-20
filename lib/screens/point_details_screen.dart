@@ -3,14 +3,20 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:intl/intl.dart';
 
 import 'package:flutter_map/flutter_map.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:latlong2/latlong.dart' as latLng;
 
 import '../models/point.dart';
 import '../models/subject.dart';
+import '../utils/location_util.dart';
+
+import 'package:google_maps_flutter_android/google_maps_flutter_android.dart';
+import 'package:google_maps_flutter_platform_interface/google_maps_flutter_platform_interface.dart';
 
 class PointDetailScreen extends StatelessWidget {
   PointDetailScreen({super.key});
@@ -22,6 +28,12 @@ class PointDetailScreen extends StatelessWidget {
 
     final point = arguments["point"] as Point;
     final subject = arguments["subject"] as Subject;
+
+    final imageUrl = LocationUtil.generateLocationPreviewImage(
+      latitude: point.lat,
+      longitude: point.long,
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: FittedBox(
@@ -49,6 +61,7 @@ class PointDetailScreen extends StatelessWidget {
             //     ),
             //   ],
             // ),
+            Image.network(imageUrl),
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Container(
