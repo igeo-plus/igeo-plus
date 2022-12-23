@@ -8,6 +8,7 @@ import 'package:igeo_flutter/models/point.dart';
 
 import '../utils/routes.dart';
 import '../screens/point_details_screen.dart';
+import '../screens/new_point_form_screen.dart';
 
 import '../components/point_item.dart';
 
@@ -58,7 +59,7 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
       ),
       body: PointItem(selectedPoints),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => {},
+        onPressed: () => {Navigator.pushNamed(context, AppRoutes.NEW_POINT)},
         backgroundColor: Theme.of(context).primaryColor,
         child: Icon(Icons.add),
       ),
