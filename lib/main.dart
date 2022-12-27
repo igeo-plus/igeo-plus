@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
           primary: Color.fromARGB(255, 7, 163, 221),
           secondary: Color.fromARGB(255, 67, 63, 50),
         ),
-        canvasColor: const Color.fromRGBO(255, 244, 244, 244),
+        canvasColor: const Color.fromARGB(255, 245, 245, 245),
       ),
       routes: {
         AppRoutes.HOME: (ctx) => LoginScreen(),
