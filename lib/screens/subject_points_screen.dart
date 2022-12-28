@@ -56,6 +56,13 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text("${subject.name.toString()}"),
+        actions: [
+          IconButton(
+            onPressed: () =>
+                {Navigator.pushNamed(context, AppRoutes.NEW_POINT)},
+            icon: Icon(Icons.add),
+          ),
+        ],
       ),
       body: PointItem(selectedPoints),
       floatingActionButton: FloatingActionButton(
