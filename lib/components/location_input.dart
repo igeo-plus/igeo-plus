@@ -55,14 +55,15 @@ class _LocationInputState extends State<LocationInput> {
     return Column(
       children: [
         Container(
+          margin: EdgeInsets.only(bottom: 5),
           height: 170,
           width: double.infinity,
           decoration: BoxDecoration(
-            border: Border.all(
-              width: 1,
-              color: Colors.grey,
-            ),
-          ),
+              border: Border.all(
+                width: 1,
+                color: Colors.grey,
+              ),
+              borderRadius: BorderRadius.circular(10)),
           child: _previewImgUrl == null
               ? Center(
                   child: Text(
@@ -83,24 +84,29 @@ class _LocationInputState extends State<LocationInput> {
               onPressed: _getCurrentUserLocation,
               icon: Icon(
                 Icons.location_on,
-                size: 18,
+                size: 16,
+                color: Theme.of(context).primaryColor,
               ),
               label: Text(
                 "Localização atual",
-                style: TextStyle(fontSize: 16, color: Colors.grey),
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.grey,
+                ),
               ),
             ),
             TextButton.icon(
               onPressed: _selectOnMap,
               icon: Icon(
                 Icons.map,
-                size: 18,
+                size: 16,
+                color: Theme.of(context).primaryColor,
               ),
               label: Text(
                 "Selecione",
-                style: TextStyle(fontSize: 16, color: Colors.grey),
+                style: TextStyle(fontSize: 14, color: Colors.grey),
               ),
-            ),
+            )
           ],
         )
       ],
