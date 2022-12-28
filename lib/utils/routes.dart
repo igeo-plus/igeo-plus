@@ -5,4 +5,5 @@ class AppRoutes {
   static const SUBJECT_POINTS = '/subject-points';
   static const POINT_DETAIL = '/point-detail';
   static const NEW_POINT = '/new-point';
+  static const MAP_SCREEN = '/map-screen';
 }

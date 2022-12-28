@@ -3,6 +3,10 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 
+import '../utils/location_util.dart';
+import '../screens/map_screen.dart';
+import '../utils/routes.dart';
+
 class LocationInput extends StatefulWidget {
   const LocationInput({super.key});
 
@@ -15,8 +19,15 @@ class _LocationInputState extends State<LocationInput> {
 
   Future<void> _getCurrentUserLocation() async {
     final locData = await Location().getLocation();
-    print(locData.latitude);
-    print(locData.longitude);
+
+    final staticMapImageUrl = LocationUtil.generateLocationPreviewImage(
+      latitude: locData.latitude,
+      longitude: locData.longitude,
+    );
+
+    setState(() {
+      _previewImgUrl = staticMapImageUrl;
+    });
   }
 
   @override
@@ -52,22 +63,23 @@ class _LocationInputState extends State<LocationInput> {
               onPressed: _getCurrentUserLocation,
               icon: Icon(
                 Icons.location_on,
-                size: 16,
+                size: 18,
               ),
               label: Text(
                 "Localização atual",
-                style: TextStyle(fontSize: 10, color: Colors.grey),
+                style: TextStyle(fontSize: 16, color: Colors.grey),
               ),
             ),
             TextButton.icon(
-              onPressed: () {},
+              onPressed: () =>
+                  Navigator.of(context).pushNamed(AppRoutes.MAP_SCREEN),
               icon: Icon(
                 Icons.map,
-                size: 16,
+                size: 18,
               ),
               label: Text(
-                "Selecione no mapa",
-                style: TextStyle(fontSize: 10, color: Colors.grey),
+                "Selecione",
+                style: TextStyle(fontSize: 16, color: Colors.grey),
               ),
             ),
           ],
