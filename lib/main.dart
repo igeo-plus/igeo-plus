@@ -6,12 +6,9 @@ import 'utils/location_util.dart';
 import 'package:location/location.dart';
 
 import 'screens/login_screen.dart';
-import 'screens/subjects_screen.dart';
 import 'screens/tabs_screen.dart';
 import 'screens/subject_points_screen.dart';
 import 'screens/point_details_screen.dart';
-import 'screens/new_point_form_screen.dart';
-import 'screens/map_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -37,7 +34,6 @@ class MyApp extends StatelessWidget {
         AppRoutes.SUBJECT_POINTS: (ctx) => SubjectPointsScreen(),
         AppRoutes.POINT_DETAIL: (ctx) => PointDetailScreen(),
         AppRoutes.NEW_POINT: (ctx) => NewPointFormScreen(),
-        AppRoutes.MAP_SCREEN: (ctx) => MapScreen(),
       },
     );
   }

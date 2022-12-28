@@ -18,7 +18,7 @@ import '../utils/location_util.dart';
 // import 'package:google_maps_flutter_platform_interface/google_maps_flutter_platform_interface.dart';
 
 class PointDetailScreen extends StatelessWidget {
-  PointDetailScreen({super.key});
+  const PointDetailScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -42,24 +42,6 @@ class PointDetailScreen extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
-            // FlutterMap(
-            //   options: MapOptions(
-            //     center: latLng.LatLng(51.509364, -0.128928),
-            //     zoom: 9.2,
-            //   ),
-            //   nonRotatedChildren: [
-            //     AttributionWidget.defaultWidget(
-            //       source: 'OpenStreetMap contributors',
-            //       onSourceTapped: null,
-            //     ),
-            //   ],
-            //   children: [
-            //     TileLayer(
-            //       urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-            //       userAgentPackageName: 'com.example.app',
-            //     ),
-            //   ],
-            // ),
             Image.network(imageUrl),
             Padding(
               padding: const EdgeInsets.all(10.0),

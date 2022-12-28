@@ -13,7 +13,6 @@ import '../screens/new_point_form_screen.dart';
 import '../components/point_item.dart';
 
 class SubjectPointsScreen extends StatefulWidget {
-  //final List<Point> points;
   SubjectPointsScreen();
 
   @override

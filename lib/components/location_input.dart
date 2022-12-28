@@ -5,7 +5,6 @@ import 'package:location/location.dart';
 
 import '../utils/location_util.dart';
 import '../screens/map_screen.dart';
-import '../utils/routes.dart';
 
 class LocationInput extends StatefulWidget {
   const LocationInput({super.key});
@@ -16,6 +15,9 @@ class LocationInput extends StatefulWidget {
 
 class _LocationInputState extends State<LocationInput> {
   String? _previewImgUrl;
+
+  double? _lat;
+  double? _long;
 
   Future<void> _getCurrentUserLocation() async {
     final locData = await Location().getLocation();
@@ -28,6 +30,24 @@ class _LocationInputState extends State<LocationInput> {
     setState(() {
       _previewImgUrl = staticMapImageUrl;
     });
+  }
+
+  Future<void> _selectOnMap() async {
+    final locData = await Location().getLocation();
+
+    setState(() {
+      _lat = locData.latitude;
+      _long = locData.longitude;
+    });
+
+    final selectedLocation = await Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (ctx) => MapScreen(lat: _lat!, long: _long!),
+        fullscreenDialog: true,
+      ),
+    );
+
+    if (selectedLocation == null) return;
   }
 
   @override
@@ -71,8 +91,7 @@ class _LocationInputState extends State<LocationInput> {
               ),
             ),
             TextButton.icon(
-              onPressed: () =>
-                  Navigator.of(context).pushNamed(AppRoutes.MAP_SCREEN),
+              onPressed: _selectOnMap,
               icon: Icon(
                 Icons.map,
                 size: 18,
