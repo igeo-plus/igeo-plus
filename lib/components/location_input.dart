@@ -1,7 +1,6 @@
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../utils/location_util.dart';
 import '../screens/map_screen.dart';
@@ -40,14 +39,16 @@ class _LocationInputState extends State<LocationInput> {
       _long = locData.longitude;
     });
 
-    final selectedLocation = await Navigator.of(context).push(
+    final LatLng? selectedPosition = await Navigator.of(context).push(
       MaterialPageRoute(
         builder: (ctx) => MapScreen(lat: _lat!, long: _long!),
         fullscreenDialog: true,
       ),
     );
 
-    if (selectedLocation == null) return;
+    if (selectedPosition == null) return;
+
+    print(selectedPosition.latitude);
   }
 
   @override

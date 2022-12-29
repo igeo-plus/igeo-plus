@@ -5,7 +5,12 @@ class MapScreen extends StatefulWidget {
   final double lat;
   final double long;
 
-  const MapScreen({this.lat = -22, this.long = -43});
+  final bool isReadOnly = false;
+
+  const MapScreen({
+    this.lat = -22,
+    this.long = -43,
+  });
 
   @override
   State<MapScreen> createState() => _MapScreenState();
@@ -25,6 +30,17 @@ class _MapScreenState extends State<MapScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Selecione...'),
+        actions: [
+          if (!widget.isReadOnly)
+            IconButton(
+              onPressed: _pickedPosition == null
+                  ? null
+                  : () {
+                      Navigator.of(context).pop(_pickedPosition);
+                    },
+              icon: Icon(Icons.check),
+            )
+        ],
       ),
       body: GoogleMap(
         initialCameraPosition: CameraPosition(
@@ -32,7 +48,7 @@ class _MapScreenState extends State<MapScreen> {
           zoom: 13,
         ),
         mapType: MapType.satellite,
-        onTap: _selectPosition,
+        onTap: widget.isReadOnly ? null : _selectPosition,
         markers: _pickedPosition == null
             ? {}
             : {
