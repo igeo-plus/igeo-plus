@@ -1,9 +1,5 @@
-import 'dart:collection';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:geocoding/geocoding.dart';
+
 import 'package:intl/intl.dart';
 
 import 'package:flutter_map/flutter_map.dart';
@@ -13,9 +9,6 @@ import 'package:latlong2/latlong.dart' as latLng;
 import '../models/point.dart';
 import '../models/subject.dart';
 import '../utils/location_util.dart';
-
-// import 'package:google_maps_flutter_android/google_maps_flutter_android.dart';
-// import 'package:google_maps_flutter_platform_interface/google_maps_flutter_platform_interface.dart';
 
 class PointDetailScreen extends StatelessWidget {
   const PointDetailScreen({super.key});

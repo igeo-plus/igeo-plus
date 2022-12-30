@@ -52,22 +52,61 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
     final selectedPoints =
         points.where((point) => point.subject_id == subject.id).toList();
 
+    void _addPoint(
+      int id,
+      String name,
+      double lat,
+      double long,
+      DateTime date,
+      DateTime time,
+      String description,
+      int subject_id,
+      int user_id,
+    ) {
+      final Point newPoint = Point(
+        id: id,
+        name: name,
+        lat: lat,
+        long: long,
+        date: date,
+        time: time,
+        description: description,
+        subject_id: subject_id,
+        user_id: user_id,
+      );
+
+      setState(() {
+        selectedPoints.add(newPoint);
+      });
+
+      Navigator.of(context).pop();
+    }
+
     return Scaffold(
       appBar: AppBar(
-        title: Text("${subject.name.toString()}"),
+        title: Text("${subject.name}"),
         actions: [
           IconButton(
-            onPressed: () =>
-                {Navigator.pushNamed(context, AppRoutes.NEW_POINT)},
-            icon: Icon(Icons.add),
+            onPressed: () => {
+              Navigator.pushNamed(
+                context,
+                AppRoutes.NEW_POINT,
+                arguments: subject,
+              ),
+            },
+            icon: const Icon(Icons.add),
           ),
         ],
       ),
       body: PointItem(selectedPoints),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => {Navigator.pushNamed(context, AppRoutes.NEW_POINT)},
+        onPressed: () => {
+          Navigator.pushNamed(context, AppRoutes.NEW_POINT).then((result) {
+            print(result);
+          }),
+        },
         backgroundColor: Theme.of(context).primaryColor,
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }

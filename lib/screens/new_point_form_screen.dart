@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-
-import 'package:geolocator/geolocator.dart';
 
 import '../models/point.dart';
 import '../models/subject.dart';
@@ -10,10 +6,7 @@ import '../models/subject.dart';
 import '../components/location_input.dart';
 
 class NewPointFormScreen extends StatefulWidget {
-  //final void Function(int, String, String) onSubmit;
-
-  const NewPointFormScreen();
-
+  Point? newPoint;
   @override
   State<NewPointFormScreen> createState() => _NewPointFormScreenState();
 }
@@ -21,23 +14,30 @@ class NewPointFormScreen extends StatefulWidget {
 class _NewPointFormScreenState extends State<NewPointFormScreen> {
   final _idController = TextEditingController();
   final _nameController = TextEditingController();
+  int id = 25;
+  String name = 'as';
+  double lat = 22;
+  double long = 43;
+  DateTime date = DateTime.now();
+  DateTime time = DateTime.now();
+  String description = "asaousoaisj";
+  int user_id = 1;
+  int subject_id = 1;
 
-  void _submitForm() {
-    final id = int.parse(_idController.text);
-    final name = _nameController.text;
-
-    if (name.isEmpty) {
-      return;
-    }
-
-    //widget.onSubmit(id, name); //acesso ao componente stateful
-  }
+  // void _onSubmit() {
+  //   id = 25;
+  //   name = _nameController.text;
+  //   lat = LocationInput().lat as double;
+  //   long = LocationInput().long as double;
+  // }
 
   @override
   Widget build(BuildContext context) {
+    final subject = ModalRoute.of(context)?.settings.arguments as Subject;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text("Novo ponto"),
+        title: const Text("Novo ponto"),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -45,29 +45,47 @@ class _NewPointFormScreenState extends State<NewPointFormScreen> {
           child: Column(
             children: [
               TextField(
-                keyboardType: TextInputType.text,
-                onSubmitted: (_) => _submitForm(),
+                keyboardType: TextInputType.number,
+                onSubmitted: (_) {
+                  id = _idController.text as int;
+                },
                 controller: _idController,
-                decoration: InputDecoration(labelText: "ID"),
+                decoration: const InputDecoration(labelText: "ID"),
               ),
               TextField(
                 keyboardType: TextInputType.text,
-                onSubmitted: (_) => _submitForm(),
+                onSubmitted: (_) {
+                  name = _nameController.text;
+                },
                 controller: _nameController,
-                decoration: InputDecoration(labelText: "Nome"),
+                decoration: const InputDecoration(labelText: "Nome"),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               LocationInput(),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: Text(
+                  onPressed: () {
+                    widget.newPoint = Point(
+                      id: id,
+                      name: name,
+                      lat: lat,
+                      long: long,
+                      date: date,
+                      time: time,
+                      user_id: user_id,
+                      subject_id: subject.id,
+                      description: description,
+                    );
+
+                    Navigator.pop(context);
+                  },
+                  child: const Text(
                     "Novo ponto",
                     style: TextStyle(fontFamily: 'Roboto'),
                   ),
