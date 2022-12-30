@@ -16,38 +16,40 @@ class LoginScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('iGeo'),
       ),
-      body: Center(
-        child: Column(
-          children: [
-            Image.asset(
-              'assets/images/logo-login.png',
-              width: double.infinity,
-              height: 150,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: TextField(
-                keyboardType: TextInputType.text,
-                onSubmitted: (_) => {},
-                //controller: _titleController,
-                decoration: InputDecoration(labelText: "Login"),
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            children: [
+              Image.asset(
+                'assets/images/logo-login.png',
+                width: double.infinity,
+                height: 150,
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: TextField(
-                keyboardType: TextInputType.text,
-                onSubmitted: (_) => {},
-                //controller: _titleController,
-                decoration: InputDecoration(labelText: "Senha"),
-                obscureText: true,
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: TextField(
+                  keyboardType: TextInputType.text,
+                  onSubmitted: (_) => {},
+                  //controller: _titleController,
+                  decoration: InputDecoration(labelText: "Login"),
+                ),
               ),
-            ),
-            ElevatedButton(
-              onPressed: () => _goToSubjectsScreen(context),
-              child: const Text("Login"),
-            )
-          ],
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: TextField(
+                  keyboardType: TextInputType.text,
+                  onSubmitted: (_) => {},
+                  //controller: _titleController,
+                  decoration: InputDecoration(labelText: "Senha"),
+                  obscureText: true,
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () => _goToSubjectsScreen(context),
+                child: const Text("Login"),
+              )
+            ],
+          ),
         ),
       ),
     );

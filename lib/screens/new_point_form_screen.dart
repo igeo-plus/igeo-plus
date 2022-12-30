@@ -39,43 +39,45 @@ class _NewPointFormScreenState extends State<NewPointFormScreen> {
       appBar: AppBar(
         title: Text("Novo ponto"),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: Column(
-          children: [
-            TextField(
-              keyboardType: TextInputType.text,
-              onSubmitted: (_) => _submitForm(),
-              controller: _idController,
-              decoration: InputDecoration(labelText: "ID"),
-            ),
-            TextField(
-              keyboardType: TextInputType.text,
-              onSubmitted: (_) => _submitForm(),
-              controller: _nameController,
-              decoration: InputDecoration(labelText: "Nome"),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            LocationInput(),
-            SizedBox(
-              height: 10,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text(
-                  "Novo ponto",
-                  style: TextStyle(fontFamily: 'Roboto'),
-                ),
-                style: ElevatedButton.styleFrom(
-                  primary: Theme.of(context).primaryColor,
-                ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Column(
+            children: [
+              TextField(
+                keyboardType: TextInputType.text,
+                onSubmitted: (_) => _submitForm(),
+                controller: _idController,
+                decoration: InputDecoration(labelText: "ID"),
               ),
-            )
-          ],
+              TextField(
+                keyboardType: TextInputType.text,
+                onSubmitted: (_) => _submitForm(),
+                controller: _nameController,
+                decoration: InputDecoration(labelText: "Nome"),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              LocationInput(),
+              SizedBox(
+                height: 10,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text(
+                    "Novo ponto",
+                    style: TextStyle(fontFamily: 'Roboto'),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    primary: Theme.of(context).primaryColor,
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

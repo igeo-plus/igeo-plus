@@ -31,47 +31,49 @@ class _NewSubjectFormState extends State<NewSubjectForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 5,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            TextField(
-              keyboardType: TextInputType.text,
-              onSubmitted: (_) => _submitForm(),
-              controller: _idController,
-              decoration: InputDecoration(labelText: "ID"),
-            ),
-            TextField(
-              keyboardType: TextInputType.text,
-              onSubmitted: (_) => _submitForm(),
-              controller: _nameController,
-              decoration: InputDecoration(labelText: "Nome"),
-            ),
-            TextField(
-              keyboardType: TextInputType.text,
-              onSubmitted: (_) => _submitForm(),
-              controller: _teacherController,
-              decoration: InputDecoration(labelText: "Professor"),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton(
-                onPressed: _submitForm,
-                child: Text(
-                  "Novo campo",
-                  style: TextStyle(fontFamily: 'Roboto'),
-                ),
-                style: ElevatedButton.styleFrom(
-                  primary: Theme.of(context).primaryColor,
-                ),
+    return SingleChildScrollView(
+      child: Card(
+        elevation: 5,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              TextField(
+                keyboardType: TextInputType.text,
+                onSubmitted: (_) => _submitForm(),
+                controller: _idController,
+                decoration: InputDecoration(labelText: "ID"),
               ),
-            )
-          ],
+              TextField(
+                keyboardType: TextInputType.text,
+                onSubmitted: (_) => _submitForm(),
+                controller: _nameController,
+                decoration: InputDecoration(labelText: "Nome"),
+              ),
+              TextField(
+                keyboardType: TextInputType.text,
+                onSubmitted: (_) => _submitForm(),
+                controller: _teacherController,
+                decoration: InputDecoration(labelText: "Professor"),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                  onPressed: _submitForm,
+                  child: Text(
+                    "Novo campo",
+                    style: TextStyle(fontFamily: 'Roboto'),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    primary: Theme.of(context).primaryColor,
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

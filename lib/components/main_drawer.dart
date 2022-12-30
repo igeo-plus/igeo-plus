@@ -23,7 +23,7 @@ class MainDrawer extends StatelessWidget {
         children: [
           Container(
             color: Color.fromARGB(255, 7, 163, 221),
-            height: 55,
+            height: 100,
             width: double.infinity,
             child: Container(
               margin: EdgeInsets.only(

@@ -39,121 +39,126 @@ class PointDetailScreen extends StatelessWidget {
             child: Text(
                 "Ponto ${point.id} de ${subject.name.substring(0, 5)}...")),
       ),
-      body: Center(
-        child: Column(
-          children: [
-            Image.network(imageUrl),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Container(
-                  width: double.infinity,
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Color.fromARGB(255, 7, 163, 221)),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 10),
-                        child: FittedBox(
-                          child: Text(
-                            "${point.name}",
-                            style: TextStyle(
-                                color: Color.fromARGB(255, 7, 163, 221),
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold),
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            children: [
+              Image.network(imageUrl),
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      border:
+                          Border.all(color: Color.fromARGB(255, 7, 163, 221)),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: FittedBox(
+                            child: Text(
+                              "${point.name}",
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 7, 163, 221),
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold),
+                            ),
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 10),
-                        child: FittedBox(
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.calendar_month,
-                                size: 14,
-                                color: Colors.grey,
-                              ),
-                              Text(
-                                  " ${DateFormat("d/M/yyyy").format(point.date)}"),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 10),
-                        child: FittedBox(
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.gps_fixed_sharp,
-                                size: 14,
-                                color: Colors.grey,
-                              ),
-                              Text(
-                                  " Lat: ${point.lat + 1031029102} - Long: ${point.long}"),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Divider(),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 10),
-                        child: Column(
-                          children: [
-                            Row(
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: FittedBox(
+                            child: Row(
                               children: [
                                 Icon(
-                                  Icons.textsms,
+                                  Icons.calendar_month,
                                   size: 14,
                                   color: Colors.grey,
                                 ),
                                 Text(
-                                  " Descrição",
-                                  style: TextStyle(
-                                      color: Color.fromARGB(255, 7, 163, 221)),
-                                ),
+                                    " ${DateFormat("d/M/yyyy").format(point.date)}"),
                               ],
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 10),
-                              child: Text("${point.description}"),
-                            ),
-                          ],
+                          ),
                         ),
-                      ),
-                      Divider(),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 10),
-                        child: Column(
-                          children: [
-                            Row(
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: FittedBox(
+                            child: Row(
                               children: [
                                 Icon(
-                                  Icons.photo,
+                                  Icons.gps_fixed_sharp,
                                   size: 14,
                                   color: Colors.grey,
                                 ),
                                 Text(
-                                  " Fotos",
-                                  style: TextStyle(
-                                      color: Color.fromARGB(255, 7, 163, 221)),
-                                ),
+                                    " Lat: ${point.lat + 1031029102} - Long: ${point.long}"),
                               ],
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 10),
-                              child: Text("Fotos do ponto"),
-                            ),
-                          ],
+                          ),
                         ),
-                      ),
-                    ],
-                  )),
-            ),
-          ],
+                        Divider(),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.textsms,
+                                    size: 14,
+                                    color: Colors.grey,
+                                  ),
+                                  Text(
+                                    " Descrição",
+                                    style: TextStyle(
+                                        color:
+                                            Color.fromARGB(255, 7, 163, 221)),
+                                  ),
+                                ],
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 10),
+                                child: Text("${point.description}"),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Divider(),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.photo,
+                                    size: 14,
+                                    color: Colors.grey,
+                                  ),
+                                  Text(
+                                    " Fotos",
+                                    style: TextStyle(
+                                        color:
+                                            Color.fromARGB(255, 7, 163, 221)),
+                                  ),
+                                ],
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 10),
+                                child: Text("Fotos do ponto"),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    )),
+              ),
+            ],
+          ),
         ),
       ),
     );

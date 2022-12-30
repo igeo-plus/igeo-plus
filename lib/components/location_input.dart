@@ -28,6 +28,8 @@ class _LocationInputState extends State<LocationInput> {
 
     setState(() {
       _previewImgUrl = staticMapImageUrl;
+      _lat = locData.latitude;
+      _long = locData.longitude;
     });
   }
 
@@ -63,8 +65,8 @@ class _LocationInputState extends State<LocationInput> {
     return Column(
       children: [
         Container(
-          margin: EdgeInsets.only(bottom: 5),
-          height: 170,
+          margin: EdgeInsets.only(bottom: 3),
+          height: 250,
           width: double.infinity,
           decoration: BoxDecoration(
               border: Border.all(
@@ -79,10 +81,21 @@ class _LocationInputState extends State<LocationInput> {
                     textAlign: TextAlign.center,
                   ),
                 )
-              : Image.network(
-                  _previewImgUrl!,
-                  fit: BoxFit.cover,
-                  width: double.infinity,
+              : //Image.network(
+              // _previewImgUrl!,
+              // fit: BoxFit.cover,
+              // width: double.infinity,
+              //),
+              GoogleMap(
+                  initialCameraPosition:
+                      CameraPosition(target: LatLng(_lat!, _long!), zoom: 13),
+                  markers: {
+                    Marker(
+                      markerId: const MarkerId('p1'),
+                      position: LatLng(_lat!, _long!),
+                    ),
+                  },
+                  mapType: MapType.satellite,
                 ),
         ),
         Row(
