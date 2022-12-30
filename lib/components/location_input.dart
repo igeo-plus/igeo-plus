@@ -51,10 +51,12 @@ class _LocationInputState extends State<LocationInput> {
     if (selectedPosition == null) return;
 
     setState(() {
-      _previewImgUrl = LocationUtil.generateLocationPreviewImage(
-        latitude: selectedPosition.latitude,
-        longitude: selectedPosition.longitude,
-      );
+      //_previewImgUrl = LocationUtil.generateLocationPreviewImage(
+      //  latitude: selectedPosition.latitude,
+      //  longitude: selectedPosition.longitude,
+      // );
+      _lat = selectedPosition.latitude;
+      _long = selectedPosition.longitude;
     });
 
     print(selectedPosition.latitude);
