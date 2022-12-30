@@ -82,8 +82,9 @@ class _NewPointFormScreenState extends State<NewPointFormScreen> {
                       subject_id: subject.id,
                       description: description,
                     );
+                    print(widget.newPoint?.name);
 
-                    Navigator.pop(context);
+                    Navigator.of(context).pop(widget.newPoint?.name);
                   },
                   child: const Text(
                     "Novo ponto",

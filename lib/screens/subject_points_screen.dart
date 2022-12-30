@@ -101,9 +101,11 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
       body: PointItem(selectedPoints),
       floatingActionButton: FloatingActionButton(
         onPressed: () => {
-          Navigator.pushNamed(context, AppRoutes.NEW_POINT).then((result) {
-            print(result);
-          }),
+          Navigator.pushNamed(context, AppRoutes.NEW_POINT).then(
+            (result) {
+              print(result as String);
+            },
+          ),
         },
         backgroundColor: Theme.of(context).primaryColor,
         child: const Icon(Icons.add),
