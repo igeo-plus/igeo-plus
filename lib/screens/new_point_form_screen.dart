@@ -33,7 +33,7 @@ class _NewPointFormScreenState extends State<NewPointFormScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final subject = ModalRoute.of(context)?.settings.arguments as Subject;
+    final subject = ModalRoute.of(context)!.settings.arguments as Subject;
 
     return Scaffold(
       appBar: AppBar(
@@ -64,11 +64,8 @@ class _NewPointFormScreenState extends State<NewPointFormScreen> {
                 height: 20,
               ),
               LocationInput(),
-              const SizedBox(
-                height: 10,
-              ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(2.0),
                 child: ElevatedButton(
                   onPressed: () {
                     widget.newPoint = Point(
@@ -82,9 +79,9 @@ class _NewPointFormScreenState extends State<NewPointFormScreen> {
                       subject_id: subject.id,
                       description: description,
                     );
-                    print(widget.newPoint?.name);
+                    print(widget.newPoint!.name);
 
-                    Navigator.of(context).pop(widget.newPoint?.name);
+                    Navigator.of(context).pop(widget.newPoint!);
                   },
                   child: const Text(
                     "Novo ponto",

@@ -49,37 +49,13 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
       ),
     ];
 
-    final selectedPoints =
+    final List<Point> selectedPoints =
         points.where((point) => point.subject_id == subject.id).toList();
 
-    void _addPoint(
-      int id,
-      String name,
-      double lat,
-      double long,
-      DateTime date,
-      DateTime time,
-      String description,
-      int subject_id,
-      int user_id,
-    ) {
-      final Point newPoint = Point(
-        id: id,
-        name: name,
-        lat: lat,
-        long: long,
-        date: date,
-        time: time,
-        description: description,
-        subject_id: subject_id,
-        user_id: user_id,
-      );
-
+    void addPoint(Point newPoint) {
       setState(() {
         selectedPoints.add(newPoint);
       });
-
-      Navigator.of(context).pop();
     }
 
     return Scaffold(
@@ -101,9 +77,10 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
       body: PointItem(selectedPoints),
       floatingActionButton: FloatingActionButton(
         onPressed: () => {
-          Navigator.pushNamed(context, AppRoutes.NEW_POINT).then(
-            (result) {
-              print(result as String);
+          Navigator.pushNamed(context, AppRoutes.NEW_POINT, arguments: subject)
+              .then(
+            (newPoint) {
+              addPoint(newPoint as Point);
             },
           ),
         },
