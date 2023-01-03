@@ -53,7 +53,7 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
           return SubjectItem(_subjects[index]);
         },
       ),
-      drawer: MainDrawer(),
+      drawer: const MainDrawer(),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _openNewSubjectFormModal(context),
         backgroundColor: Theme.of(context).primaryColor,

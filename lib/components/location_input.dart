@@ -71,11 +71,11 @@ class _LocationInputState extends State<LocationInput> {
           height: 250,
           width: double.infinity,
           decoration: BoxDecoration(
-              border: Border.all(
-                width: 1,
-                color: Colors.grey,
-              ),
-              borderRadius: BorderRadius.circular(10)),
+            border: Border.all(
+              width: 1,
+              color: Colors.grey,
+            ),
+          ),
           child: widget.lat == null && widget.long == null
               ? Center(
                   child: Text(

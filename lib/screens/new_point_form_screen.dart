@@ -24,12 +24,31 @@ class _NewPointFormScreenState extends State<NewPointFormScreen> {
   int user_id = 1;
   int subject_id = 1;
 
-  // void _onSubmit() {
-  //   id = 25;
-  //   name = _nameController.text;
-  //   lat = LocationInput().lat as double;
-  //   long = LocationInput().long as double;
-  // }
+  void sendBackData(
+      BuildContext context,
+      int id,
+      String name,
+      double lat,
+      double long,
+      DateTime date,
+      DateTime time,
+      int user_id,
+      int subject_id,
+      String description) {
+    Point newPoint = Point(
+      id: id,
+      name: name,
+      lat: lat,
+      long: long,
+      date: date,
+      time: time,
+      user_id: user_id,
+      subject_id: subject_id,
+      description: description,
+    );
+    print(newPoint.name);
+    Navigator.pop(context, newPoint);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +56,7 @@ class _NewPointFormScreenState extends State<NewPointFormScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Novo ponto"),
+        title: Text("Novo ponto em $subject.name"),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -67,22 +86,8 @@ class _NewPointFormScreenState extends State<NewPointFormScreen> {
               Padding(
                 padding: const EdgeInsets.all(2.0),
                 child: ElevatedButton(
-                  onPressed: () {
-                    widget.newPoint = Point(
-                      id: id,
-                      name: name,
-                      lat: lat,
-                      long: long,
-                      date: date,
-                      time: time,
-                      user_id: user_id,
-                      subject_id: subject.id,
-                      description: description,
-                    );
-                    print(widget.newPoint!.name);
-
-                    Navigator.of(context).pop(widget.newPoint!);
-                  },
+                  onPressed: () => sendBackData(context, id, name, lat, long,
+                      date, time, user_id, subject.id, description),
                   child: const Text(
                     "Novo ponto",
                     style: TextStyle(fontFamily: 'Roboto'),
