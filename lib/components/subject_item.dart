@@ -4,8 +4,8 @@ import 'package:flutter/src/widgets/framework.dart';
 import '../models/subject.dart';
 import '../utils/routes.dart';
 
-const String IMAGE_URL =
-    "https://plus.unsplash.com/premium_photo-1661963174486-3c967378b1b8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=871&q=80";
+//const String IMAGE_URL =
+//"https://plus.unsplash.com/premium_photo-1661963174486-3c967378b1b8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=871&q=80";
 
 class SubjectItem extends StatelessWidget {
   final Subject subject;
@@ -49,8 +49,8 @@ class SubjectItem extends StatelessWidget {
                       bottomLeft: Radius.circular(15),
                       bottomRight: Radius.circular(15),
                     ),
-                    child: Image.network(
-                      IMAGE_URL,
+                    child: Image.asset(
+                      "assets/images/subject_item_image.png",
                       height: 150,
                       width: double.infinity,
                       fit: BoxFit.cover,
