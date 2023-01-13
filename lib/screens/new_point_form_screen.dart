@@ -14,8 +14,8 @@ class NewPointFormScreen extends StatefulWidget {
 class _NewPointFormScreenState extends State<NewPointFormScreen> {
   final _idController = TextEditingController();
   final _nameController = TextEditingController();
-  int id = 25;
-  String name = 'as';
+  int? id;
+  String? name;
   double lat = 22;
   double long = 43;
   DateTime date = DateTime.now();
@@ -56,7 +56,9 @@ class _NewPointFormScreenState extends State<NewPointFormScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Novo ponto em $subject.name"),
+        title: FittedBox(
+          child: Text("Novo ponto em ${subject.name}"),
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -65,17 +67,13 @@ class _NewPointFormScreenState extends State<NewPointFormScreen> {
             children: [
               TextField(
                 keyboardType: TextInputType.number,
-                onSubmitted: (_) {
-                  id = _idController.text as int;
-                },
+                onChanged: (_) => id = int.parse(_idController.text),
                 controller: _idController,
                 decoration: const InputDecoration(labelText: "ID"),
               ),
               TextField(
                 keyboardType: TextInputType.text,
-                onSubmitted: (_) {
-                  name = _nameController.text;
-                },
+                onChanged: (_) => name = _nameController.text,
                 controller: _nameController,
                 decoration: const InputDecoration(labelText: "Nome"),
               ),
@@ -84,10 +82,26 @@ class _NewPointFormScreenState extends State<NewPointFormScreen> {
               ),
               LocationInput(),
               Padding(
-                padding: const EdgeInsets.all(2.0),
+                padding: const EdgeInsets.only(top: 5.0),
                 child: ElevatedButton(
-                  onPressed: () => sendBackData(context, id, name, lat, long,
-                      date, time, user_id, subject.id, description),
+                  onPressed: () {
+                    if (id == null) {
+                      Navigator.of(context).pop();
+                    } else {
+                      sendBackData(
+                        context,
+                        id!,
+                        name!,
+                        lat,
+                        long,
+                        date,
+                        time,
+                        user_id,
+                        subject.id,
+                        description,
+                      );
+                    }
+                  },
                   child: const Text(
                     "Novo ponto",
                     style: TextStyle(fontFamily: 'Roboto'),

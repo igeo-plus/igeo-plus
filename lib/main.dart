@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:igeo_flutter/screens/new_point_form_screen.dart';
+
 import 'utils/routes.dart';
-import 'utils/location_util.dart';
 
-import 'package:location/location.dart';
-
+import 'screens/new_point_form_screen.dart';
 import 'screens/login_screen.dart';
 import 'screens/tabs_screen.dart';
 import 'screens/subject_points_screen.dart';

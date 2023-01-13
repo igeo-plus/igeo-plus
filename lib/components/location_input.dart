@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import '../utils/location_util.dart';
 import '../screens/map_screen.dart';
-
-import '../models/point.dart';
 
 class LocationInput extends StatefulWidget {
   double? lat;
@@ -19,18 +16,30 @@ class _LocationInputState extends State<LocationInput> {
   //String? _previewImgUrl;
 
   Future<void> _getCurrentUserLocation() async {
-    final locData = await Location().getLocation();
+    try {
+      final locData = await Location().getLocation();
+      setState(
+        () {
+          //_previewImgUrl = staticMapImageUrl;
+          widget.lat = locData.latitude;
+          widget.long = locData.longitude;
+        },
+      );
+    } catch (error) {
+      setState(
+        () {
+          widget.lat = -22.0;
+          widget.long = -43.0;
+        },
+      );
+    }
 
     //final staticMapImageUrl = LocationUtil.generateLocationPreviewImage(
     //  latitude: locData.latitude,
     //  longitude: locData.longitude,
     //);
 
-    setState(() {
-      //_previewImgUrl = staticMapImageUrl;
-      widget.lat = locData.latitude;
-      widget.long = locData.longitude;
-    });
+    print(widget.lat);
   }
 
   Future<void> _selectOnMap() async {
@@ -51,15 +60,9 @@ class _LocationInputState extends State<LocationInput> {
     if (selectedPosition == null) return;
 
     setState(() {
-      //_previewImgUrl = LocationUtil.generateLocationPreviewImage(
-      //  latitude: selectedPosition.latitude,
-      //  longitude: selectedPosition.longitude,
-      // );
       widget.lat = selectedPosition.latitude;
       widget.long = selectedPosition.longitude;
     });
-
-    //print(selectedPosition.latitude);
   }
 
   @override
@@ -67,7 +70,7 @@ class _LocationInputState extends State<LocationInput> {
     return Column(
       children: [
         Container(
-          margin: EdgeInsets.only(bottom: 3),
+          margin: const EdgeInsets.only(bottom: 3),
           height: 250,
           width: double.infinity,
           decoration: BoxDecoration(
@@ -77,18 +80,13 @@ class _LocationInputState extends State<LocationInput> {
             ),
           ),
           child: widget.lat == null && widget.long == null
-              ? Center(
+              ? const Center(
                   child: Text(
                     'Localização não informada',
                     textAlign: TextAlign.center,
                   ),
                 )
-              : //Image.network(
-              // _previewImgUrl!,
-              // fit: BoxFit.cover,
-              // width: double.infinity,
-              //),
-              GoogleMap(
+              : GoogleMap(
                   initialCameraPosition: CameraPosition(
                       target: LatLng(widget.lat!, widget.long!), zoom: 13),
                   markers: {
@@ -108,12 +106,12 @@ class _LocationInputState extends State<LocationInput> {
               icon: Icon(
                 Icons.location_on,
                 size: 16,
-                color: Theme.of(context).primaryColor,
+                color: Theme.of(context).errorColor,
               ),
-              label: Text(
-                "Localização atual",
+              label: const Text(
+                "Pegar localização",
                 style: TextStyle(
-                  fontSize: 14,
+                  fontSize: 13,
                   color: Colors.grey,
                 ),
               ),
@@ -123,11 +121,14 @@ class _LocationInputState extends State<LocationInput> {
               icon: Icon(
                 Icons.map,
                 size: 16,
-                color: Theme.of(context).primaryColor,
+                color: Theme.of(context).errorColor,
               ),
-              label: Text(
-                "Selecione",
-                style: TextStyle(fontSize: 14, color: Colors.grey),
+              label: const Text(
+                "Selecionar",
+                style: TextStyle(
+                  fontSize: 13,
+                  color: Colors.grey,
+                ),
               ),
             )
           ],

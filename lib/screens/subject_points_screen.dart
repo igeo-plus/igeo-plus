@@ -49,17 +49,21 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
 
     void awaitResultFromNewPointScreen(BuildContext context) async {
       final result = await Navigator.pushNamed(context, AppRoutes.NEW_POINT,
-          arguments: subject) as Point;
+          arguments: subject);
+
+      if (result == null) {
+        return;
+      }
 
       setState(() {
-        newPoint = result;
+        newPoint = result as Point;
         points.add(newPoint!);
       });
     }
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("${subject.name}"),
+        title: Text(subject.name),
         actions: [
           IconButton(
             onPressed: () => awaitResultFromNewPointScreen(context),
