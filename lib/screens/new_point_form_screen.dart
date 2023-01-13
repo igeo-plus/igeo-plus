@@ -16,8 +16,8 @@ class _NewPointFormScreenState extends State<NewPointFormScreen> {
   final _nameController = TextEditingController();
   int? id;
   String? name;
-  double lat = 22;
-  double long = 43;
+  double lat = -22;
+  double long = -43;
   DateTime date = DateTime.now();
   DateTime time = DateTime.now();
   String description = "asaousoaisj";

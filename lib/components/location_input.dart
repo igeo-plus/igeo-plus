@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
+import 'package:provider/provider.dart';
+
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../screens/map_screen.dart';
@@ -28,7 +30,7 @@ class _LocationInputState extends State<LocationInput> {
     } catch (error) {
       setState(
         () {
-          widget.lat = -22.0;
+          widget.lat = -22.6;
           widget.long = -43.0;
         },
       );

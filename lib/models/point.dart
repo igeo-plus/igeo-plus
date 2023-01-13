@@ -1,4 +1,7 @@
-class Point {
+import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
+
+class Point with ChangeNotifier {
   final int id;
   final String name;
   final double lat;
@@ -10,6 +13,8 @@ class Point {
   final int subject_id;
   //final List<String> imageUrls;
 
+  bool isFavorite = false;
+
   Point({
     required this.id,
     required this.name,
@@ -20,5 +25,11 @@ class Point {
     required this.description,
     required this.user_id,
     required this.subject_id,
+    this.isFavorite = false,
   });
+
+  void toggleFavorite() {
+    isFavorite = !isFavorite;
+    notifyListeners();
+  }
 }

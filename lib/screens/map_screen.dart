@@ -5,11 +5,12 @@ class MapScreen extends StatefulWidget {
   final double lat;
   final double long;
 
-  final bool isReadOnly = false;
+  final bool isReadOnly;
 
   const MapScreen({
     this.lat = -22,
     this.long = -43,
+    this.isReadOnly = false,
   });
 
   @override
@@ -35,9 +36,7 @@ class _MapScreenState extends State<MapScreen> {
             IconButton(
               onPressed: _pickedPosition == null
                   ? null
-                  : () {
-                      Navigator.of(context).pop(_pickedPosition);
-                    },
+                  : () => Navigator.of(context).pop(_pickedPosition),
               icon: const Icon(Icons.check),
             )
         ],
