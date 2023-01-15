@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../models/point.dart';
 import '../models/subject.dart';
@@ -6,7 +7,7 @@ import '../models/subject.dart';
 import '../components/location_input.dart';
 
 class NewPointFormScreen extends StatefulWidget {
-  Point? newPoint;
+  //Point? newPoint;
   @override
   State<NewPointFormScreen> createState() => _NewPointFormScreenState();
 }
@@ -26,33 +27,43 @@ class _NewPointFormScreenState extends State<NewPointFormScreen> {
 
   void sendBackData(
       BuildContext context,
-      int id,
-      String name,
-      double lat,
-      double long,
-      DateTime date,
-      DateTime time,
-      int user_id,
-      int subject_id,
-      String description) {
-    Point newPoint = Point(
-      id: id,
-      name: name,
-      lat: lat,
-      long: long,
-      date: date,
-      time: time,
-      user_id: user_id,
-      subject_id: subject_id,
-      description: description,
-    );
-    print(newPoint.name);
+      // int id,
+      // String name,
+      // double lat,
+      // double long,
+      // DateTime date,
+      // DateTime time,
+      // int user_id,
+      // int subject_id,
+      // String description,
+      Point newPoint) {
+    // Point newPoint = Point(
+    //   id: id,
+    //   name: name,
+    //   lat: lat,
+    //   long: long,
+    //   date: date,
+    //   time: time,
+    //   user_id: user_id,
+    //   subject_id: subject_id,
+    //   description: description,
+    // );
+    //print(newPoint.name);
+    newPoint.id = id;
+    newPoint.name = name;
+    newPoint.date = date;
+    newPoint.time = time;
+    newPoint.user_id = user_id;
+    newPoint.subject_id = subject_id;
+    newPoint.description = description;
+
     Navigator.pop(context, newPoint);
   }
 
   @override
   Widget build(BuildContext context) {
     final subject = ModalRoute.of(context)!.settings.arguments as Subject;
+    var point = Provider.of<Point>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -90,15 +101,7 @@ class _NewPointFormScreenState extends State<NewPointFormScreen> {
                     } else {
                       sendBackData(
                         context,
-                        id!,
-                        name!,
-                        lat,
-                        long,
-                        date,
-                        time,
-                        user_id,
-                        subject.id,
-                        description,
+                        point,
                       );
                     }
                   },

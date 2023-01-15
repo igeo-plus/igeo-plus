@@ -1,60 +1,54 @@
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
-
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../screens/map_screen.dart';
 
-class LocationInput extends StatefulWidget {
-  double? lat;
-  double? long;
+import '../models/point.dart';
 
+class LocationInput extends StatefulWidget {
   @override
   State<LocationInput> createState() => _LocationInputState();
 }
 
 class _LocationInputState extends State<LocationInput> {
   //String? _previewImgUrl;
+  double? lat;
+  double? long;
 
-  Future<void> _getCurrentUserLocation() async {
-    try {
-      final locData = await Location().getLocation();
-      setState(
-        () {
-          //_previewImgUrl = staticMapImageUrl;
-          widget.lat = locData.latitude;
-          widget.long = locData.longitude;
-        },
-      );
-    } catch (error) {
-      setState(
-        () {
-          widget.lat = -22.6;
-          widget.long = -43.0;
-        },
-      );
-    }
+  Future<void> _getCurrentUserLocation(Point point) async {
+    final locData = await Location().getLocation();
+    setState(
+      () {
+        //_previewImgUrl = staticMapImageUrl;
+        lat = locData.latitude;
+        long = locData.longitude;
+      },
+    );
 
     //final staticMapImageUrl = LocationUtil.generateLocationPreviewImage(
     //  latitude: locData.latitude,
     //  longitude: locData.longitude,
     //);
 
-    print(widget.lat);
+    //point.changeCoordinates(widget.lat!, widget.long!);
+
+    print("${lat!} + ${long!} OK");
+    point.changeCoordinates(lat!, long!);
   }
 
-  Future<void> _selectOnMap() async {
+  Future<void> _selectOnMap(Point point) async {
     final locData = await Location().getLocation();
 
     setState(() {
-      widget.lat = locData.latitude;
-      widget.long = locData.longitude;
+      lat = locData.latitude;
+      long = locData.longitude;
     });
 
     final LatLng? selectedPosition = await Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (ctx) => MapScreen(lat: widget.lat!, long: widget.long!),
+        builder: (ctx) => MapScreen(lat: lat!, long: long!),
         fullscreenDialog: true,
       ),
     );
@@ -62,13 +56,16 @@ class _LocationInputState extends State<LocationInput> {
     if (selectedPosition == null) return;
 
     setState(() {
-      widget.lat = selectedPosition.latitude;
-      widget.long = selectedPosition.longitude;
+      lat = selectedPosition.latitude;
+      long = selectedPosition.longitude;
     });
+    point.changeCoordinates(lat!, long!);
   }
 
   @override
   Widget build(BuildContext context) {
+    final point = Provider.of<Point>(context);
+
     return Column(
       children: [
         Container(
@@ -81,7 +78,7 @@ class _LocationInputState extends State<LocationInput> {
               color: Colors.grey,
             ),
           ),
-          child: widget.lat == null && widget.long == null
+          child: lat == null && long == null
               ? const Center(
                   child: Text(
                     'Localização não informada',
@@ -89,12 +86,12 @@ class _LocationInputState extends State<LocationInput> {
                   ),
                 )
               : GoogleMap(
-                  initialCameraPosition: CameraPosition(
-                      target: LatLng(widget.lat!, widget.long!), zoom: 13),
+                  initialCameraPosition:
+                      CameraPosition(target: LatLng(lat!, long!), zoom: 13),
                   markers: {
                     Marker(
                       markerId: const MarkerId('p1'),
-                      position: LatLng(widget.lat!, widget.long!),
+                      position: LatLng(lat!, long!),
                     ),
                   },
                   mapType: MapType.satellite,
@@ -104,7 +101,7 @@ class _LocationInputState extends State<LocationInput> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             TextButton.icon(
-              onPressed: _getCurrentUserLocation,
+              onPressed: () => _getCurrentUserLocation(point),
               icon: Icon(
                 Icons.location_on,
                 size: 16,
@@ -119,7 +116,7 @@ class _LocationInputState extends State<LocationInput> {
               ),
             ),
             TextButton.icon(
-              onPressed: _selectOnMap,
+              onPressed: () => _selectOnMap(point),
               icon: Icon(
                 Icons.map,
                 size: 16,

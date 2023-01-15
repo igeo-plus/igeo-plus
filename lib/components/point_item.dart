@@ -41,7 +41,7 @@ class PointItem extends StatelessWidget {
                     backgroundColor: Colors.grey,
                   ),
                 ),
-                title: Text(points[index].name),
+                title: Text(points[index].name!),
                 subtitle: Row(
                   children: [
                     Container(

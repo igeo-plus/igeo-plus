@@ -72,7 +72,7 @@ class PointDetailScreen extends StatelessWidget {
                                   color: Colors.grey,
                                 ),
                                 Text(
-                                    " ${DateFormat("d/M/yyyy").format(point.date)}"),
+                                    " ${DateFormat("d/M/yyyy").format(point.date!)}"),
                               ],
                             ),
                           ),
@@ -88,7 +88,7 @@ class PointDetailScreen extends StatelessWidget {
                                   color: Colors.grey,
                                 ),
                                 Text(
-                                    " Lat: ${point.lat + 1031029102} - Long: ${point.long}"),
+                                    " Lat: ${point.lat!} - Long: ${point.long!}"),
                               ],
                             ),
                           ),

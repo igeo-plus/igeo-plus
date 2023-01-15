@@ -1,7 +1,7 @@
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
+
 import '../models/subject.dart';
+
 import '../components/subject_item.dart';
 import '../components/new_subject_form.dart';
 import '../components/main_drawer.dart';

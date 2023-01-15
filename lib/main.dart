@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 
 import 'utils/routes.dart';
 
+import 'models/point.dart';
+
 import 'screens/new_point_form_screen.dart';
 import 'screens/login_screen.dart';
 import 'screens/tabs_screen.dart';
@@ -19,22 +21,29 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'iGeo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSwatch().copyWith(
-          primary: Color.fromARGB(255, 7, 163, 221),
-          secondary: Color.fromARGB(255, 67, 63, 50),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => Point(),
+        )
+      ],
+      child: MaterialApp(
+        title: 'iGeo',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSwatch().copyWith(
+            primary: Color.fromARGB(255, 7, 163, 221),
+            secondary: Color.fromARGB(255, 67, 63, 50),
+          ),
+          canvasColor: const Color.fromARGB(255, 245, 245, 245),
         ),
-        canvasColor: const Color.fromARGB(255, 245, 245, 245),
+        routes: {
+          AppRoutes.HOME: (ctx) => LoginScreen(),
+          AppRoutes.HOME2: (ctx) => TabsScreen(),
+          AppRoutes.SUBJECT_POINTS: (ctx) => SubjectPointsScreen(),
+          AppRoutes.POINT_DETAIL: (ctx) => PointDetailScreen(),
+          AppRoutes.NEW_POINT: (ctx) => NewPointFormScreen(),
+        },
       ),
-      routes: {
-        AppRoutes.HOME: (ctx) => LoginScreen(),
-        AppRoutes.HOME2: (ctx) => TabsScreen(),
-        AppRoutes.SUBJECT_POINTS: (ctx) => SubjectPointsScreen(),
-        AppRoutes.POINT_DETAIL: (ctx) => PointDetailScreen(),
-        AppRoutes.NEW_POINT: (ctx) => NewPointFormScreen(),
-      },
     );
   }
 }
