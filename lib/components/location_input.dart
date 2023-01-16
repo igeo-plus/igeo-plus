@@ -7,7 +7,23 @@ import '../screens/map_screen.dart';
 
 import '../models/point.dart';
 
-class LocationInput extends StatefulWidget {
+class LocationInput extends StatefulWidget with ChangeNotifier {
+  Point? point;
+
+  Point? get getPoint {
+    return point;
+  }
+
+  void setPoint(Point point) {
+    this.point = point;
+    notifyListeners();
+  }
+
+  void clear() {
+    point = null;
+    notifyListeners();
+  }
+
   @override
   State<LocationInput> createState() => _LocationInputState();
 }
@@ -36,6 +52,7 @@ class _LocationInputState extends State<LocationInput> {
 
     print("${lat!} + ${long!} OK");
     point.changeCoordinates(lat!, long!);
+    widget.setPoint(point);
   }
 
   Future<void> _selectOnMap(Point point) async {
@@ -64,7 +81,7 @@ class _LocationInputState extends State<LocationInput> {
 
   @override
   Widget build(BuildContext context) {
-    final point = Provider.of<Point>(context);
+    final point = Provider.of<Point>(context, listen: false);
 
     return Column(
       children: [

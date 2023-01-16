@@ -14,14 +14,14 @@ class SubjectsScreen extends StatefulWidget {
 }
 
 class _SubjectsScreenState extends State<SubjectsScreen> {
-  List<Subject> _subjects = [
+  List<Subject> subjects = [
     Subject(id: 1, name: "Geomorfologia", teacher: "Guilherme"),
     Subject(id: 2, name: "Pedologia", teacher: "Pedro"),
   ];
 
   void _addSubject(int id, String name, String teacher) {
     setState(() {
-      _subjects.add(
+      subjects.add(
         Subject(
           id: id,
           name: name,
@@ -44,20 +44,17 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text("Campos"),
-      // ),
       body: ListView.builder(
-        itemCount: _subjects.length,
+        itemCount: subjects.length,
         itemBuilder: (ctx, index) {
-          return SubjectItem(_subjects[index]);
+          return SubjectItem(subjects[index]);
         },
       ),
       drawer: const MainDrawer(),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _openNewSubjectFormModal(context),
         backgroundColor: Theme.of(context).primaryColor,
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }

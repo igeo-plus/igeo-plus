@@ -25,30 +25,7 @@ class _NewPointFormScreenState extends State<NewPointFormScreen> {
   int user_id = 1;
   int subject_id = 1;
 
-  void sendBackData(
-      BuildContext context,
-      // int id,
-      // String name,
-      // double lat,
-      // double long,
-      // DateTime date,
-      // DateTime time,
-      // int user_id,
-      // int subject_id,
-      // String description,
-      Point newPoint) {
-    // Point newPoint = Point(
-    //   id: id,
-    //   name: name,
-    //   lat: lat,
-    //   long: long,
-    //   date: date,
-    //   time: time,
-    //   user_id: user_id,
-    //   subject_id: subject_id,
-    //   description: description,
-    // );
-    //print(newPoint.name);
+  void sendBackData(BuildContext context, Point newPoint) {
     newPoint.id = id;
     newPoint.name = name;
     newPoint.date = date;
@@ -63,7 +40,8 @@ class _NewPointFormScreenState extends State<NewPointFormScreen> {
   @override
   Widget build(BuildContext context) {
     final subject = ModalRoute.of(context)!.settings.arguments as Subject;
-    var point = Provider.of<Point>(context);
+
+    final li = Provider.of<LocationInput>(context, listen: false);
 
     return Scaffold(
       appBar: AppBar(
@@ -91,7 +69,7 @@ class _NewPointFormScreenState extends State<NewPointFormScreen> {
               const SizedBox(
                 height: 20,
               ),
-              LocationInput(),
+              li,
               Padding(
                 padding: const EdgeInsets.only(top: 5.0),
                 child: ElevatedButton(
@@ -101,7 +79,7 @@ class _NewPointFormScreenState extends State<NewPointFormScreen> {
                     } else {
                       sendBackData(
                         context,
-                        point,
+                        li.point!,
                       );
                     }
                   },
