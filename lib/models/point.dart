@@ -6,8 +6,8 @@ class Point with ChangeNotifier {
   String? name;
   double? lat;
   double? long;
-  DateTime? date;
-  DateTime? time;
+  String? date;
+  String? time;
   String? description;
   int? user_id;
   int? subject_id;

@@ -36,7 +36,12 @@ class PointDetailScreen extends StatelessWidget {
         child: Center(
           child: Column(
             children: [
-              Image.network(imageUrl),
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Image.network(
+                  imageUrl,
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Container(
@@ -69,10 +74,9 @@ class PointDetailScreen extends StatelessWidget {
                                 Icon(
                                   Icons.calendar_month,
                                   size: 14,
-                                  color: Colors.grey,
+                                  color: Colors.redAccent,
                                 ),
-                                Text(
-                                    " ${DateFormat("d/M/yyyy").format(point.date!)}"),
+                                Text("${point.date!}"),
                               ],
                             ),
                           ),
@@ -83,33 +87,48 @@ class PointDetailScreen extends StatelessWidget {
                             child: Row(
                               children: [
                                 Icon(
-                                  Icons.gps_fixed_sharp,
+                                  Icons.lock_clock,
                                   size: 14,
-                                  color: Colors.grey,
+                                  color: Colors.redAccent,
                                 ),
-                                Text(
-                                    " Lat: ${point.lat!} - Long: ${point.long!}"),
+                                Text("${point.time!}"),
                               ],
                             ),
                           ),
                         ),
-                        Divider(),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: FittedBox(
+                            child: Row(
+                              children: [
+                                const Icon(
+                                  Icons.gps_fixed_sharp,
+                                  size: 14,
+                                  color: Colors.redAccent,
+                                ),
+                                FittedBox(
+                                  child: Text(
+                                      " Lat: ${point.lat!} - Long: ${point.long!}"),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        const Divider(),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 10),
                           child: Column(
                             children: [
                               Row(
                                 children: [
-                                  Icon(
+                                  const Icon(
                                     Icons.textsms,
                                     size: 14,
-                                    color: Colors.grey,
+                                    color: Colors.redAccent,
                                   ),
-                                  Text(
+                                  const Text(
                                     " Descrição",
-                                    style: TextStyle(
-                                        color:
-                                            Color.fromARGB(255, 7, 163, 221)),
+                                    style: TextStyle(color: Colors.grey),
                                   ),
                                 ],
                               ),
@@ -120,7 +139,7 @@ class PointDetailScreen extends StatelessWidget {
                             ],
                           ),
                         ),
-                        Divider(),
+                        const Divider(),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 10),
                           child: Column(
@@ -130,13 +149,11 @@ class PointDetailScreen extends StatelessWidget {
                                   Icon(
                                     Icons.photo,
                                     size: 14,
-                                    color: Colors.grey,
+                                    color: Colors.redAccent,
                                   ),
                                   Text(
                                     " Fotos",
-                                    style: TextStyle(
-                                        color:
-                                            Color.fromARGB(255, 7, 163, 221)),
+                                    style: TextStyle(color: Colors.grey),
                                   ),
                                 ],
                               ),

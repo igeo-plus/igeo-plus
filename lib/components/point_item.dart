@@ -1,5 +1,3 @@
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 
 import '../models/point.dart';
@@ -53,12 +51,12 @@ class PointItem extends StatelessWidget {
                       ),
                     ),
                     Text(
-                        "Lat: ${points[index].lat} - Long: ${points[index].long}"),
+                        "Lat: ${points[index].lat!.toStringAsFixed(2)} - Long: ${points[index].long!.toStringAsFixed(2)}"),
                   ],
                 ),
               ),
             ),
-            Divider(),
+            const Divider(),
           ],
         );
       },
