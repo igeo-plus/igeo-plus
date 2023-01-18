@@ -7,8 +7,8 @@ import '../utils/routes.dart';
 
 class PointItem extends StatelessWidget {
   final List<Point> points;
-  //final void Function(int) onDeletePoint;
-  const PointItem(this.points);
+  final void Function(int) onDeletePoint;
+  const PointItem(this.points, this.onDeletePoint);
 
   void _goToPointDetailsScreen(
       BuildContext context, Subject subject, Point point) {
@@ -31,6 +31,9 @@ class PointItem extends StatelessWidget {
               hoverColor: Color.fromARGB(255, 181, 220, 238),
               child: Dismissible(
                 key: ValueKey(points[index].id),
+                onDismissed: (_) {
+                  onDeletePoint(points[index].id!);
+                },
                 direction: DismissDirection.endToStart,
                 background: Container(
                   color: Theme.of(context).errorColor,
@@ -39,6 +42,7 @@ class PointItem extends StatelessWidget {
                     color: Colors.white,
                     size: 30,
                   ),
+                  padding: const EdgeInsets.only(right: 20),
                   alignment: Alignment.centerRight,
                 ),
                 child: ListTile(

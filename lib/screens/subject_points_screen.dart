@@ -40,6 +40,11 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
       user_id: 1,
     ),
   ];
+  void deletePoint(int id) {
+    setState(() {
+      points.removeWhere((element) => element.id == id);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +76,7 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
           ),
         ],
       ),
-      body: PointItem(points),
+      body: PointItem(points, deletePoint),
       floatingActionButton: FloatingActionButton(
         onPressed: () => awaitResultFromNewPointScreen(context),
         backgroundColor: Theme.of(context).primaryColor,
