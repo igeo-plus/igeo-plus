@@ -7,6 +7,7 @@ import '../utils/routes.dart';
 
 class PointItem extends StatelessWidget {
   final List<Point> points;
+  //final void Function(int) onDeletePoint;
   const PointItem(this.points);
 
   void _goToPointDetailsScreen(
@@ -28,31 +29,44 @@ class PointItem extends StatelessWidget {
                   _goToPointDetailsScreen(context, subject, points[index]),
               splashColor: Colors.amber,
               hoverColor: Color.fromARGB(255, 181, 220, 238),
-              child: ListTile(
-                leading: FittedBox(
-                  fit: BoxFit.fitWidth,
-                  child: CircleAvatar(
-                    child: Text(
-                      "${index}",
-                      style: TextStyle(fontSize: 12, color: Colors.white),
-                    ),
-                    backgroundColor: Colors.grey,
+              child: Dismissible(
+                key: ValueKey(points[index].id),
+                direction: DismissDirection.endToStart,
+                background: Container(
+                  color: Theme.of(context).errorColor,
+                  child: Icon(
+                    Icons.delete,
+                    color: Colors.white,
+                    size: 30,
                   ),
+                  alignment: Alignment.centerRight,
                 ),
-                title: Text(points[index].name!),
-                subtitle: Row(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(right: 2),
-                      child: Icon(
-                        Icons.gps_fixed_sharp,
-                        size: 13,
-                        color: Color.fromARGB(255, 7, 163, 221),
+                child: ListTile(
+                  leading: FittedBox(
+                    fit: BoxFit.fitWidth,
+                    child: CircleAvatar(
+                      child: Text(
+                        "${index}",
+                        style: TextStyle(fontSize: 12, color: Colors.white),
                       ),
+                      backgroundColor: Colors.grey,
                     ),
-                    Text(
-                        "Lat: ${points[index].lat!.toStringAsFixed(2)} - Long: ${points[index].long!.toStringAsFixed(2)}"),
-                  ],
+                  ),
+                  title: Text(points[index].name!),
+                  subtitle: Row(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(right: 2),
+                        child: Icon(
+                          Icons.gps_fixed_sharp,
+                          size: 13,
+                          color: Color.fromARGB(255, 7, 163, 221),
+                        ),
+                      ),
+                      Text(
+                          "Lat: ${points[index].lat!.toStringAsFixed(2)} - Long: ${points[index].long!.toStringAsFixed(2)}"),
+                    ],
+                  ),
                 ),
               ),
             ),
