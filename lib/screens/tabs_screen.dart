@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+
 import 'subjects_screen.dart';
 import 'beach_classification_screen.dart';
+import 'favorite_screen.dart';
+
 import '../components/main_drawer.dart';
 
 class TabsScreen extends StatefulWidget {
@@ -15,6 +18,7 @@ class _TabsScreenState extends State<TabsScreen> {
   final List<Map<String, Object>> _screens = [
     {"title": "Campos", "screen": SubjectsScreen()},
     {"title": "Classificação de Praias", "screen": BeachClassificationScreen()},
+    {"title": "Pontos Favoritos", "screen": FavoriteScreen()}
   ];
 
   void _selectScreen(int index) {
@@ -45,6 +49,12 @@ class _TabsScreenState extends State<TabsScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.beach_access),
             label: 'Classificação de praias',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.star_border,
+            ),
+            label: 'Pontos favoritos',
           )
         ],
       ),

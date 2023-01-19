@@ -5,11 +5,16 @@ import '../models/subject.dart';
 
 import '../utils/routes.dart';
 
-class PointItem extends StatelessWidget {
+class PointItem extends StatefulWidget {
   final List<Point> points;
   final void Function(int) onDeletePoint;
   const PointItem(this.points, this.onDeletePoint);
 
+  @override
+  State<PointItem> createState() => _PointItemState();
+}
+
+class _PointItemState extends State<PointItem> {
   void _goToPointDetailsScreen(
       BuildContext context, Subject subject, Point point) {
     Navigator.of(context).pushNamed(AppRoutes.POINT_DETAIL,
@@ -20,19 +25,19 @@ class PointItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final subject = ModalRoute.of(context)!.settings.arguments as Subject;
     return ListView.builder(
-      itemCount: points.length,
+      itemCount: widget.points.length,
       itemBuilder: (ctx, index) {
         return Column(
           children: [
             InkWell(
-              onTap: () =>
-                  _goToPointDetailsScreen(context, subject, points[index]),
+              onTap: () => _goToPointDetailsScreen(
+                  context, subject, widget.points[index]),
               splashColor: Colors.amber,
               hoverColor: Color.fromARGB(255, 181, 220, 238),
               child: Dismissible(
-                key: ValueKey(points[index].id),
+                key: ValueKey(widget.points[index].id),
                 onDismissed: (_) {
-                  onDeletePoint(points[index].id!);
+                  widget.onDeletePoint(widget.points[index].id!);
                 },
                 direction: DismissDirection.endToStart,
                 background: Container(
@@ -56,7 +61,7 @@ class PointItem extends StatelessWidget {
                       backgroundColor: Colors.grey,
                     ),
                   ),
-                  title: Text(points[index].name!),
+                  title: Text(widget.points[index].name!),
                   subtitle: Row(
                     children: [
                       Container(
@@ -68,8 +73,24 @@ class PointItem extends StatelessWidget {
                         ),
                       ),
                       Text(
-                          "Lat: ${points[index].lat!.toStringAsFixed(2)} - Long: ${points[index].long!.toStringAsFixed(2)}"),
+                          "Lat: ${widget.points[index].lat!.toStringAsFixed(2)} - Long: ${widget.points[index].long!.toStringAsFixed(2)}"),
                     ],
+                  ),
+                  trailing: IconButton(
+                    icon: widget.points[index].isFavorite
+                        ? Icon(
+                            Icons.star,
+                            color: Colors.amber,
+                          )
+                        : Icon(
+                            Icons.star_outline,
+                            color: Colors.amber,
+                          ),
+                    onPressed: () {
+                      setState(() {
+                        widget.points[index].toggleFavorite();
+                      });
+                    },
                   ),
                 ),
               ),

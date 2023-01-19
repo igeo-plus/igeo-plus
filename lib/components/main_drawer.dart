@@ -21,32 +21,12 @@ class MainDrawer extends StatelessWidget {
       backgroundColor: Colors.white,
       child: Column(
         children: [
-          Container(
-            color: Color.fromARGB(255, 7, 163, 221),
-            height: 100,
-            width: double.infinity,
-            child: Container(
-              margin: EdgeInsets.only(
-                left: 15,
-              ),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.settings,
-                    color: Colors.black,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 5),
-                    child: Text(
-                      "Configurações",
-                      style: TextStyle(color: Colors.white, fontSize: 18),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+          AppBar(
+            title: Text("Configurações"),
+            automaticallyImplyLeading: false,
           ),
           _createDrawerItem(Icons.person, "Editar conta", () => {}),
+          _createDrawerItem(Icons.logout, "Logout", () => {})
         ],
       ),
     );
