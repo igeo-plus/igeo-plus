@@ -47,15 +47,15 @@ class _TabsScreenState extends State<TabsScreen> {
             label: 'Campos',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.beach_access),
-            label: 'Classificação de praias',
-          ),
-          BottomNavigationBarItem(
             icon: Icon(
               Icons.star_border,
             ),
             label: 'Pontos favoritos',
-          )
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.beach_access),
+            label: 'Classificação de praias',
+          ),
         ],
       ),
     );

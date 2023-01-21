@@ -1,16 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../models/point.dart';
-
-import '../models/point_list.dart';
 import '../models/subject.dart';
 
 import '../utils/routes.dart';
 
 class PointItem extends StatelessWidget {
-  //final List<Point> points;
-  // final PointList points;
   final Point point;
   final void Function(int) onDeletePoint;
   final void Function(int, int) onToggleFavorite;

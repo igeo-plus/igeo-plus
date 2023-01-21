@@ -22,42 +22,6 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
     Subject(id: 2, name: "Pedologia", teacher: "Pedro"),
   ];
 
-  List<Point> points = [
-    Point(
-      id: 1,
-      name: "Teste 1",
-      lat: -22,
-      long: -43,
-      date: DateTime.now().toString(),
-      time: DateTime.now().toString(),
-      description: "bla bla bla",
-      subject_id: 1,
-      user_id: 1,
-    ),
-    Point(
-      id: 2,
-      name: "Teste 2",
-      lat: -22,
-      long: -43,
-      date: DateTime.now().toString(),
-      time: DateTime.now().toString(),
-      description: "bla bla bla",
-      subject_id: 1,
-      user_id: 1,
-    ),
-    Point(
-      id: 1,
-      name: "Teste 3",
-      lat: -22,
-      long: -43,
-      date: DateTime.now().toString(),
-      time: DateTime.now().toString(),
-      description: "bla bla bla",
-      subject_id: 2,
-      user_id: 1,
-    ),
-  ];
-
   void _addSubject(int id, String name, String teacher) {
     setState(() {
       subjects.add(

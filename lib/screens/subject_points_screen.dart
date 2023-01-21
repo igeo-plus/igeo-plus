@@ -10,7 +10,7 @@ import '../utils/routes.dart';
 import '../components/point_item.dart';
 
 class SubjectPointsScreen extends StatefulWidget {
-  const SubjectPointsScreen();
+  const SubjectPointsScreen({super.key});
 
   @override
   State<SubjectPointsScreen> createState() => _SubjectPointsScreenState();
@@ -23,10 +23,7 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
   Widget build(BuildContext context) {
     final subject = ModalRoute.of(context)!.settings.arguments as Subject;
 
-    // final pointList = Provider.of<PointList>(context);
     final pointList = Provider.of<PointList>(context);
-
-    //final pointsForSubject = pointList.getPointsForSubject(subject.id);
 
     void awaitResultFromNewPointScreen(BuildContext context) async {
       final result = await Navigator.pushNamed(context, AppRoutes.NEW_POINT,
