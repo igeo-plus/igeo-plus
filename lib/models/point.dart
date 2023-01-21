@@ -13,7 +13,7 @@ class Point with ChangeNotifier {
   int? subject_id;
   //final List<String> imageUrls;
 
-  bool isFavorite = false;
+  bool isFavorite;
 
   Point({
     this.id,

@@ -25,15 +25,15 @@ class _NewPointFormScreenState extends State<NewPointFormScreen> {
   String time = DateTime.now().toString().substring(10, 19);
   String description = "asaousoaisj";
   int user_id = 1;
-  int subject_id = 1;
+  int? subject_id;
 
-  void sendBackData(BuildContext context, Point newPoint) {
+  void sendBackData(BuildContext context, Point newPoint, Subject subject) {
     newPoint.id = id;
     newPoint.name = name;
     newPoint.date = date;
     newPoint.time = time;
     newPoint.user_id = user_id;
-    newPoint.subject_id = subject_id;
+    newPoint.subject_id = subject.id;
     newPoint.description = description;
 
     Navigator.pop(context, newPoint);
@@ -84,16 +84,13 @@ class _NewPointFormScreenState extends State<NewPointFormScreen> {
                 ),
                 locationInput,
                 Padding(
-                  padding: const EdgeInsets.only(top: 5.0),
+                  padding: const EdgeInsets.only(top: 7.0),
                   child: ElevatedButton(
                     onPressed: () {
                       if (id == null) {
                         Navigator.of(context).pop();
                       } else {
-                        sendBackData(
-                          context,
-                          locationInput.point!,
-                        );
+                        sendBackData(context, locationInput.point!, subject);
                       }
                     },
                     child: const Text(

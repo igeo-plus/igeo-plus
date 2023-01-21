@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:igeo_flutter/models/subject.dart';
 import 'package:igeo_flutter/models/point.dart';
+import '../models/point_list.dart';
 
 import '../utils/routes.dart';
 
@@ -16,41 +18,15 @@ class SubjectPointsScreen extends StatefulWidget {
 
 class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
   Point? newPoint;
-  List<Point> points = [
-    Point(
-      id: 1,
-      name: "Teste 1",
-      lat: -22,
-      long: -43,
-      date: DateTime.now().toString(),
-      time: DateTime.now().toString(),
-      description: "bla bla bla",
-      subject_id: 1,
-      user_id: 1,
-    ),
-    Point(
-      id: 2,
-      name: "Teste 2",
-      lat: -22,
-      long: -43,
-      date: DateTime.now().toString(),
-      time: DateTime.now().toString(),
-      description: "bla bla bla",
-      subject_id: 1,
-      user_id: 1,
-    ),
-  ];
-  void deletePoint(int id) {
-    setState(() {
-      points.removeWhere((element) => element.id == id);
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     final subject = ModalRoute.of(context)!.settings.arguments as Subject;
 
-    points = points.where((point) => point.subject_id == subject.id).toList();
+    // final pointList = Provider.of<PointList>(context);
+    final pointList = Provider.of<PointList>(context);
+
+    //final pointsForSubject = pointList.getPointsForSubject(subject.id);
 
     void awaitResultFromNewPointScreen(BuildContext context) async {
       final result = await Navigator.pushNamed(context, AppRoutes.NEW_POINT,
@@ -62,7 +38,7 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
 
       setState(() {
         newPoint = result as Point;
-        points.add(newPoint!);
+        pointList.addPoint(newPoint!);
       });
     }
 
@@ -76,7 +52,17 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
           ),
         ],
       ),
-      body: PointItem(points, deletePoint),
+      body: ListView.builder(
+        itemCount: pointList.getPointsForSubject(subject.id).length,
+        itemBuilder: (ctx, index) {
+          return Column(
+            children: [
+              PointItem(pointList.getPointsForSubject(subject.id)[index],
+                  pointList.removePoint, pointList.togglePointFavorite),
+            ],
+          );
+        },
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => awaitResultFromNewPointScreen(context),
         backgroundColor: Theme.of(context).primaryColor,
