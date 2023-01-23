@@ -1,9 +1,14 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../models/point_list.dart';
+import '../models/subject.dart';
+
+import '../components/point_item_favorite.dart';
 
 class FavoriteScreen extends StatefulWidget {
-  const FavoriteScreen({super.key});
+  final List<Subject> subjects;
+  const FavoriteScreen(this.subjects, {super.key});
 
   @override
   State<FavoriteScreen> createState() => _FavoriteScreenState();
@@ -12,8 +17,21 @@ class FavoriteScreen extends StatefulWidget {
 class _FavoriteScreenState extends State<FavoriteScreen> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [],
+    final pointList = Provider.of<PointList>(context).favoritePoints;
+    return Scaffold(
+      body: ListView.builder(
+        itemCount: pointList.length,
+        itemBuilder: (ctx, index) {
+          return Column(
+            children: [
+              PointItemFavorite(
+                pointList[index],
+                widget.subjects,
+              ),
+            ],
+          );
+        },
+      ),
     );
   }
 }

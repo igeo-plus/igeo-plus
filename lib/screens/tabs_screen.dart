@@ -6,6 +6,8 @@ import 'favorite_screen.dart';
 
 import '../components/main_drawer.dart';
 
+import '../models/subject.dart';
+
 class TabsScreen extends StatefulWidget {
   const TabsScreen({super.key});
 
@@ -13,12 +15,20 @@ class TabsScreen extends StatefulWidget {
   State<TabsScreen> createState() => _TabsScreenState();
 }
 
+List<Subject> subjects = [
+  Subject(id: 1, name: "Geomorfologia", teacher: "Guilherme"),
+  Subject(id: 2, name: "Pedologia", teacher: "Pedro"),
+];
+
 class _TabsScreenState extends State<TabsScreen> {
   int _selectedScreenIndex = 0;
   final List<Map<String, Object>> _screens = [
     {"title": "Campos", "screen": SubjectsScreen()},
+    {
+      "title": "Pontos Favoritos",
+      "screen": FavoriteScreen(subjects),
+    },
     {"title": "Classificação de Praias", "screen": BeachClassificationScreen()},
-    {"title": "Pontos Favoritos", "screen": FavoriteScreen()}
   ];
 
   void _selectScreen(int index) {

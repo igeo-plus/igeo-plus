@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../models/subject.dart';
-import '../models/point.dart';
-import '../models/point_list.dart';
 
 import '../components/subject_item.dart';
 import '../components/new_subject_form.dart';
@@ -46,12 +43,6 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // final pointList = Provider.of<PointList>(context);
-
-    // for (var i = 0; i < points.length; i++) {
-    //   pointList.addPoint(points[i]);
-    // }
-
     return Scaffold(
       body: ListView.builder(
         itemCount: subjects.length,

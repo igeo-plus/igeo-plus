@@ -6,4 +6,5 @@ class AppRoutes {
   static const POINT_DETAIL = '/point-detail';
   static const NEW_POINT = '/new-point';
   static const MAP_SCREEN = '/map-screen';
+  static const FAVORITE_SCREEN = '/favorite-screen';
 }

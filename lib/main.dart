@@ -8,8 +8,10 @@ import 'screens/login_screen.dart';
 import 'screens/tabs_screen.dart';
 import 'screens/subject_points_screen.dart';
 import 'screens/point_details_screen.dart';
+import 'screens/favorite_screen.dart';
 
 import 'models/point_list.dart';
+import 'models/subject.dart';
 
 void main() {
   runApp(const MyApp());
