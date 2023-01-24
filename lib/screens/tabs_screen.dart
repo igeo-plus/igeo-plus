@@ -16,8 +16,8 @@ class TabsScreen extends StatefulWidget {
 }
 
 List<Subject> subjects = [
-  Subject(id: 1, name: "Geomorfologia", teacher: "Guilherme"),
-  Subject(id: 2, name: "Pedologia", teacher: "Pedro"),
+  Subject(id: 1, name: "Geomorfologia"),
+  Subject(id: 2, name: "Pedologia"),
 ];
 
 class _TabsScreenState extends State<TabsScreen> {

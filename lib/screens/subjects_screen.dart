@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'package:http/http.dart' as http;
+import 'package:get/get.dart';
+import 'dart:convert';
+
 import '../models/subject.dart';
 
 import '../components/subject_item.dart';
@@ -14,18 +18,39 @@ class SubjectsScreen extends StatefulWidget {
 }
 
 class _SubjectsScreenState extends State<SubjectsScreen> {
-  List<Subject> subjects = [
-    Subject(id: 1, name: "Geomorfologia", teacher: "Guilherme"),
-    Subject(id: 2, name: "Pedologia", teacher: "Pedro"),
-  ];
+  List<Subject> subjects = [];
 
-  void _addSubject(int id, String name, String teacher) {
+  dynamic subjectData;
+
+  getSubjects() async {
+    var url = Uri.http("localhost:3000", "api/igeo_get_subjects");
+    //print("ok 1");
+    var response = await http.get(url);
+    //print("ok 2");
+    var data = jsonDecode(response.body);
+    setState(() {
+      subjectData = data;
+      if (subjectData.length == 0) {
+        print("Vazio");
+        return;
+      }
+      for (var el in subjectData) {
+        subjects.add(
+          Subject(
+            id: el["id"],
+            name: el["name"],
+          ),
+        );
+      }
+    });
+  }
+
+  void _addSubject(String name) {
     setState(() {
       subjects.add(
         Subject(
-          id: id,
+          id: subjects.isEmpty ? 0 : subjects.last.id + 1,
           name: name,
-          teacher: teacher,
         ),
       );
     });
@@ -39,6 +64,12 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
         return NewSubjectForm(_addSubject);
       },
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getSubjects();
   }
 
   @override
