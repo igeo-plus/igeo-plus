@@ -66,12 +66,11 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
 
   void _addSubject(String name) {
     setState(() {
-      subjects.add(
-        Subject(
-          id: subjects.isEmpty ? 0 : subjects.last.id + 1,
-          name: name,
-        ),
-      );
+      subjects.add(Subject(
+        id: subjects.isEmpty ? 0 : subjects.last.id + 1,
+        name: name,
+      ));
+      //subjects = getSubjects();
       postSubject(subjects.isEmpty ? 0 : subjects.last.id + 1, name);
     });
 
