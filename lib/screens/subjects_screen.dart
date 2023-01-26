@@ -22,8 +22,8 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
 
   dynamic subjectData;
 
-  getSubjects() async {
-    var url = Uri.http("localhost:3000", "api/igeo_get_subjects");
+  getSubjects([int userId = 1]) async {
+    var url = Uri.http("localhost:3000", "api/subjects/users/$userId");
     //print("ok 1");
     var response = await http.get(url);
     //print("ok 2");
@@ -45,6 +45,25 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
     });
   }
 
+  Future<http.Response> postSubject(int subjectId, String name,
+      [int userId = 1]) async {
+    final data = {
+      "subject": {"id": "$subjectId", "name": name, "user_id": userId}
+    };
+    final http.Response response = await http.post(
+      Uri.parse('http://localhost:3000/api/subjects/post_subject'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(data),
+    );
+
+    // setState(() {
+    //   _messages.add("Alerta gerado!");
+    // });
+    return response;
+  }
+
   void _addSubject(String name) {
     setState(() {
       subjects.add(
@@ -53,7 +72,9 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
           name: name,
         ),
       );
+      postSubject(subjects.isEmpty ? 0 : subjects.last.id + 1, name);
     });
+
     Navigator.of(context).pop();
   }
 
