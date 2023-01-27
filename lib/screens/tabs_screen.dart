@@ -15,10 +15,7 @@ class TabsScreen extends StatefulWidget {
   State<TabsScreen> createState() => _TabsScreenState();
 }
 
-List<Subject> subjects = [
-  Subject(id: 1, name: "Geomorfologia"),
-  Subject(id: 2, name: "Pedologia"),
-];
+List<Subject> subjects = [];
 
 class _TabsScreenState extends State<TabsScreen> {
   int _selectedScreenIndex = 0;
