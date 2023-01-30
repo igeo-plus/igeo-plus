@@ -44,7 +44,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
             date: el["date"],
             time: el["time"],
             description: el["description"],
-            isFavorite: true,
+            //isFavorite: true,
           ),
         );
         print(el["favorite"]);

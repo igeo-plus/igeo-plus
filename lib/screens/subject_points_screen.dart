@@ -13,7 +13,8 @@ import '../utils/routes.dart';
 import '../components/point_item.dart';
 
 class SubjectPointsScreen extends StatefulWidget {
-  const SubjectPointsScreen({super.key});
+  PointList pointList = PointList();
+  //const SubjectPointsScreen({super.key});
 
   @override
   State<SubjectPointsScreen> createState() => _SubjectPointsScreenState();
@@ -21,7 +22,6 @@ class SubjectPointsScreen extends StatefulWidget {
 
 class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
   Point? newPoint;
-  final pointList = PointList();
 
   dynamic pointData;
 
@@ -35,7 +35,7 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
         return;
       }
       for (var el in pointData) {
-        pointList.addPoint(
+        widget.pointList.addPoint(
           Point(
             id: el["id"],
             user_id: el["user_id"],
@@ -52,6 +52,30 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
         print(el["favorite"]);
       }
     });
+  }
+
+  postPoint(int subjectId, String name, double latitude, double longitude,
+      String date, String time, String description,
+      [int userId = 1]) async {
+    final data = {
+      "point": {
+        "user_id": userId,
+        "subject_id": subjectId,
+        "name": name,
+        "latitude": latitude,
+        "longitude": longitude,
+        "date": date,
+        "time": time,
+        "description": description
+      }
+    };
+    final http.Response response = await http.post(
+      Uri.parse('http://localhost:3000/api/points/post_point'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(data),
+    );
   }
 
   @override
@@ -76,7 +100,9 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
 
       setState(() {
         newPoint = result as Point;
-        pointList.addPoint(newPoint!);
+        postPoint(subject.id, result.name!, result.lat!, result.long!,
+            result.date!, result.time!, result.description!);
+        widget.pointList.addPoint(newPoint!);
       });
     }
 
@@ -91,12 +117,14 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
         ],
       ),
       body: ListView.builder(
-        itemCount: pointList.getPointsForSubject(subject.id).length,
+        itemCount: widget.pointList.getPointsForSubject(subject.id).length,
         itemBuilder: (ctx, index) {
           return Column(
             children: [
-              PointItem(pointList.getPointsForSubject(subject.id)[index],
-                  pointList.removePoint, pointList.togglePointFavorite),
+              PointItem(
+                  widget.pointList.getPointsForSubject(subject.id)[index],
+                  widget.pointList.removePoint,
+                  widget.pointList.togglePointFavorite),
             ],
           );
         },
