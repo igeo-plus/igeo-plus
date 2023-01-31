@@ -8,7 +8,12 @@ getSubjects() async {
   return jsonDecode(response.body);
 }
 
+Future<int> getLastPointId([int userId = 1]) async {
+  var url = Uri.http("localhost:3000", "api/points/users/$userId/last_point");
+  var response = await http.get(url);
+  return jsonDecode(response.body) as int;
+}
+
 void main() async {
-  var parsedJson = await getSubjects();
-  print(parsedJson);
+  print(getLastPointId());
 }

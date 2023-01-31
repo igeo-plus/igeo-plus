@@ -45,9 +45,13 @@ class PointItem extends StatelessWidget {
           leading: FittedBox(
             fit: BoxFit.fitWidth,
             child: CircleAvatar(
-              child: Text(
-                "${point.id}",
-                style: TextStyle(fontSize: 12, color: Colors.white),
+              // child: Text(
+              //   "${point.id}",
+              //   style: TextStyle(fontSize: 12, color: Colors.white),
+              // ),
+              child: Icon(
+                Icons.gps_fixed_outlined,
+                color: Colors.white,
               ),
               backgroundColor: Colors.grey,
             ),

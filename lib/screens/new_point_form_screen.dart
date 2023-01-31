@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
+import 'package:get/get.dart';
+import 'dart:convert';
 
 import '../models/point.dart';
 import '../models/subject.dart';
+import '../models/point_list.dart';
 
 import '../components/location_input.dart';
 
@@ -14,10 +18,10 @@ class NewPointFormScreen extends StatefulWidget {
 }
 
 class _NewPointFormScreenState extends State<NewPointFormScreen> {
-  final _idController = TextEditingController();
+  //final _idController = TextEditingController();
   final _nameController = TextEditingController();
   final _descriptionController = TextEditingController();
-  int? id;
+  int? id = 1;
   String? name;
   double lat = -22;
   double long = -43;
@@ -28,7 +32,7 @@ class _NewPointFormScreenState extends State<NewPointFormScreen> {
   int? subject_id;
 
   void sendBackData(BuildContext context, Point newPoint, Subject subject) {
-    newPoint.id = id;
+    newPoint.id = 1;
     newPoint.name = name;
     newPoint.date = date;
     newPoint.time = time;
@@ -60,12 +64,12 @@ class _NewPointFormScreenState extends State<NewPointFormScreen> {
             padding: const EdgeInsets.all(15.0),
             child: Column(
               children: [
-                TextField(
-                  keyboardType: TextInputType.number,
-                  onChanged: (_) => id = int.parse(_idController.text),
-                  controller: _idController,
-                  decoration: const InputDecoration(labelText: "ID"),
-                ),
+                // TextField(
+                //   keyboardType: TextInputType.number,
+                //   onChanged: (_) => id = int.parse(_idController.text),
+                //   controller: _idController,
+                //   decoration: const InputDecoration(labelText: "ID"),
+                // ),
                 TextField(
                   keyboardType: TextInputType.text,
                   onChanged: (_) => name = _nameController.text,
