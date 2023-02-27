@@ -1,12 +1,51 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:get/get.dart';
+import 'dart:convert';
 
 import '../utils/routes.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
-  void _goToSubjectsScreen(BuildContext context) {
-    Navigator.of(context).popAndPushNamed(AppRoutes.HOME2);
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  String? email;
+  String? password;
+  Map? userData;
+  dynamic userJson;
+
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  getUser(String email, String password) async {
+    var url = Uri.http("localhost:3000", "api/sign_in");
+    var response = await http.get(url);
+    var data = jsonDecode(response.body);
+    print(data);
+
+    // setState(() {
+    //   userJson = data;
+    //   if (userJson["is_success"]) {
+    //     return;
+    //   }
+    //   userData = {
+    //     "first_name": userJson["first_name"],
+    //     "last_name": userJson["last_name"],
+    //     "token": userJson["token"],
+    //   };
+    // });
+  }
+
+  void _goToSubjectsScreen(BuildContext context, Map userData) {
+    getUser(email!, password!);
+    Navigator.of(context).popAndPushNamed(
+      AppRoutes.HOME2,
+      arguments: userData,
+    );
   }
 
   @override
@@ -28,23 +67,25 @@ class LoginScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(10.0),
                 child: TextField(
                   keyboardType: TextInputType.text,
-                  onSubmitted: (_) => {},
-                  //controller: _titleController,
-                  decoration: InputDecoration(labelText: "Login"),
+                  onChanged: (_) => email = _emailController.text,
+                  //onSubmitted: (_) => {},
+                  controller: _emailController,
+                  decoration: InputDecoration(labelText: "Email"),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: TextField(
                   keyboardType: TextInputType.text,
-                  onSubmitted: (_) => {},
-                  //controller: _titleController,
+                  onChanged: (_) => password = _passwordController.text,
+                  //onSubmitted: (_) => {},
+                  controller: _passwordController,
                   decoration: InputDecoration(labelText: "Senha"),
                   obscureText: true,
                 ),
               ),
               ElevatedButton(
-                onPressed: () => _goToSubjectsScreen(context),
+                onPressed: () => getUser(email!, password!),
                 child: const Text("Login"),
               )
             ],
