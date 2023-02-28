@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 import 'dart:convert';
+import 'dart:math';
 
 import '../utils/routes.dart';
 
@@ -15,33 +16,53 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   String? email;
   String? password;
-  Map? userData;
+
+  int? id;
+  String? firstName;
+  String? lastName;
+  String? token;
+
+  Map<String, dynamic>? getUserData;
+
   dynamic userJson;
 
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  getUser(String email, String password) async {
-    var url = Uri.http("localhost:3000", "api/sign_in");
-    var response = await http.get(url);
-    var data = jsonDecode(response.body);
-    print(data);
+  String errorText = '';
 
-    // setState(() {
-    //   userJson = data;
-    //   if (userJson["is_success"]) {
-    //     return;
-    //   }
-    //   userData = {
-    //     "first_name": userJson["first_name"],
-    //     "last_name": userJson["last_name"],
-    //     "token": userJson["token"],
-    //   };
-    // });
+  getUser(String email, String password) async {
+    final data = {
+      "user": {"email": "$email", "password": "$password"}
+    };
+
+    final http.Response response = await http.post(
+      Uri.parse('http://localhost:3000/api/sign_in'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(data),
+    );
+    setState(() {
+      userJson = jsonDecode(response.body);
+      id = userJson["data"]["user"]["id"];
+      firstName = userJson["data"]["user"]["first_name"];
+      lastName = userJson["data"]["user"]["last_name"];
+      token = userJson["data"]["user"]["authentication_token"];
+
+      getUserData = {
+        "id": id,
+        "firstName": firstName,
+        "lastName": lastName,
+        "token": token,
+      };
+    });
+
+    print(getUserData);
   }
 
-  void _goToSubjectsScreen(BuildContext context, Map userData) {
-    getUser(email!, password!);
+  void _goToSubjectsScreen(
+      BuildContext context, Map<String, dynamic> userData) {
     Navigator.of(context).popAndPushNamed(
       AppRoutes.HOME2,
       arguments: userData,
@@ -67,7 +88,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 padding: const EdgeInsets.all(10.0),
                 child: TextField(
                   keyboardType: TextInputType.text,
-                  onChanged: (_) => email = _emailController.text,
+                  onChanged: (_) {
+                    setState(() {
+                      email = _emailController.text;
+                    });
+                  },
                   //onSubmitted: (_) => {},
                   controller: _emailController,
                   decoration: InputDecoration(labelText: "Email"),
@@ -77,15 +102,31 @@ class _LoginScreenState extends State<LoginScreen> {
                 padding: const EdgeInsets.all(10.0),
                 child: TextField(
                   keyboardType: TextInputType.text,
-                  onChanged: (_) => password = _passwordController.text,
+                  onChanged: (_) {
+                    setState(() {
+                      password = _passwordController.text;
+                    });
+                  },
                   //onSubmitted: (_) => {},
                   controller: _passwordController,
                   decoration: InputDecoration(labelText: "Senha"),
                   obscureText: true,
                 ),
               ),
+              Text(errorText),
               ElevatedButton(
-                onPressed: () => getUser(email!, password!),
+                onPressed: () async {
+                  var a = await getUser(email!, password!);
+                  if (userJson["is_success"] != true) {
+                    setState(() {
+                      errorText = "E-mail ou senha incorretos";
+                    });
+                    return;
+                  }
+
+                  Navigator.of(context)
+                      .popAndPushNamed(AppRoutes.HOME2, arguments: getUserData);
+                },
                 child: const Text("Login"),
               )
             ],

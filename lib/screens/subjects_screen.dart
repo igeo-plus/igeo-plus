@@ -11,7 +11,8 @@ import '../components/new_subject_form.dart';
 import '../components/main_drawer.dart';
 
 class SubjectsScreen extends StatefulWidget {
-  const SubjectsScreen({super.key});
+  final Map<String, dynamic> userData;
+  const SubjectsScreen(this.userData, {super.key});
 
   @override
   State<SubjectsScreen> createState() => _SubjectsScreenState();
@@ -22,7 +23,7 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
 
   dynamic subjectData;
 
-  getSubjects([int userId = 1]) async {
+  getSubjects(int userId) async {
     var url = Uri.http("localhost:3000", "api/subjects/users/$userId");
     //print("ok 1");
     var response = await http.get(url);
@@ -45,8 +46,8 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
     });
   }
 
-  Future<http.Response> postSubject(int subjectId, String name,
-      [int userId = 1]) async {
+  Future<http.Response> postSubject(
+      int subjectId, String name, int userId) async {
     final data = {
       "subject": {"id": "$subjectId", "name": name, "user_id": userId}
     };
@@ -58,9 +59,6 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
       body: jsonEncode(data),
     );
 
-    // setState(() {
-    //   _messages.add("Alerta gerado!");
-    // });
     return response;
   }
 
@@ -70,8 +68,8 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
         id: subjects.isEmpty ? 0 : subjects.last.id + 1,
         name: name,
       ));
-      //subjects = getSubjects();
-      postSubject(subjects.isEmpty ? 0 : subjects.last.id + 1, name);
+      postSubject(subjects.isEmpty ? 0 : subjects.last.id + 1, name,
+          widget.userData["id"]);
     });
 
     Navigator.of(context).pop();
@@ -89,18 +87,39 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
   @override
   void initState() {
     super.initState();
-    getSubjects();
+
+    getSubjects(widget.userData["id"]);
   }
 
   @override
   Widget build(BuildContext context) {
+    print(widget.userData);
     return Scaffold(
-      body: ListView.builder(
-        itemCount: subjects.length,
-        itemBuilder: (ctx, index) {
-          return SubjectItem(subjects[index]);
-        },
-      ),
+      body: subjects.length > 0
+          ? ListView.builder(
+              itemCount: subjects.length,
+              itemBuilder: (ctx, index) {
+                return SubjectItem(subjects[index]);
+              },
+            )
+          : Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.beach_access,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Text(
+                    'Nenhum trabalho de campo criado',
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                ],
+              ),
+            ),
       drawer: const MainDrawer(),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _openNewSubjectFormModal(context),

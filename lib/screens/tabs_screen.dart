@@ -15,27 +15,33 @@ class TabsScreen extends StatefulWidget {
   State<TabsScreen> createState() => _TabsScreenState();
 }
 
+int _selectedScreenIndex = 0;
 List<Subject> subjects = [];
 
 class _TabsScreenState extends State<TabsScreen> {
-  int _selectedScreenIndex = 0;
-  final List<Map<String, Object>> _screens = [
-    {"title": "Campos", "screen": SubjectsScreen()},
-    {
-      "title": "Pontos Favoritos",
-      "screen": FavoriteScreen(subjects),
-    },
-    {"title": "Classificação de Praias", "screen": BeachClassificationScreen()},
-  ];
-
-  void _selectScreen(int index) {
-    setState(() {
-      _selectedScreenIndex = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    final Map<String, dynamic> userData =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+
+    final List<Map<String, Object>> _screens = [
+      {"title": "Campos", "screen": SubjectsScreen(userData)},
+      {
+        "title": "Pontos Favoritos",
+        "screen": FavoriteScreen(subjects),
+      },
+      {
+        "title": "Classificação de Praias",
+        "screen": BeachClassificationScreen()
+      },
+    ];
+
+    void _selectScreen(int index) {
+      setState(() {
+        _selectedScreenIndex = index;
+      });
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(_screens[_selectedScreenIndex]['title'] as String),
