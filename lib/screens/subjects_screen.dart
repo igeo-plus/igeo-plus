@@ -79,12 +79,15 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
   }
 
   Future<http.Response> postSubject(
-      int subjectId, String name, int userId) async {
+      int subjectId, String name, int userId, String token) async {
     final data = {
-      "subject": {"id": "$subjectId", "name": name, "user_id": userId}
+      "user_id": userId,
+      "authentication_token": token,
+      "name": name
     };
+
     final http.Response response = await http.post(
-      Uri.parse('http://localhost:3000/api/subjects/post_subject'),
+      Uri.parse('http://localhost:3000/api/post_subject'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -101,7 +104,7 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
         name: name,
       ));
       postSubject(subjects.isEmpty ? 0 : subjects.last.id + 1, name,
-          widget.userData["id"]);
+          widget.userData["id"], widget.userData["token"]);
     });
 
     Navigator.of(context).pop();
