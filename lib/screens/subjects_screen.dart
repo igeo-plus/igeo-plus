@@ -23,12 +23,44 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
 
   dynamic subjectData;
 
-  getSubjects(int userId) async {
-    var url = Uri.http("localhost:3000", "api/subjects/users/$userId");
-    //print("ok 1");
-    var response = await http.get(url);
-    //print("ok 2");
+  // getSubjects2(int userId) async {
+  //   var url = Uri.http("localhost:3000", "api/subjects/users/$userId");
+  //   //print("ok 1");
+  //   var response = await http.get(url);
+  //   //print("ok 2");
+  //   var data = jsonDecode(response.body);
+  //   setState(() {
+  //     subjectData = data;
+  //     if (subjectData.length == 0) {
+  //       print("Vazio");
+  //       return;
+  //     }
+  //     for (var el in subjectData) {
+  //       subjects.add(
+  //         Subject(
+  //           id: el["id"],
+  //           name: el["name"],
+  //         ),
+  //       );
+  //     }
+  //   });
+  // }
+
+  getSubjects(int userId, String token) async {
+    final dataUser = {
+      "user": {"id": userId, "authentication_token": token}
+    };
+    final http.Response response = await http.post(
+      Uri.parse('http://localhost:3000/api/get_subjects'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(dataUser),
+    );
+
     var data = jsonDecode(response.body);
+
+    print(data);
     setState(() {
       subjectData = data;
       if (subjectData.length == 0) {
@@ -88,12 +120,11 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
   void initState() {
     super.initState();
 
-    getSubjects(widget.userData["id"]);
+    getSubjects(widget.userData["id"], widget.userData["token"]);
   }
 
   @override
   Widget build(BuildContext context) {
-    print(widget.userData);
     return Scaffold(
       body: subjects.length > 0
           ? ListView.builder(
