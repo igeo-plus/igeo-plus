@@ -13,8 +13,11 @@ import '../utils/routes.dart';
 import '../components/point_item.dart';
 
 class SubjectPointsScreen extends StatefulWidget {
+  final Map<String, dynamic> userData;
+  final Subject subject;
   PointList pointList = PointList();
-  //const SubjectPointsScreen({super.key});
+
+  SubjectPointsScreen(this.userData, this.subject);
 
   @override
   State<SubjectPointsScreen> createState() => _SubjectPointsScreenState();
@@ -22,13 +25,21 @@ class SubjectPointsScreen extends StatefulWidget {
 
 class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
   Point? newPoint;
-
   dynamic pointData;
 
-  getPoints([int userId = 1]) async {
-    var url = Uri.http("localhost:3000", "api/points/users/$userId");
-    var response = await http.get(url);
+  getPoints(int userId, String token) async {
+    final dataUser = {"user_id": userId, "authentication_token": token};
+
+    final http.Response response = await http.post(
+      Uri.parse('https://app.homologacao.uff.br/umm/api/get_points_from_igeo'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(dataUser),
+    );
+
     var data = jsonDecode(response.body);
+
     setState(() {
       pointData = data;
       if (pointData.length == 0) {
@@ -81,14 +92,18 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
   @override
   void initState() {
     super.initState();
-    getPoints();
+    getPoints(widget.userData["id"], widget.userData["token"]);
   }
 
   @override
   Widget build(BuildContext context) {
-    final subject = ModalRoute.of(context)!.settings.arguments as Subject;
+    //final subject = ModalRoute.of(context)!.settings.arguments as Subject;
+    final Subject subject = widget.subject;
 
-    //final pointList = Provider.of<PointList>(context);
+    print("testando:" + subject.name);
+    print(widget.userData);
+    print(subject.name);
+    print(widget.pointList.getPointsForSubject(widget.subject.id));
 
     void awaitResultFromNewPointScreen(BuildContext context) async {
       final result = await Navigator.pushNamed(context, AppRoutes.NEW_POINT,
@@ -122,9 +137,11 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
           return Column(
             children: [
               PointItem(
-                  widget.pointList.getPointsForSubject(subject.id)[index],
-                  widget.pointList.removePoint,
-                  widget.pointList.togglePointFavorite),
+                widget.pointList.getPointsForSubject(subject.id)[index],
+                subject,
+                widget.pointList.removePoint,
+                widget.pointList.togglePointFavorite,
+              ),
             ],
           );
         },

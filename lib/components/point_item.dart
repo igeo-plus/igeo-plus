@@ -7,9 +7,11 @@ import '../utils/routes.dart';
 
 class PointItem extends StatelessWidget {
   final Point point;
+  final Subject subject;
   final void Function(int) onDeletePoint;
   final void Function(int, int) onToggleFavorite;
-  const PointItem(this.point, this.onDeletePoint, this.onToggleFavorite,
+  const PointItem(
+      this.point, this.subject, this.onDeletePoint, this.onToggleFavorite,
       {super.key});
 
   void _goToPointDetailsScreen(
@@ -20,7 +22,8 @@ class PointItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final subject = ModalRoute.of(context)!.settings.arguments as Subject;
+    //final subject = ModalRoute.of(context)!.settings.arguments;
+    print("testandooooo" + subject.toString());
     return InkWell(
       onTap: () => _goToPointDetailsScreen(context, subject, point),
       splashColor: Colors.amber,

@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
         routes: {
           AppRoutes.HOME: (ctx) => LoginScreen(),
           AppRoutes.HOME2: (ctx) => TabsScreen(),
-          AppRoutes.SUBJECT_POINTS: (ctx) => SubjectPointsScreen(),
+          //AppRoutes.SUBJECT_POINTS: (ctx) => SubjectPointsScreen(),
           AppRoutes.POINT_DETAIL: (ctx) => PointDetailScreen(),
           AppRoutes.NEW_POINT: (ctx) => NewPointFormScreen(),
         },

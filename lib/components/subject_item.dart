@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:igeo_flutter/screens/subject_points_screen.dart';
 
 import '../models/subject.dart';
 import '../utils/routes.dart';
@@ -8,13 +9,13 @@ import '../utils/routes.dart';
 
 class SubjectItem extends StatelessWidget {
   final Subject subject;
-  const SubjectItem(this.subject);
+  final Map<String, dynamic> userData;
+
+  const SubjectItem(this.subject, this.userData);
 
   void _selectSubject(BuildContext context) {
-    Navigator.of(context).pushNamed(
-      AppRoutes.SUBJECT_POINTS,
-      arguments: subject,
-    );
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => SubjectPointsScreen(userData, subject)));
   }
 
   @override

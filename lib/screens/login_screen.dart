@@ -32,12 +32,10 @@ class _LoginScreenState extends State<LoginScreen> {
   String errorText = '';
 
   getUser(String email, String password) async {
-    final data = {
-      "user": {"email": "$email", "password": "$password"}
-    };
+    final data = {"email": "$email", "password": "$password"};
 
     final http.Response response = await http.post(
-      Uri.parse('http://localhost:3000/api/sign_in'),
+      Uri.parse('https://app.homologacao.uff.br/umm/api/sign_in_igeo'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
