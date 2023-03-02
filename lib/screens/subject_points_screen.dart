@@ -69,19 +69,18 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
       String date, String time, String description,
       [int userId = 1]) async {
     final data = {
-      "point": {
-        "user_id": userId,
-        "subject_id": subjectId,
-        "name": name,
-        "latitude": latitude,
-        "longitude": longitude,
-        "date": date,
-        "time": time,
-        "description": description
-      }
+      "user_id": userId,
+      "subject_id": subjectId,
+      "authentication_token": widget.userData["token"],
+      "name": name,
+      "latitude": latitude,
+      "longitude": longitude,
+      "date": date,
+      "time": time,
+      "description": description,
     };
     final http.Response response = await http.post(
-      Uri.parse('http://localhost:3000/api/points/post_point'),
+      Uri.parse('https://app.homologacao.uff.br/umm/api/post_point_in_igeo'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
