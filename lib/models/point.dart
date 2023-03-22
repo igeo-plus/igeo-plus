@@ -10,9 +10,8 @@ class Point with ChangeNotifier {
   String? description;
   int? user_id;
   int? subject_id;
-  //final List<String> imageUrls;
-
   bool isFavorite;
+  List<String> image = [];
 
   Point({
     this.id,
@@ -30,6 +29,10 @@ class Point with ChangeNotifier {
   void toggleFavorite() {
     isFavorite = !isFavorite;
     notifyListeners();
+  }
+
+  void addUrlToImageList(String url) {
+    image.add(url);
   }
 
   void changeCoordinates(double lat, double long) {

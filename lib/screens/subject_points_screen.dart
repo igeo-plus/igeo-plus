@@ -40,27 +40,35 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
 
     var data = jsonDecode(response.body);
 
+    print(data);
+
     setState(() {
       pointData = data;
       if (pointData.length == 0) {
         return;
       }
       for (var el in pointData) {
-        widget.pointList.addPoint(
-          Point(
-            id: el["id"],
-            user_id: el["user_id"],
-            subject_id: el["subject_id"],
-            name: el["name"],
-            lat: el["latitude"],
-            long: el["longitude"],
-            date: el["date"],
-            time: el["time"],
-            description: el["description"],
-            isFavorite: el["favorite"] as bool,
-          ),
+        Point newPoint = Point(
+          id: el["id"],
+          user_id: el["user_id"],
+          subject_id: el["subject_id"],
+          name: el["name"],
+          lat: el["latitude"],
+          long: el["longitude"],
+          date: el["date"],
+          time: el["time"],
+          description: el["description"],
+          isFavorite: el["favorite"] as bool,
         );
-        print(el["favorite"]);
+
+        if (el["image"] is List && el["image"].length > 0) {
+          for (var url in el["image"]) {
+            newPoint.addUrlToImageList(url);
+          }
+        }
+        widget.pointList.addPoint(newPoint);
+
+        print(newPoint.image);
       }
     });
   }

@@ -70,7 +70,7 @@ class PointDetailScreen extends StatelessWidget {
                                   size: 14,
                                   color: Colors.redAccent,
                                 ),
-                                Text("${point.date!}"),
+                                Text(" ${point.date!}"),
                               ],
                             ),
                           ),
@@ -85,7 +85,7 @@ class PointDetailScreen extends StatelessWidget {
                                   size: 14,
                                   color: Colors.redAccent,
                                 ),
-                                Text("${point.time!}"),
+                                Text(" ${point.time!}"),
                               ],
                             ),
                           ),
@@ -151,10 +151,18 @@ class PointDetailScreen extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 10),
-                                child: Text("Fotos do ponto"),
-                              ),
+                              GridView(
+                                children: [
+                                  ...point.image.map((e) => Image.network(e))
+                                ],
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  childAspectRatio: 3 / 2,
+                                  crossAxisSpacing: 5,
+                                  mainAxisSpacing: 5,
+                                ),
+                              )
                             ],
                           ),
                         ),
