@@ -22,22 +22,28 @@ class ImageItem extends StatelessWidget {
               builder: (context) => ImageScreen(imageUrl: imageUrl)));
           print("teste");
         },
-        child: GridTile(
-          child: Container(
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 5,
-                  blurRadius: 7,
-                  offset: Offset(0, 3), // changes position of shadow
+        child: Padding(
+          padding: const EdgeInsets.all(3.0),
+          child: GridTile(
+            child: Container(
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 5,
+                    blurRadius: 7,
+                    offset: Offset(0, 3), // changes position of shadow
+                  ),
+                ],
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.network(
+                  imageUrl,
+                  height: 200,
+                  width: 200,
                 ),
-              ],
-            ),
-            child: Image.network(
-              imageUrl,
-              height: 200,
-              width: 200,
+              ),
             ),
           ),
         ),
