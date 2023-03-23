@@ -9,6 +9,7 @@ import 'screens/tabs_screen.dart';
 import 'screens/subject_points_screen.dart';
 import 'screens/point_details_screen.dart';
 import 'screens/favorite_screen.dart';
+import 'screens/new_user_screen.dart';
 
 import 'models/point_list.dart';
 import 'models/subject.dart';
@@ -41,6 +42,7 @@ class MyApp extends StatelessWidget {
           //AppRoutes.SUBJECT_POINTS: (ctx) => SubjectPointsScreen(),
           AppRoutes.POINT_DETAIL: (ctx) => PointDetailScreen(),
           AppRoutes.NEW_POINT: (ctx) => NewPointFormScreen(),
+          AppRoutes.NEW_USER_SCREEN: (ctx) => NewUserScreen(),
         },
       ),
     );

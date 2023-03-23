@@ -7,4 +7,5 @@ class AppRoutes {
   static const NEW_POINT = '/new-point';
   static const MAP_SCREEN = '/map-screen';
   static const FAVORITE_SCREEN = '/favorite-screen';
+  static const NEW_USER_SCREEN = "/new-user-screen";
 }
