@@ -1,0 +1,47 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/container.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/widgets.dart';
+
+import '../screens/image_screen.dart';
+
+class ImageItem extends StatelessWidget {
+  final String imageUrl;
+  const ImageItem({required this.imageUrl, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(10),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(10),
+        splashColor: Colors.amber,
+        hoverColor: Color.fromARGB(255, 181, 220, 238),
+        onTap: () {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => ImageScreen(imageUrl: imageUrl)));
+          print("teste");
+        },
+        child: GridTile(
+          child: Container(
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 5,
+                  blurRadius: 7,
+                  offset: Offset(0, 3), // changes position of shadow
+                ),
+              ],
+            ),
+            child: Image.network(
+              imageUrl,
+              height: 200,
+              width: 200,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

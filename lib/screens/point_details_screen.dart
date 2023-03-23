@@ -4,6 +4,8 @@ import '../models/point.dart';
 import '../models/subject.dart';
 import '../utils/location_util.dart';
 
+import '../components/image_item.dart';
+
 class PointDetailScreen extends StatelessWidget {
   const PointDetailScreen({super.key});
 
@@ -151,18 +153,22 @@ class PointDetailScreen extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                              GridView(
-                                children: [
-                                  ...point.image.map((e) => Image.network(e))
-                                ],
-                                gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  childAspectRatio: 3 / 2,
-                                  crossAxisSpacing: 5,
-                                  mainAxisSpacing: 5,
+                              SizedBox(
+                                height: 200,
+                                child: GridView.builder(
+                                  padding: const EdgeInsets.all(10),
+                                  itemCount: point.image.length,
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    childAspectRatio: 3 / 2,
+                                    crossAxisSpacing: 5,
+                                    mainAxisSpacing: 5,
+                                  ),
+                                  itemBuilder: (BuildContext context, index) =>
+                                      ImageItem(imageUrl: point.image[index]),
                                 ),
-                              )
+                              ),
                             ],
                           ),
                         ),
