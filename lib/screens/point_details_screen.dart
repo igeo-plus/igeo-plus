@@ -21,7 +21,6 @@ class PointDetailScreen extends StatelessWidget {
       latitude: point.lat,
       longitude: point.long,
     );
-
     return Scaffold(
       appBar: AppBar(
         title: FittedBox(
@@ -34,8 +33,11 @@ class PointDetailScreen extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.all(10.0),
-                child: Image.network(
-                  imageUrl,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Image.network(
+                    imageUrl,
+                  ),
                 ),
               ),
               Padding(
@@ -153,22 +155,30 @@ class PointDetailScreen extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                              SizedBox(
-                                height: 200,
-                                child: GridView.builder(
-                                  padding: const EdgeInsets.all(10),
-                                  itemCount: point.image.length,
-                                  gridDelegate:
-                                      SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2,
-                                    childAspectRatio: 3 / 2,
-                                    crossAxisSpacing: 5,
-                                    mainAxisSpacing: 5,
-                                  ),
-                                  itemBuilder: (BuildContext context, index) =>
-                                      ImageItem(imageUrl: point.image[index]),
-                                ),
-                              ),
+                              point.image.length == 0
+                                  ? Center(
+                                      child: Text(
+                                      "Sem fotos adicionadas",
+                                      style: TextStyle(color: Colors.grey),
+                                    ))
+                                  : SizedBox(
+                                      height: 200,
+                                      child: GridView.builder(
+                                        padding: const EdgeInsets.all(10),
+                                        itemCount: point.image.length,
+                                        gridDelegate:
+                                            SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 2,
+                                          childAspectRatio: 3 / 2,
+                                          crossAxisSpacing: 5,
+                                          mainAxisSpacing: 5,
+                                        ),
+                                        itemBuilder: (BuildContext context,
+                                                index) =>
+                                            ImageItem(
+                                                imageUrl: point.image[index]),
+                                      ),
+                                    ),
                             ],
                           ),
                         ),
