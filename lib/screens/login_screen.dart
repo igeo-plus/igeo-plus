@@ -132,7 +132,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: TextButton(
                   onPressed: () =>
                       Navigator.of(context).pushNamed('/new-user-screen'),
-                  child: Text("Novo usuário"),
+                  child: const Text("Novo usuário"),
                 ),
               )
             ],
