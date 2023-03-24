@@ -23,30 +23,7 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
 
   dynamic subjectData;
 
-  // getSubjects2(int userId) async {
-  //   var url = Uri.http("localhost:3000", "api/subjects/users/$userId");
-  //   //print("ok 1");
-  //   var response = await http.get(url);
-  //   //print("ok 2");
-  //   var data = jsonDecode(response.body);
-  //   setState(() {
-  //     subjectData = data;
-  //     if (subjectData.length == 0) {
-  //       print("Vazio");
-  //       return;
-  //     }
-  //     for (var el in subjectData) {
-  //       subjects.add(
-  //         Subject(
-  //           id: el["id"],
-  //           name: el["name"],
-  //         ),
-  //       );
-  //     }
-  //   });
-  // }
-
-  getSubjects(int userId, String token) async {
+  Future<void> getSubjects(int userId, String token) async {
     final dataUser = {"user_id": userId, "authentication_token": token};
 
     final http.Response response = await http.post(
@@ -61,20 +38,20 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
     var data = jsonDecode(response.body);
 
     print(data);
-    setState(() {
+    setState(() async {
       subjectData = data;
       if (subjectData.length == 0) {
         print("Vazio");
         return;
       }
-      for (var el in subjectData) {
+      subjectData.forEach((subject) async {
         subjects.add(
           Subject(
-            id: el["id"],
-            name: el["name"],
+            id: subject["id"],
+            name: subject["name"],
           ),
         );
-      }
+      });
     });
   }
 
@@ -98,16 +75,18 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
   }
 
   void _addSubject(String name) {
-    setState(() {
-      subjects.add(Subject(
-        id: subjects.isEmpty ? 0 : subjects.last.id + 1,
-        name: name,
-      ));
-      postSubject(subjects.isEmpty ? 0 : subjects.last.id + 1, name,
-          widget.userData["id"], widget.userData["token"]);
-    });
+    postSubject(subjects.isEmpty ? 0 : subjects.last.id + 1, name,
+            widget.userData["id"], widget.userData["token"])
+        .then((value) => setState(() {
+              subjects.add(Subject(
+                id: subjects.isEmpty ? 0 : subjects.last.id + 1,
+                name: name,
+              ));
+              getSubjects(widget.userData["id"], widget.userData["token"]);
+            }));
 
     Navigator.of(context).pop();
+    getSubjects(widget.userData["id"], widget.userData["token"]);
   }
 
   _openNewSubjectFormModal(BuildContext context) {
@@ -119,41 +98,48 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
     );
   }
 
-  @override
-  void initState() {
-    super.initState();
-
-    getSubjects(widget.userData["id"], widget.userData["token"]);
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   getSubjects(widget.userData["id"], widget.userData["token"]);
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: subjects.length > 0
-          ? ListView.builder(
-              itemCount: subjects.length,
-              itemBuilder: (ctx, index) {
-                return SubjectItem(subjects[index], widget.userData);
-              },
-            )
-          : Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.beach_access,
-                    color: Theme.of(context).primaryColor,
-                  ),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Text(
-                    'Nenhum trabalho de campo criado',
-                    style: TextStyle(color: Colors.grey),
-                  ),
-                ],
-              ),
-            ),
+      body: FutureBuilder(
+        future: getSubjects(widget.userData["id"], widget.userData["token"]),
+        builder: (context, snapshot) =>
+            snapshot.connectionState == ConnectionState.waiting
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : subjects.length > 0
+                    ? ListView.builder(
+                        itemCount: subjects.length,
+                        itemBuilder: (ctx, index) {
+                          return SubjectItem(subjects[index], widget.userData);
+                        },
+                      )
+                    : Center(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.beach_access,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              'Nenhum trabalho de campo criado',
+                              style: TextStyle(color: Colors.grey),
+                            ),
+                          ],
+                        ),
+                      ),
+      ),
       drawer: const MainDrawer(),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _openNewSubjectFormModal(context),
