@@ -37,8 +37,10 @@ class PointList with ChangeNotifier {
   void togglePointFavorite(int pointId, int subjectId) {
     if (getPoint(pointId, subjectId).isFavorite == false) {
       getPoint(pointId, subjectId).isFavorite = true;
+      notifyListeners();
     } else {
       getPoint(pointId, subjectId).isFavorite = false;
+      notifyListeners();
     }
     notifyListeners();
     print(getPoint(pointId, subjectId).isFavorite);

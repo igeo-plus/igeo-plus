@@ -35,11 +35,17 @@ class _LocationInputState extends State<LocationInput> {
 
   Future<void> _getCurrentUserLocation(Point point) async {
     final locData = await Location().getLocation();
+    print(locData);
     setState(
       () {
         //_previewImgUrl = staticMapImageUrl;
-        lat = locData.latitude;
-        long = locData.longitude;
+        if (locData.latitude is bool) {
+          lat = locData.latitude;
+          long = locData.longitude;
+        } else {
+          lat = -22;
+          long = -43;
+        }
       },
     );
 

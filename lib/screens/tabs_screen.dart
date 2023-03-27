@@ -30,10 +30,10 @@ class _TabsScreenState extends State<TabsScreen> {
         "title": "Pontos Favoritos",
         "screen": FavoriteScreen(subjects),
       },
-      {
-        "title": "Classificação de Praias",
-        "screen": BeachClassificationScreen()
-      },
+      // {
+      //   "title": "Classificação de Praias",
+      //   "screen": BeachClassificationScreen()
+      // },
     ];
 
     void _selectScreen(int index) {
@@ -65,10 +65,10 @@ class _TabsScreenState extends State<TabsScreen> {
             ),
             label: 'Pontos favoritos',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.beach_access),
-            label: 'Classificação de praias',
-          ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.beach_access),
+          //   label: 'Classificação de praias',
+          // ),
         ],
       ),
     );

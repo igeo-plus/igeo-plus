@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'dart:io';
 
 class Point with ChangeNotifier {
   int? id;
@@ -12,6 +13,7 @@ class Point with ChangeNotifier {
   int? subject_id;
   bool isFavorite;
   List<String> image = [];
+  List<File> listImages = [];
 
   Point({
     this.id,

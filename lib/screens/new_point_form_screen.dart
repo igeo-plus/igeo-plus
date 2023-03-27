@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:igeo_flutter/components/image_input.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 import 'dart:convert';
+import 'dart:io';
 
 import '../models/point.dart';
 import '../models/subject.dart';
@@ -30,6 +32,16 @@ class _NewPointFormScreenState extends State<NewPointFormScreen> {
   String description = "asaousoaisj";
   int user_id = 1;
   int? subject_id;
+
+  List<File> pickedImages = [];
+
+  void addImage(File pickedImage) {
+    if (pickedImages.length > 4) {
+      print('limite de imagens atingido');
+      return;
+    }
+    pickedImages.add(pickedImage);
+  }
 
   void sendBackData(BuildContext context, Point newPoint, Subject subject) {
     newPoint.id = 1;
@@ -87,6 +99,7 @@ class _NewPointFormScreenState extends State<NewPointFormScreen> {
                   height: 20,
                 ),
                 locationInput,
+                ImageInput(addImage),
                 Padding(
                   padding: const EdgeInsets.only(top: 7.0),
                   child: ElevatedButton(
