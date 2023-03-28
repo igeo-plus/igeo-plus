@@ -39,13 +39,9 @@ class _LocationInputState extends State<LocationInput> {
     setState(
       () {
         //_previewImgUrl = staticMapImageUrl;
-        if (locData.latitude is bool) {
-          lat = locData.latitude;
-          long = locData.longitude;
-        } else {
-          lat = -22;
-          long = -43;
-        }
+
+        lat = locData.latitude;
+        long = locData.longitude;
       },
     );
 
@@ -92,7 +88,7 @@ class _LocationInputState extends State<LocationInput> {
     return Column(
       children: [
         Container(
-          margin: const EdgeInsets.only(bottom: 3),
+          margin: const EdgeInsets.only(bottom: 6),
           height: 250,
           width: double.infinity,
           decoration: BoxDecoration(

@@ -25,6 +25,10 @@ class _ImageInputState extends State<ImageInput> {
     ) as XFile;
 
     setState(() {
+      if (storedImage.length > 4) {
+        print("Limite excedido");
+        return;
+      }
       storedImage.add(File(imageFile.path));
     });
 
@@ -51,22 +55,31 @@ class _ImageInputState extends State<ImageInput> {
             child: storedImage.isEmpty
                 ? const Text("Sem fotos")
                 : GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
                       childAspectRatio: 3 / 2,
-                      crossAxisSpacing: 5,
-                      mainAxisSpacing: 5,
+                      crossAxisSpacing: 2,
+                      mainAxisSpacing: 2,
                     ),
                     itemCount: storedImage.length,
-                    itemBuilder: (context, index) =>
-                        Image.file(storedImage[index]),
+                    itemBuilder: (context, index) => ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Image.file(
+                          storedImage[index],
+                          width: 1000,
+                        ),
+                      ),
+                    ),
                   ),
           ),
           const SizedBox(
             width: 10,
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.only(right: 10.0),
             child: Expanded(
               child: TextButton.icon(
                 onPressed: takePicture,
@@ -75,7 +88,7 @@ class _ImageInputState extends State<ImageInput> {
                   color: Theme.of(context).errorColor,
                   size: 16,
                 ),
-                label: Text(
+                label: const Text(
                   "Tirar foto",
                   style: TextStyle(color: Colors.grey, fontSize: 12),
                 ),
