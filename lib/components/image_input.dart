@@ -15,9 +15,25 @@ class ImageInput extends StatefulWidget {
 }
 
 class _ImageInputState extends State<ImageInput> {
-  List<dynamic> storedImage = [];
+  List<File> storedImage = [];
 
   void takePicture() async {
+    if (storedImage.length >= 4) {
+      AlertDialog alert = AlertDialog(
+        title: Text("Você atingiu o limite de 4 imagens"),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text("OK"),
+          ),
+        ],
+      );
+
+      showDialog(context: context, builder: (ctx) => alert);
+      return;
+    }
     final ImagePicker picker = ImagePicker();
     XFile imageFile = await picker.pickImage(
       source: ImageSource.camera,
@@ -25,10 +41,6 @@ class _ImageInputState extends State<ImageInput> {
     ) as XFile;
 
     setState(() {
-      if (storedImage.length > 4) {
-        print("Limite excedido");
-        return;
-      }
       storedImage.add(File(imageFile.path));
     });
 
@@ -39,6 +51,12 @@ class _ImageInputState extends State<ImageInput> {
     widget.onSelectImage(savedImage);
   }
 
+  void removePicture(File file) {
+    setState(() {
+      storedImage.remove(file);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -47,7 +65,7 @@ class _ImageInputState extends State<ImageInput> {
         alignment: Alignment.bottomRight,
         children: [
           Container(
-            height: 300,
+            height: 370,
             decoration: BoxDecoration(
               border: Border.all(width: 1, color: Colors.grey),
             ),
@@ -58,25 +76,38 @@ class _ImageInputState extends State<ImageInput> {
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      childAspectRatio: 3 / 2,
-                      crossAxisSpacing: 2,
-                      mainAxisSpacing: 2,
+                      childAspectRatio: 1,
+                      crossAxisSpacing: 1,
+                      mainAxisSpacing: 1,
                     ),
                     itemCount: storedImage.length,
-                    itemBuilder: (context, index) => ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Image.file(
-                          storedImage[index],
-                          width: 1000,
+                    itemBuilder: (context, index) => Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: GridTile(
+                          child: Image.file(
+                            storedImage[index],
+                            fit: BoxFit.cover,
+                          ),
+                          footer: GridTileBar(
+                            backgroundColor: Colors.black54,
+                            leading: Center(
+                              child: IconButton(
+                                onPressed: () {
+                                  removePicture(storedImage[index]);
+                                },
+                                icon: Icon(
+                                  Icons.delete,
+                                  color: Theme.of(context).errorColor,
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     ),
                   ),
-          ),
-          const SizedBox(
-            width: 10,
           ),
           Padding(
             padding: const EdgeInsets.only(right: 10.0),
