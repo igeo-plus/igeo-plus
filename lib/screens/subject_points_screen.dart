@@ -28,6 +28,7 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
   dynamic pointData;
 
   Future<void> getPoints(int userId, String token) async {
+    widget.pointList = PointList();
     final dataUser = {"user_id": userId, "authentication_token": token};
 
     final http.Response response = await http.post(
@@ -74,11 +75,18 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
     });
   }
 
-  Future<http.Response> postPoint(int subjectId, String name, double latitude,
-      double longitude, String date, String time, String description,
-      [int userId = 1]) async {
+  Future<http.Response> postPoint(
+      int subjectId,
+      String name,
+      double latitude,
+      double longitude,
+      String date,
+      String time,
+      String description,
+      int userId) async {
+    widget.pointList = PointList();
     final data = {
-      "user_id": userId,
+      "user_id": widget.userData["id"],
       "subject_id": subjectId,
       "authentication_token": widget.userData["token"],
       "name": name,
@@ -86,7 +94,7 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
       "longitude": longitude,
       "date": date,
       "time": time,
-      "description": description,
+      "description": description
     };
     final http.Response response = await http.post(
       Uri.parse('https://app.homologacao.uff.br/umm/api/post_point_in_igeo'),
@@ -95,6 +103,10 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
       },
       body: jsonEncode(data),
     );
+    setState(() {
+      getPoints(widget.userData["id"], widget.userData["token"]);
+    });
+
     return response;
   }
 
@@ -122,12 +134,18 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
         return;
       }
 
-      setState(() {
-        newPoint = result as Point;
-        postPoint(subject.id, result.name!, result.lat!, result.long!,
-            result.date!, result.time!, result.description!);
-        widget.pointList.addPoint(newPoint!);
-      });
+      newPoint = result as Point;
+      postPoint(
+          subject.id,
+          result.name!,
+          result.lat!,
+          result.long!,
+          result.date!,
+          result.time!,
+          result.description!,
+          widget.userData["id"]);
+
+      //getPoints(widget.userData["id"], widget.userData["token"]);
     }
 
     return Scaffold(

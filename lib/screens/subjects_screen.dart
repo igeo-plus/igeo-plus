@@ -23,7 +23,8 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
 
   dynamic subjectData;
 
-  Future<void> getSubjects(int userId, String token) async {
+  Future<http.Response> getSubjects(int userId, String token) async {
+    subjects = [];
     final dataUser = {"user_id": userId, "authentication_token": token};
 
     final http.Response response = await http.post(
@@ -36,10 +37,10 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
     );
 
     var data = jsonDecode(response.body);
+    subjectData = await data;
 
     print(data);
     setState(() async {
-      subjectData = data;
       if (subjectData.length == 0) {
         print("Vazio");
         return;
@@ -53,6 +54,7 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
         );
       });
     });
+    return response;
   }
 
   Future<http.Response> postSubject(
@@ -82,11 +84,11 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
                 id: subjects.isEmpty ? 0 : subjects.last.id + 1,
                 name: name,
               ));
-              getSubjects(widget.userData["id"], widget.userData["token"]);
+              //getSubjects(widget.userData["id"], widget.userData["token"]);
             }));
 
     Navigator.of(context).pop();
-    getSubjects(widget.userData["id"], widget.userData["token"]);
+    //getSubjects(widget.userData["id"], widget.userData["token"]);
   }
 
   _openNewSubjectFormModal(BuildContext context) {
