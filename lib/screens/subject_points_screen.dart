@@ -15,7 +15,6 @@ import '../components/point_item.dart';
 class SubjectPointsScreen extends StatefulWidget {
   final Map<String, dynamic> userData;
   final Subject subject;
-  PointList pointList = PointList();
 
   SubjectPointsScreen(this.userData, this.subject);
 
@@ -26,9 +25,13 @@ class SubjectPointsScreen extends StatefulWidget {
 class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
   Point? newPoint;
   dynamic pointData;
+  PointList pointList = PointList();
 
   Future<void> getPoints(int userId, String token) async {
-    widget.pointList = PointList();
+    pointList.clear();
+    setState(() {
+      pointList = PointList();
+    });
     final dataUser = {"user_id": userId, "authentication_token": token};
 
     final http.Response response = await http.post(
@@ -68,7 +71,7 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
             newPoint.addUrlToImageList(url);
           }
         }
-        widget.pointList.addPoint(newPoint);
+        pointList.addPoint(newPoint);
 
         print(newPoint.image);
       });
@@ -84,7 +87,7 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
       String time,
       String description,
       int userId) async {
-    widget.pointList = PointList();
+    //pointList = PointList();
     final data = {
       "user_id": widget.userData["id"],
       "subject_id": subjectId,
@@ -104,9 +107,18 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
       body: jsonEncode(data),
     );
     setState(() {
-      getPoints(widget.userData["id"], widget.userData["token"]);
+      pointList.addPoint(Point(
+        id: pointList.getPoints.last.id! + 1,
+        user_id: widget.userData["id"],
+        name: name,
+        lat: latitude,
+        long: longitude,
+        date: date,
+        time: time,
+        description: description,
+      ));
     });
-
+    //getPoints(widget.userData["id"], widget.userData["token"]);
     return response;
   }
 
@@ -124,7 +136,7 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
     print("testando:" + subject.name);
     print(widget.userData);
     print(subject.name);
-    print(widget.pointList.getPointsForSubject(widget.subject.id));
+    //print(pointList.getPointsForSubject(widget.subject.id));
 
     void awaitResultFromNewPointScreen(BuildContext context) async {
       final result = await Navigator.pushNamed(context, AppRoutes.NEW_POINT,
@@ -160,27 +172,26 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
       ),
       body: FutureBuilder(
         future: getPoints(widget.userData["id"], widget.userData["token"]),
-        builder: (context, snapshot) => snapshot.connectionState ==
-                ConnectionState.waiting
-            ? const Center(
-                child: CircularProgressIndicator(),
-              )
-            : ListView.builder(
-                itemCount:
-                    widget.pointList.getPointsForSubject(subject.id).length,
-                itemBuilder: (ctx, index) {
-                  return Column(
-                    children: [
-                      PointItem(
-                        widget.pointList.getPointsForSubject(subject.id)[index],
-                        subject,
-                        widget.pointList.removePoint,
-                        widget.pointList.togglePointFavorite,
-                      ),
-                    ],
-                  );
-                },
-              ),
+        builder: (context, snapshot) =>
+            snapshot.connectionState == ConnectionState.waiting
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : ListView.builder(
+                    itemCount: pointList.getPointsForSubject(subject.id).length,
+                    itemBuilder: (ctx, index) {
+                      return Column(
+                        children: [
+                          PointItem(
+                            pointList.getPointsForSubject(subject.id)[index],
+                            subject,
+                            pointList.removePoint,
+                            pointList.togglePointFavorite,
+                          ),
+                        ],
+                      );
+                    },
+                  ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => awaitResultFromNewPointScreen(context),
