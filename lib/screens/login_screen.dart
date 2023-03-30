@@ -112,6 +112,18 @@ class _LoginScreenState extends State<LoginScreen> {
                     decoration: const InputDecoration(labelText: "Senha"),
                     obscureText: true,
                     textInputAction: TextInputAction.done,
+                    onSubmitted: (_) async {
+                      var a = await getUser(email!, password!);
+                      if (userJson["is_success"] != true) {
+                        setState(() {
+                          errorText = "E-mail ou senha incorretos";
+                        });
+                        return;
+                      }
+
+                      Navigator.of(context).popAndPushNamed(AppRoutes.HOME2,
+                          arguments: getUserData);
+                    },
                   ),
                 ),
                 Text(errorText),
