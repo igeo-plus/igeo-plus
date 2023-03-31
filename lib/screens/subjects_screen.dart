@@ -23,6 +23,8 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
 
   dynamic subjectData;
 
+  ScrollController controller = ScrollController();
+
   Future<http.Response> getSubjects(int userId, String token) async {
     subjects = [];
     final dataUser = {"user_id": userId, "authentication_token": token};
@@ -54,6 +56,13 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
         );
       });
     });
+
+    // controller.animateTo(
+    //   controller.position.maxScrollExtent,
+    //   curve: Curves.easeOut,
+    //   duration: const Duration(milliseconds: 300),
+    // );
+
     return response;
   }
 
@@ -88,6 +97,7 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
             }));
 
     Navigator.of(context).pop();
+
     //getSubjects(widget.userData["id"], widget.userData["token"]);
   }
 
@@ -118,6 +128,7 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
                   )
                 : subjects.length > 0
                     ? ListView.builder(
+                        controller: controller,
                         itemCount: subjects.length,
                         itemBuilder: (ctx, index) {
                           return SubjectItem(subjects[index], widget.userData);
@@ -131,10 +142,10 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
                               Icons.beach_access,
                               color: Theme.of(context).primaryColor,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 5,
                             ),
-                            Text(
+                            const Text(
                               'Nenhum trabalho de campo criado',
                               style: TextStyle(color: Colors.grey),
                             ),
@@ -144,7 +155,9 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
       ),
       drawer: const MainDrawer(),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _openNewSubjectFormModal(context),
+        onPressed: () {
+          _openNewSubjectFormModal(context);
+        },
         backgroundColor: Theme.of(context).primaryColor,
         child: const Icon(Icons.add),
       ),
