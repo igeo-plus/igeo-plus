@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:igeo_flutter/models/subject.dart';
 import 'package:igeo_flutter/models/point.dart';
@@ -86,7 +87,8 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
       String date,
       String time,
       String description,
-      int userId) async {
+      int userId,
+      List<File> photos) async {
     //pointList = PointList();
     final data = {
       "user_id": widget.userData["id"],
@@ -97,8 +99,18 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
       "longitude": longitude,
       "date": date,
       "time": time,
-      "description": description
+      "description": description,
     };
+
+    if (photos.isNotEmpty) {
+      data["photos"] = [];
+      photos.forEach(
+        (photo) {
+          var photoFile = photo.readAsBytes();
+          data["photos"].add(photoFile);
+        },
+      );
+    }
     final http.Response response = await http.post(
       Uri.parse('https://app.homologacao.uff.br/umm/api/post_point_in_igeo'),
       headers: <String, String>{
@@ -107,16 +119,18 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
       body: jsonEncode(data),
     );
     setState(() {
-      pointList.addPoint(Point(
-        id: pointList.getPoints.last.id! + 1,
-        user_id: widget.userData["id"],
-        name: name,
-        lat: latitude,
-        long: longitude,
-        date: date,
-        time: time,
-        description: description,
-      ));
+      pointList.addPoint(
+        Point(
+          id: pointList.getPoints.last.id! + 1,
+          user_id: widget.userData["id"],
+          name: name,
+          lat: latitude,
+          long: longitude,
+          date: date,
+          time: time,
+          description: description,
+        ),
+      );
     });
     //getPoints(widget.userData["id"], widget.userData["token"]);
     return response;
@@ -155,7 +169,8 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
           result.date!,
           result.time!,
           result.description!,
-          widget.userData["id"]);
+          widget.userData["id"],
+          result.pickedImages!);
 
       //getPoints(widget.userData["id"], widget.userData["token"]);
     }

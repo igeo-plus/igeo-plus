@@ -20,13 +20,13 @@ class _ImageInputState extends State<ImageInput> {
   void takePicture() async {
     if (storedImage.length >= 4) {
       AlertDialog alert = AlertDialog(
-        title: Text("Você atingiu o limite de 4 imagens"),
+        title: const Text("Você atingiu o limite de 4 imagens"),
         actions: [
           TextButton(
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: Text("OK"),
+            child: const Text("OK"),
           ),
         ],
       );
