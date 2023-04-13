@@ -44,6 +44,8 @@ class _ImageInputState extends State<ImageInput> {
       storedImage.add(File(imageFile.path));
     });
 
+    print(storedImage.last.readAsBytes());
+
     final appDir = await syspaths.getApplicationDocumentsDirectory();
     String fileName = path.basename(storedImage.last.path);
     final savedImage = await storedImage.last.copy('${appDir.path}/$fileName');

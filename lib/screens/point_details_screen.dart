@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_maps_flutter_web/google_maps_flutter_web.dart';
 
 import '../models/point.dart';
 import '../models/subject.dart';
@@ -33,11 +35,19 @@ class PointDetailScreen extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.all(10.0),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Image.network(
-                    imageUrl,
+                child: GoogleMap(
+                  initialCameraPosition: CameraPosition(
+                    target: LatLng(point.lat!, point.long!),
+                    zoom: 13,
                   ),
+                  mapType: MapType.satellite,
+                  //onTap: widget.isReadOnly ? null : _selectPosition,
+                  markers: {
+                    Marker(
+                      markerId: const MarkerId('p1'),
+                      position: LatLng(point.lat!, point.long!),
+                    )
+                  },
                 ),
               ),
               Padding(
@@ -57,7 +67,7 @@ class PointDetailScreen extends StatelessWidget {
                           child: FittedBox(
                             child: Text(
                               "${point.name}",
-                              style: TextStyle(
+                              style: const TextStyle(
                                   color: Color.fromARGB(255, 7, 163, 221),
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold),
@@ -69,7 +79,7 @@ class PointDetailScreen extends StatelessWidget {
                           child: FittedBox(
                             child: Row(
                               children: [
-                                Icon(
+                                const Icon(
                                   Icons.calendar_month,
                                   size: 14,
                                   color: Colors.redAccent,

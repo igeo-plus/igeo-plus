@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:igeo_flutter/models/subject.dart';
 import 'package:igeo_flutter/models/point.dart';
@@ -17,7 +18,7 @@ class SubjectPointsScreen extends StatefulWidget {
   final Map<String, dynamic> userData;
   final Subject subject;
 
-  SubjectPointsScreen(this.userData, this.subject);
+  const SubjectPointsScreen(this.userData, this.subject, {super.key});
 
   @override
   State<SubjectPointsScreen> createState() => _SubjectPointsScreenState();
@@ -52,7 +53,7 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
       if (pointData.length == 0) {
         return;
       }
-      //for (var el in pointData) {
+
       pointData.forEach((point) async {
         Point newPoint = Point(
           id: point["id"],
@@ -79,7 +80,7 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
     });
   }
 
-  Future<http.Response> postPoint(
+  Future postPoint(
       int subjectId,
       String name,
       double latitude,
@@ -89,35 +90,58 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
       String description,
       int userId,
       List<File> photos) async {
-    //pointList = PointList();
-    final data = {
-      "user_id": widget.userData["id"],
-      "subject_id": subjectId,
-      "authentication_token": widget.userData["token"],
-      "name": name,
-      "latitude": latitude,
-      "longitude": longitude,
-      "date": date,
-      "time": time,
-      "description": description,
-    };
+    // final data = {
+    //   "user_id": widget.userData["id"],
+    //   "subject_id": subjectId,
+    //   "authentication_token": widget.userData["token"],
+    //   "name": name,
+    //   "latitude": latitude,
+    //   "longitude": longitude,
+    //   "date": date,
+    //   "time": time,
+    //   "description": description,
+    //   "photos": [],
+    // };
+
+    var request = http.MultipartRequest(
+      "POST",
+      Uri.parse("https://app.homologacao.uff.br/umm/api/post_point_in_igeo"),
+    );
+
+    request.fields["user_id"] = '${widget.userData["id"]}';
+    request.fields["subject_id"] = "$subjectId";
+    request.fields["authentication_token"] = widget.userData["token"];
+    request.fields["name"] = name;
+    request.fields["latitude"] = "$latitude";
+    request.fields["longitude"] = "$longitude";
+    request.fields["date"] = date;
+    request.fields["time"] = time;
+    request.fields["description"] = description;
 
     if (photos.isNotEmpty) {
-      data["photos"] = [];
-      photos.forEach(
-        (photo) {
-          var photoFile = photo.readAsBytes();
-          data["photos"].add(photoFile);
-        },
-      );
+      for (var photo in photos) {
+        Future<Uint8List> buffer = photo.readAsBytes();
+
+        request.files.add(
+          http.MultipartFile.fromBytes(
+            'photos',
+            await buffer,
+            filename: photo.path,
+          ),
+        );
+      }
     }
-    final http.Response response = await http.post(
-      Uri.parse('https://app.homologacao.uff.br/umm/api/post_point_in_igeo'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(data),
-    );
+    print("print request:  " + request.fields.toString());
+    print(request.files.toString());
+
+    var response = await request.send();
+    // final http.Response response = await http.post(
+    //   Uri.parse('https://app.homologacao.uff.br/umm/api/post_point_in_igeo'),
+    //   headers: <String, String>{
+    //     'Content-Type': 'application/json; charset=UTF-8',
+    //   },
+    //   body: jsonEncode(data),
+    // );
     setState(() {
       pointList.addPoint(
         Point(
@@ -133,7 +157,9 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
       );
     });
     //getPoints(widget.userData["id"], widget.userData["token"]);
-    return response;
+    //return request;
+
+    return response.stream.bytesToString();
   }
 
   // @override

@@ -44,12 +44,13 @@ dependencies:
   geocoding: ^2.0.5
 
   location: ^4.4.0
-  google_maps_flutter: ^2.2.2
+  google_maps_flutter: ^2.2.5
   provider: ^6.0.5
   get: ^4.6.5
   path: ^1.8.2
   path_provider: ^2.0.14
   image_picker: ^0.8.7
+  google_maps_flutter_web: ^0.4.0+7
 
 dev_dependencies:
   flutter_test:
