@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:location/location.dart';
+//import 'package:location/location.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -34,7 +35,7 @@ class _LocationInputState extends State<LocationInput> {
   double? long;
 
   Future<void> _getCurrentUserLocation(Point point) async {
-    final locData = await Location().getLocation();
+    final locData = await Geolocator.getCurrentPosition();
     print(locData);
     setState(
       () {
@@ -58,7 +59,7 @@ class _LocationInputState extends State<LocationInput> {
   }
 
   Future<void> _selectOnMap(Point point) async {
-    final locData = await Location().getLocation();
+    final locData = await Geolocator.getCurrentPosition();
 
     setState(() {
       lat = locData.latitude;

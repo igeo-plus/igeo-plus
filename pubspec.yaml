@@ -41,7 +41,7 @@ dependencies:
   flutter_map: ^3.0.0
   latlng: ^0.2.0
   geolocator: ^9.0.2
-  geocoding: ^2.0.5
+  geocoding: ^2.1.0
 
   location: ^4.4.0
   google_maps_flutter: ^2.2.5
@@ -50,7 +50,6 @@ dependencies:
   path: ^1.8.2
   path_provider: ^2.0.14
   image_picker: ^0.8.7
-  google_maps_flutter_web: ^0.4.0+7
 
 dev_dependencies:
   flutter_test:

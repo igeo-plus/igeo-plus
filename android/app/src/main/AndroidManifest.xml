@@ -33,7 +33,7 @@
         <meta-data android:name="com.mapbox.token" android:value="pk.eyJ1IjoicGpmZXJuYW5kZXMiLCJhIjoiY2t1c291Z3lzNWg2bzJvbW5kNWNhbnZhaCJ9.eYxvagOUGuS5qDo-zOfRCA" />
 
     <meta-data android:name="com.google.android.geo.API_KEY"
-               android:value="AIzaSyAFKyAfl-qvtrIhMz5W3uhVGdcNGDBXhlA"/>
+               android:value="AIzaSyCOp9dVrGZ_pvQQexvkDMZoL48Co_XD2A8"/>
 
     </application>
 </manifest>
