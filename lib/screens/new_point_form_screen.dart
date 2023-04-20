@@ -51,7 +51,7 @@ class _NewPointFormScreenState extends State<NewPointFormScreen> {
     newPoint.user_id = user_id;
     newPoint.subject_id = subject.id;
     newPoint.description = description;
-    //newPoint.pickedImages = pickedImages;
+    newPoint.pickedImages = pickedImages;
 
     Navigator.pop(context, newPoint);
   }
