@@ -105,18 +105,29 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
 
     var request = http.MultipartRequest(
       "POST",
-      Uri.parse("https://app.homologacao.uff.br/umm/api/post_point_in_igeo"),
+      Uri.parse(
+          "https://app.homologacao.uff.br/igeo-retaguarda/api/post_point"),
     );
 
-    request.fields["user_id"] = '${widget.userData["id"]}';
-    request.fields["subject_id"] = "$subjectId";
+    // request.fields["user_id"] = '${widget.userData["id"]}';
+    // request.fields["subject_id"] = "$subjectId";
+    // request.fields["authentication_token"] = widget.userData["token"];
+    // request.fields["name"] = name;
+    // request.fields["latitude"] = "$latitude";
+    // request.fields["longitude"] = "$longitude";
+    // request.fields["date"] = date;
+    // request.fields["time"] = time;
+    // request.fields["description"] = description;
     request.fields["authentication_token"] = widget.userData["token"];
-    request.fields["name"] = name;
-    request.fields["latitude"] = "$latitude";
-    request.fields["longitude"] = "$longitude";
-    request.fields["date"] = date;
-    request.fields["time"] = time;
-    request.fields["description"] = description;
+    request.fields["user_id"] = '${widget.userData["id"]}';
+    request.fields["point[user_id]"] = '${widget.userData["id"]}';
+    request.fields["point[subject_id]"] = "$subjectId";
+    request.fields["point[name]"] = name;
+    request.fields["point[latitude]"] = "$latitude";
+    request.fields["point[longitude]"] = "$longitude";
+    request.fields["point[date]"] = date;
+    request.fields["point[time]"] = time;
+    request.fields["point[description]"] = description;
 
     if (photos.isNotEmpty) {
       for (var photo in photos) {
@@ -124,7 +135,7 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
 
         request.files.add(
           http.MultipartFile.fromBytes(
-            'photos',
+            'point[photos][]',
             await buffer,
             filename: photo.path,
           ),
