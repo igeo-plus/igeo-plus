@@ -73,58 +73,56 @@ class _NewPointFormScreenState extends State<NewPointFormScreen> {
           ),
         ),
         body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: Form(
-              child: Column(
-                children: [
-                  // TextField(
-                  //   keyboardType: TextInputType.number,
-                  //   onChanged: (_) => id = int.parse(_idController.text),
-                  //   controller: _idController,
-                  //   decoration: const InputDecoration(labelText: "ID"),
-                  // ),
-                  TextField(
-                    keyboardType: TextInputType.text,
-                    onChanged: (_) => name = _nameController.text,
-                    controller: _nameController,
-                    decoration: const InputDecoration(labelText: "Nome"),
-                    textInputAction: TextInputAction.next,
-                  ),
-                  TextField(
-                    keyboardType: TextInputType.multiline,
-                    onChanged: (_) => description = _descriptionController.text,
-                    controller: _descriptionController,
-                    decoration: const InputDecoration(labelText: "Descrição"),
-                    maxLines: 6,
-                    textInputAction: TextInputAction.done,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  locationInput,
-                  ImageInput(addImage),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 7.0),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        if (id == null) {
-                          Navigator.of(context).pop();
-                        } else {
-                          sendBackData(context, locationInput.point!, subject);
-                        }
-                      },
-                      child: const Text(
-                        "Novo ponto",
-                        style: TextStyle(fontFamily: 'Roboto'),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        primary: Theme.of(context).primaryColor,
-                      ),
+          padding: const EdgeInsets.all(8),
+          child: Form(
+            child: Column(
+              children: [
+                // TextField(
+                //   keyboardType: TextInputType.number,
+                //   onChanged: (_) => id = int.parse(_idController.text),
+                //   controller: _idController,
+                //   decoration: const InputDecoration(labelText: "ID"),
+                // ),
+                TextField(
+                  keyboardType: TextInputType.text,
+                  onChanged: (_) => name = _nameController.text,
+                  controller: _nameController,
+                  decoration: const InputDecoration(labelText: "Nome"),
+                  textInputAction: TextInputAction.next,
+                ),
+                TextField(
+                  keyboardType: TextInputType.multiline,
+                  onChanged: (_) => description = _descriptionController.text,
+                  controller: _descriptionController,
+                  decoration: const InputDecoration(labelText: "Descrição"),
+                  maxLines: 6,
+                  textInputAction: TextInputAction.done,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                locationInput,
+                ImageInput(addImage),
+                Padding(
+                  padding: const EdgeInsets.only(top: 7.0),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      if (id == null) {
+                        Navigator.of(context).pop();
+                      } else {
+                        sendBackData(context, locationInput.point!, subject);
+                      }
+                    },
+                    child: const Text(
+                      "Novo ponto",
+                      style: TextStyle(fontFamily: 'Roboto'),
                     ),
-                  )
-                ],
-              ),
+                    style: ElevatedButton.styleFrom(
+                      primary: Theme.of(context).primaryColor,
+                    ),
+                  ),
+                )
+              ],
             ),
           ),
         ),
