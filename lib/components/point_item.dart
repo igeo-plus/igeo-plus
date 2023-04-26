@@ -8,10 +8,11 @@ import '../utils/routes.dart';
 class PointItem extends StatelessWidget {
   final Point point;
   final Subject subject;
-  final void Function(int) onDeletePoint;
+  final Map<String, dynamic> userData;
+  final Function(int, String, int) onDeletePoint;
   final void Function(int, int) onToggleFavorite;
-  const PointItem(
-      this.point, this.subject, this.onDeletePoint, this.onToggleFavorite,
+  const PointItem(this.point, this.subject, this.userData, this.onDeletePoint,
+      this.onToggleFavorite,
       {super.key});
 
   void _goToPointDetailsScreen(
@@ -31,7 +32,7 @@ class PointItem extends StatelessWidget {
       child: Dismissible(
         key: ValueKey(point.id),
         onDismissed: (_) {
-          onDeletePoint(point.id!);
+          onDeletePoint(userData["id"], userData["token"], point.id!);
         },
         direction: DismissDirection.endToStart,
         background: Container(

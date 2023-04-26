@@ -29,7 +29,7 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
   dynamic pointData;
   PointList pointList = PointList();
 
-  Future deletePoint(int userId, String token, int pointId) async {
+  deletePoint(int userId, String token, int pointId) async {
     final data = {
       "user_id": userId,
       "authentication_token": token,
@@ -45,6 +45,11 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
       body: jsonEncode(data),
     );
     return response;
+  }
+
+  deletePointDef(int userId, String token, int pointId) async {
+    pointList.removePoint(pointId);
+    await deletePoint(userId, token, pointId);
   }
 
   Future<void> getPoints(int userId, String token) async {
@@ -255,14 +260,8 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
                           PointItem(
                             pointList.getPointsForSubject(subject.id)[index],
                             subject,
-                            (_) {
-                              pointList.removePoint;
-                              deletePoint(
-                                widget.userData["id"],
-                                widget.userData["token"],
-                                97,
-                              );
-                            },
+                            widget.userData,
+                            deletePointDef,
                             pointList.togglePointFavorite,
                           ),
                         ],
