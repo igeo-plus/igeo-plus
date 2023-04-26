@@ -29,6 +29,24 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
   dynamic pointData;
   PointList pointList = PointList();
 
+  Future deletePoint(int userId, String token, int pointId) async {
+    final data = {
+      "user_id": userId,
+      "authentication_token": token,
+      "id": pointId
+    };
+
+    final http.Response response = await http.post(
+      Uri.parse(
+          "https://app.homologacao.uff.br/igeo-retaguarda/api/delete_point"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(data),
+    );
+    return response;
+  }
+
   Future<void> getPoints(int userId, String token) async {
     pointList.clear();
     setState(() {
@@ -237,7 +255,14 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
                           PointItem(
                             pointList.getPointsForSubject(subject.id)[index],
                             subject,
-                            pointList.removePoint,
+                            (_) {
+                              pointList.removePoint;
+                              deletePoint(
+                                widget.userData["id"],
+                                widget.userData["token"],
+                                97,
+                              );
+                            },
                             pointList.togglePointFavorite,
                           ),
                         ],
