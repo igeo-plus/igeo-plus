@@ -48,8 +48,30 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
   }
 
   deletePointDef(int userId, String token, int pointId) async {
-    pointList.removePoint(pointId);
-    await deletePoint(userId, token, pointId);
+    Widget alert = AlertDialog(
+      title: const Text("Deletar ponto?",
+          style: TextStyle(
+            color: Color.fromARGB(255, 189, 39, 39),
+          )),
+      actions: [
+        TextButton(
+          onPressed: () async {
+            Navigator.of(context).pop();
+            pointList.removePoint(pointId);
+            await deletePoint(userId, token, pointId);
+          },
+          child: const Text("Sim"),
+        ),
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+            setState(() {});
+          },
+          child: const Text("Não"),
+        ),
+      ],
+    );
+    showDialog(context: context, builder: (ctx) => alert);
   }
 
   Future<void> getPoints(int userId, String token) async {

@@ -28,6 +28,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => PointList()),
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'iGeo',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSwatch().copyWith(
