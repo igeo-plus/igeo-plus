@@ -218,6 +218,10 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
     return response.stream.bytesToString();
   }
 
+  void changeFavorite(int pointId, int subjectId) {
+    pointList.togglePointFavorite(pointId, subjectId);
+  }
+
   // @override
   // void initState() {
   //   super.initState();
@@ -284,8 +288,8 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
                             subject,
                             widget.userData,
                             deletePointDef,
-                            pointList.togglePointFavorite,
-                          ),
+                            changeFavorite,
+                          )
                         ],
                       );
                     },

@@ -1,38 +1,81 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:get/get.dart';
+import 'dart:convert';
 
 import '../models/point.dart';
 import '../models/subject.dart';
 
 import '../utils/routes.dart';
 
-class PointItem extends StatelessWidget {
+class PointItem extends StatefulWidget {
   final Point point;
   final Subject subject;
   final Map<String, dynamic> userData;
   final Function(int, String, int) onDeletePoint;
   final void Function(int, int) onToggleFavorite;
-  const PointItem(this.point, this.subject, this.userData, this.onDeletePoint,
-      this.onToggleFavorite,
-      {super.key});
+  //final bool isFavorite;
 
+  const PointItem(
+    this.point,
+    this.subject,
+    this.userData,
+    this.onDeletePoint,
+    this.onToggleFavorite,
+    //this.isFavorite,
+  );
+
+  @override
+  State<PointItem> createState() => _PointItemState();
+}
+
+class _PointItemState extends State<PointItem> {
+  bool isFavorite = false;
   void _goToPointDetailsScreen(
       BuildContext context, Subject subject, Point point) {
     Navigator.of(context).pushNamed(AppRoutes.POINT_DETAIL,
         arguments: {"subject": subject, "point": point});
   }
 
+  favoritePoint(int userId, String token, int pointId) async {
+    final data = {
+      "user_id": userId,
+      "authentication_token": token,
+      "id": pointId
+    };
+
+    final http.Response response = await http.post(
+      Uri.parse(
+          "https://app.homologacao.uff.br/igeo-retaguarda/api/favorite_point"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(data),
+    );
+    return response;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    isFavorite = widget.point.isFavorite;
+  }
+
   @override
   Widget build(BuildContext context) {
     //final subject = ModalRoute.of(context)!.settings.arguments;
-    print("testandooooo" + subject.toString());
+
+    print("testandooooo" + widget.subject.toString());
     return InkWell(
-      onTap: () => _goToPointDetailsScreen(context, subject, point),
+      onTap: () =>
+          _goToPointDetailsScreen(context, widget.subject, widget.point),
       splashColor: Colors.amber,
       hoverColor: Color.fromARGB(255, 181, 220, 238),
       child: Dismissible(
-        key: ValueKey(point.id),
+        key: ValueKey(widget.point.id),
         onDismissed: (_) {
-          onDeletePoint(userData["id"], userData["token"], point.id!);
+          widget.onDeletePoint(widget.userData["id"], widget.userData["token"],
+              widget.point.id!);
         },
         direction: DismissDirection.endToStart,
         background: Container(
@@ -60,7 +103,7 @@ class PointItem extends StatelessWidget {
               backgroundColor: Colors.grey,
             ),
           ),
-          title: Text(point.name!),
+          title: Text(widget.point.name!),
           subtitle: Row(
             children: [
               Container(
@@ -72,11 +115,11 @@ class PointItem extends StatelessWidget {
                 ),
               ),
               Text(
-                  "Lat: ${point.lat!.toStringAsFixed(2)} - Long: ${point.long!.toStringAsFixed(2)}"),
+                  "Lat: ${widget.point.lat!.toStringAsFixed(2)} - Long: ${widget.point.long!.toStringAsFixed(2)}"),
             ],
           ),
           trailing: IconButton(
-            icon: point.isFavorite == true
+            icon: isFavorite == true
                 ? Icon(
                     Icons.star,
                     color: Colors.amber,
@@ -86,7 +129,17 @@ class PointItem extends StatelessWidget {
                     color: Colors.amber,
                   ),
             onPressed: () {
-              onToggleFavorite(point.id!, subject.id);
+              setState(() {
+                print("ESTADO: " + isFavorite.toString());
+
+                isFavorite = !isFavorite;
+              });
+              favoritePoint(
+                widget.userData["id"],
+                widget.userData["token"],
+                widget.point.id!,
+              );
+              widget.onToggleFavorite(widget.point.id!, widget.subject.id);
             },
           ),
         ),
