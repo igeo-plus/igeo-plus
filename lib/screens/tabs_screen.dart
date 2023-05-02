@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
+import 'package:get/get.dart';
+import 'dart:convert';
 
 import 'subjects_screen.dart';
 import 'beach_classification_screen.dart';
@@ -16,7 +20,6 @@ class TabsScreen extends StatefulWidget {
 }
 
 int _selectedScreenIndex = 0;
-List<Subject> subjects = [];
 
 class _TabsScreenState extends State<TabsScreen> {
   @override
@@ -28,7 +31,7 @@ class _TabsScreenState extends State<TabsScreen> {
       {"title": "Campos", "screen": SubjectsScreen(userData)},
       {
         "title": "Pontos Favoritos",
-        "screen": FavoriteScreen(subjects),
+        "screen": FavoriteScreen(userData),
       },
       // {
       //   "title": "Classificação de Praias",

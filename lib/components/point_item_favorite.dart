@@ -9,7 +9,7 @@ class PointItemFavorite extends StatelessWidget {
   final Point point;
   final List<Subject> subjects;
 
-  const PointItemFavorite(this.point, this.subjects);
+  const PointItemFavorite(this.point, this.subjects, {super.key});
 
   void _goToPointDetailsScreen(
       BuildContext context, List<Subject> subjects, Point point) {
@@ -29,11 +29,11 @@ class PointItemFavorite extends StatelessWidget {
         leading: FittedBox(
           fit: BoxFit.fitWidth,
           child: CircleAvatar(
-            child: Text(
-              "${point.id}",
-              style: TextStyle(fontSize: 12, color: Colors.white),
+            child: Icon(
+              Icons.star_border_outlined,
+              color: Colors.amber,
             ),
-            backgroundColor: Colors.grey,
+            //backgroundColor: Colors.grey,
           ),
         ),
         title: Text(point.name!),
