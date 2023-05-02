@@ -65,6 +65,7 @@ class _TabsScreenState extends State<TabsScreen> {
           BottomNavigationBarItem(
             icon: Icon(
               Icons.star_border,
+              color: _selectedScreenIndex != 0 ? Colors.amber : Colors.blueGrey,
             ),
             label: 'Pontos favoritos',
           ),
