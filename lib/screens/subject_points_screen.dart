@@ -59,6 +59,19 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
             Navigator.of(context).pop();
             pointList.removePoint(pointId);
             await deletePoint(userId, token, pointId);
+
+            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: const Text('Ponto deletado'),
+                duration: const Duration(seconds: 2),
+                // action: SnackBarAction(
+                //   label: 'DESFAZER',
+                //   onPressed: () {
+                //     cart.removeSingleItem(product.id);
+                //   },
+              ),
+            );
           },
           child: const Text("Sim"),
         ),
@@ -259,6 +272,19 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
           result.pickedImages!);
 
       //getPoints(widget.userData["id"], widget.userData["token"]);
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text('Ponto adicionado'),
+          duration: const Duration(seconds: 2),
+          // action: SnackBarAction(
+          //   label: 'DESFAZER',
+          //   onPressed: () {
+          //     cart.removeSingleItem(product.id);
+          //   },
+          // ),
+        ),
+      );
     }
 
     return Scaffold(

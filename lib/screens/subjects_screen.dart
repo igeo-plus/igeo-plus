@@ -97,6 +97,18 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
             }));
 
     Navigator.of(context).pop();
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: const Text('Campo adicionado'),
+        duration: const Duration(seconds: 2),
+        // action: SnackBarAction(
+        //   label: 'DESFAZER',
+        //   onPressed: () {
+        //     cart.removeSingleItem(product.id);
+        //   },
+      ),
+    );
 
     //getSubjects(widget.userData["id"], widget.userData["token"]);
   }

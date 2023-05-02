@@ -116,6 +116,15 @@ class _PointItemState extends State<PointItem> {
               ),
               Text(
                   "Lat: ${widget.point.lat!.toStringAsFixed(2)} - Long: ${widget.point.long!.toStringAsFixed(2)}"),
+              Container(
+                margin: EdgeInsets.only(right: 2),
+                child: Icon(
+                  Icons.calendar_month,
+                  size: 13,
+                  color: Color.fromARGB(255, 7, 163, 221),
+                ),
+              ),
+              Text(widget.point.date!)
             ],
           ),
           trailing: IconButton(
