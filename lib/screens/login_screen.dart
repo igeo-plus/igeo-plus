@@ -41,6 +41,36 @@ class _LoginScreenState extends State<LoginScreen> {
       },
       body: jsonEncode(data),
     );
+
+    final responseData = jsonDecode(response.body);
+    if (responseData["is_success"] == false) {
+      Widget alert = AlertDialog(
+        title: Row(
+          children: [
+            Icon(
+              Icons.warning_amber_outlined,
+              color: Colors.amber,
+            ),
+            const Text(" Usuário e/ou senha incorretos",
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Color.fromARGB(255, 189, 39, 39),
+                )),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              setState(() {});
+            },
+            child: const Text("OK"),
+          ),
+        ],
+      );
+      showDialog(context: context, builder: (ctx) => alert);
+      return;
+    }
     setState(() {
       userJson = jsonDecode(response.body);
       id = userJson["data"]["user"]["id"];
@@ -56,7 +86,8 @@ class _LoginScreenState extends State<LoginScreen> {
       };
     });
 
-    print(getUserData);
+    //print(getUserData);
+    //return response.body;
   }
 
   void _goToSubjectsScreen(
@@ -130,12 +161,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ElevatedButton(
                   onPressed: () async {
                     var a = await getUser(email!, password!);
-                    if (userJson["is_success"] != true) {
-                      setState(() {
-                        errorText = "E-mail ou senha incorretos";
-                      });
-                      return;
-                    }
+                    print(a.response);
 
                     Navigator.of(context).popAndPushNamed(AppRoutes.HOME2,
                         arguments: getUserData);
