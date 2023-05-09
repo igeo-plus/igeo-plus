@@ -14,6 +14,13 @@ class NewUserScreen extends StatelessWidget {
       formKey.currentState?.save();
       print(formData);
       Navigator.of(context).pop();
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text('Novo usuário criado'),
+          duration: const Duration(seconds: 2),
+        ),
+      );
     }
 
     return Scaffold(
@@ -45,6 +52,7 @@ class NewUserScreen extends StatelessWidget {
                 decoration: InputDecoration(labelText: 'Senha'),
                 textInputAction: TextInputAction.next,
                 onSaved: (password) => formData['password'] = password ?? '',
+                obscureText: true,
               ),
               TextFormField(
                 decoration: InputDecoration(labelText: 'Confirmação de senha'),
@@ -52,6 +60,7 @@ class NewUserScreen extends StatelessWidget {
                 onSaved: (password_confirmation) =>
                     formData['password_confirmation'] =
                         password_confirmation ?? '',
+                obscureText: true,
               ),
               Padding(
                 padding:
