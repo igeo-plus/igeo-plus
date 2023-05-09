@@ -24,7 +24,7 @@ class MainDrawer extends StatelessWidget {
             title: Text("Configurações"),
             automaticallyImplyLeading: false,
           ),
-          _createDrawerItem(Icons.person, "Editar conta", () => print("ok")),
+          //_createDrawerItem(Icons.person, "Editar conta", () => print("ok")),
           _createDrawerItem(Icons.logout, "Sair", () => SystemNavigator.pop())
         ],
       ),
