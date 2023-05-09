@@ -115,11 +115,16 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
 
   _openNewSubjectFormModal(BuildContext context) {
     showModalBottomSheet(
-      context: context,
-      builder: (_) {
-        return NewSubjectForm(_addSubject);
-      },
-    );
+        context: context,
+        isScrollControlled: true,
+        builder: (BuildContext context) {
+          return SingleChildScrollView(
+              child: Container(
+            padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom),
+            child: NewSubjectForm(_addSubject),
+          ));
+        });
   }
 
   // @override
