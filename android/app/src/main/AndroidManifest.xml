@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.igeo_flutter">
    <application
-        android:label="igeo_flutter"
+        android:label="iGeo"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
