@@ -11,7 +11,6 @@ class NewUserScreen extends StatelessWidget {
   final Map<String, Object> formData = {};
 
   final gmailValid = RegExp(r"^[a-z0-9](\.?[a-z0-9]){5,}@g(oogle)?mail\.com$");
-  final iduffValid = RegExp(r"^[a-z0-9](\.?\_?[a-z0-9]){5,}@id\.uff\.br$");
 
   @override
   Widget build(BuildContext context) {
@@ -50,36 +49,35 @@ class NewUserScreen extends StatelessWidget {
         return;
       }
 
-      if (!gmailValid.hasMatch(formData['email'].toString()) ||
-          !iduffValid.hasMatch(formData['email'].toString())) {
-        Widget alert = AlertDialog(
-          title: Row(
-            children: [
-              const Icon(
-                Icons.warning_amber_outlined,
-                color: Colors.amber,
-              ),
-              const Text(
-                " Digite um endereço gmail ou iduff válido",
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Color.fromARGB(255, 189, 39, 39),
-                ),
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text("OK"),
-            ),
-          ],
-        );
-        showDialog(context: context, builder: (ctx) => alert);
-        return;
-      }
+      // if (!gmailValid.hasMatch(formData['email'].toString())) {
+      //   Widget alert = AlertDialog(
+      //     title: Row(
+      //       children: [
+      //         const Icon(
+      //           Icons.warning_amber_outlined,
+      //           color: Colors.amber,
+      //         ),
+      //         const Text(
+      //           " Digite um endereço gmail válido",
+      //           style: TextStyle(
+      //             fontSize: 12,
+      //             color: Color.fromARGB(255, 189, 39, 39),
+      //           ),
+      //         ),
+      //       ],
+      //     ),
+      //     actions: [
+      //       TextButton(
+      //         onPressed: () {
+      //           Navigator.of(context).pop();
+      //         },
+      //         child: const Text("OK"),
+      //       ),
+      //     ],
+      //   );
+      //   showDialog(context: context, builder: (ctx) => alert);
+      //   return;
+      // }
 
       if (formData['password'] != formData['password_confirmation']) {
         Widget alert = AlertDialog(
@@ -147,7 +145,7 @@ class NewUserScreen extends StatelessWidget {
         },
         body: jsonEncode(formData),
       );
-      //print(response.body);
+      print(response.body);
 
       if (jsonDecode(response.body)["is_success"] == false) {
         Widget alert = AlertDialog(
