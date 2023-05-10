@@ -29,7 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  String errorText = '';
+  //String errorText = '';
 
   getUser(String email, String password) async {
     final data = {"email": "$email", "password": "$password"};
@@ -125,7 +125,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                     //onSubmitted: (_) => {},
                     controller: _emailController,
-                    decoration: InputDecoration(labelText: "Email"),
+                    decoration: const InputDecoration(labelText: "Email"),
                     textInputAction: TextInputAction.next,
                   ),
                 ),
