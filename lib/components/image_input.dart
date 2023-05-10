@@ -35,10 +35,14 @@ class _ImageInputState extends State<ImageInput> {
       return;
     }
     final ImagePicker picker = ImagePicker();
-    XFile imageFile = await picker.pickImage(
+    XFile? imageFile = await picker.pickImage(
       source: ImageSource.camera,
       maxWidth: 600,
-    ) as XFile;
+    );
+
+    if (imageFile == null) {
+      return;
+    }
 
     setState(() {
       storedImage.add(File(imageFile.path));

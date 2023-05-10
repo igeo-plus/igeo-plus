@@ -33,8 +33,21 @@ class _LocationInputState extends State<LocationInput> {
   //String? _previewImgUrl;
   double? lat;
   double? long;
+  LocationPermission? permission;
 
   Future<void> _getCurrentUserLocation(Point point) async {
+    permission = await Geolocator.requestPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
     final locData = await Geolocator.getCurrentPosition();
     print(locData);
     setState(
