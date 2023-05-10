@@ -131,7 +131,7 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
       }
       pointList.addPoint(newPoint);
 
-      print(newPoint.image);
+      //print(newPoint.image);
     });
   }
 
@@ -145,34 +145,12 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
       String description,
       int userId,
       List<File> photos) async {
-    // final data = {
-    //   "user_id": widget.userData["id"],
-    //   "subject_id": subjectId,
-    //   "authentication_token": widget.userData["token"],
-    //   "name": name,
-    //   "latitude": latitude,
-    //   "longitude": longitude,
-    //   "date": date,
-    //   "time": time,
-    //   "description": description,
-    //   "photos": [],
-    // };
-
     var request = http.MultipartRequest(
       "POST",
       Uri.parse(
           "https://app.homologacao.uff.br/igeo-retaguarda/api/post_point"),
     );
 
-    // request.fields["user_id"] = '${widget.userData["id"]}';
-    // request.fields["subject_id"] = "$subjectId";
-    // request.fields["authentication_token"] = widget.userData["token"];
-    // request.fields["name"] = name;
-    // request.fields["latitude"] = "$latitude";
-    // request.fields["longitude"] = "$longitude";
-    // request.fields["date"] = date;
-    // request.fields["time"] = time;
-    // request.fields["description"] = description;
     request.fields["authentication_token"] = widget.userData["token"];
     request.fields["user_id"] = '${widget.userData["id"]}';
     request.fields["point[user_id]"] = '${widget.userData["id"]}';
@@ -197,33 +175,54 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
         );
       }
     }
-    print("print request:  " + request.fields.toString());
-    print(request.files.toString());
+    //print("print request:  " + request.fields.toString());
+    //print(request.files.toString());
 
     var response = await request.send();
-    // final http.Response response = await http.post(
-    //   Uri.parse('https://app.homologacao.uff.br/umm/api/post_point_in_igeo'),
-    //   headers: <String, String>{
-    //     'Content-Type': 'application/json; charset=UTF-8',
-    //   },
-    //   body: jsonEncode(data),
-    // );
+
+    final dataUser = {
+      "user_id": userId,
+      "authentication_token": widget.userData["token"]
+    };
+
+    final http.Response response2 = await http.post(
+      Uri.parse('https://app.homologacao.uff.br/umm/api/get_points_from_igeo'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(dataUser),
+    );
+
+    var data = jsonDecode(response2.body);
+
+    pointData = data;
+    if (pointData.length == 0) {
+      return;
+    }
+
     setState(() {
-      pointList.addPoint(
-        Point(
-          id: pointList.getPoints.last.id! + 1,
-          user_id: widget.userData["id"],
-          name: name,
-          lat: latitude,
-          long: longitude,
-          date: date,
-          time: time,
-          description: description,
-        ),
-      );
+      pointData.forEach((point) {
+        Point newPoint = Point(
+          id: point["id"],
+          user_id: point["user_id"],
+          subject_id: point["subject_id"],
+          name: point["name"],
+          lat: point["latitude"],
+          long: point["longitude"],
+          date: point["date"],
+          time: point["time"],
+          description: point["description"],
+          isFavorite: point["favorite"] as bool,
+        );
+
+        if (point["image"] is List && point["image"].length > 0) {
+          for (var url in point["image"]) {
+            newPoint.addUrlToImageList(url);
+          }
+        }
+        pointList.addPoint(newPoint);
+      });
     });
-    //getPoints(widget.userData["id"], widget.userData["token"]);
-    //return request;
 
     return response.stream.bytesToString();
   }
