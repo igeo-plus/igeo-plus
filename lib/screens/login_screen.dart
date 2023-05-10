@@ -146,9 +146,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     onSubmitted: (_) async {
                       var a = await getUser(email!, password!);
                       if (userJson["is_success"] != true) {
-                        setState(() {
-                          errorText = "E-mail ou senha incorretos";
-                        });
                         return;
                       }
 
@@ -157,11 +154,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                   ),
                 ),
-                Text(errorText),
                 ElevatedButton(
                   onPressed: () async {
                     var a = await getUser(email!, password!);
-                    print(a.response);
 
                     Navigator.of(context).popAndPushNamed(AppRoutes.HOME2,
                         arguments: getUserData);
