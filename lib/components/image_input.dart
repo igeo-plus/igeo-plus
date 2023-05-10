@@ -48,7 +48,7 @@ class _ImageInputState extends State<ImageInput> {
       storedImage.add(File(imageFile.path));
     });
 
-    print(storedImage.last.readAsBytes());
+    //print(storedImage.last.readAsBytes());
 
     final appDir = await syspaths.getApplicationDocumentsDirectory();
     String fileName = path.basename(storedImage.last.path);
@@ -65,75 +65,90 @@ class _ImageInputState extends State<ImageInput> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-      child: Stack(
-        alignment: Alignment.bottomRight,
-        children: [
-          Container(
-            height: 370,
-            decoration: BoxDecoration(
-              border: Border.all(width: 1, color: Colors.grey),
-            ),
-            alignment: Alignment.center,
-            child: storedImage.isEmpty
-                ? const Text("Sem fotos")
-                : GridView.builder(
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 1,
-                      crossAxisSpacing: 1,
-                      mainAxisSpacing: 1,
-                    ),
-                    itemCount: storedImage.length,
-                    itemBuilder: (context, index) => Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: GridTile(
-                          child: Image.file(
-                            storedImage[index],
-                            fit: BoxFit.cover,
-                          ),
-                          footer: GridTileBar(
-                            backgroundColor: Colors.black54,
-                            leading: Center(
-                              child: IconButton(
-                                onPressed: () {
-                                  removePicture(storedImage[index]);
-                                },
-                                icon: Icon(
-                                  Icons.delete,
-                                  color: Theme.of(context).errorColor,
+    return Column(
+      children: [
+        Container(
+          height: 370,
+          decoration: BoxDecoration(
+            border: Border.all(width: 1, color: Colors.grey),
+          ),
+          alignment: Alignment.center,
+          child: storedImage.isEmpty
+              ? //Stack(children: [
+              const Text("Sem fotos")
+              // Padding(
+              //   padding: const EdgeInsets.only(right: 10.0),
+              //   child: TextButton.icon(
+              //     onPressed: takePicture,
+              //     icon: Icon(
+              //       Icons.camera,
+              //       color: Theme.of(context).colorScheme.error,
+              //       size: 16,
+              //     ),
+              //     label: const Text(
+              //       "Tirar foto",
+              //       style: TextStyle(color: Colors.grey, fontSize: 12),
+              //     ),
+              //   ),
+              // ),
+              //])
+              : Stack(
+                  children: [
+                    GridView.builder(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: 1,
+                        crossAxisSpacing: 1,
+                        mainAxisSpacing: 1,
+                      ),
+                      itemCount: storedImage.length,
+                      itemBuilder: (context, index) => Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: GridTile(
+                            footer: GridTileBar(
+                              backgroundColor: Colors.black54,
+                              leading: Center(
+                                child: IconButton(
+                                  onPressed: () {
+                                    removePicture(storedImage[index]);
+                                  },
+                                  icon: Icon(
+                                    Icons.delete,
+                                    color: Theme.of(context).colorScheme.error,
+                                  ),
                                 ),
                               ),
+                            ),
+                            child: Image.file(
+                              storedImage[index],
+                              fit: BoxFit.cover,
                             ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(right: 10.0),
-            child: Expanded(
-              child: TextButton.icon(
-                onPressed: takePicture,
-                icon: Icon(
-                  Icons.camera,
-                  color: Theme.of(context).errorColor,
-                  size: 16,
+                  ],
                 ),
-                label: const Text(
-                  "Tirar foto",
-                  style: TextStyle(color: Colors.grey, fontSize: 12),
-                ),
-              ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(right: 10.0),
+          child: TextButton.icon(
+            onPressed: takePicture,
+            icon: Icon(
+              Icons.camera,
+              color: Theme.of(context).colorScheme.error,
+              size: 16,
             ),
-          )
-        ],
-      ),
+            label: const Text(
+              "Tirar foto",
+              style: TextStyle(color: Colors.grey, fontSize: 12),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

@@ -104,7 +104,7 @@ class _NewPointFormScreenState extends State<NewPointFormScreen> {
                 locationInput,
                 ImageInput(addImage),
                 Padding(
-                  padding: const EdgeInsets.only(top: 7.0),
+                  padding: const EdgeInsets.only(top: 2.0),
                   child: ElevatedButton(
                     onPressed: () {
                       if (id == null) {
