@@ -11,6 +11,7 @@ class NewUserScreen extends StatelessWidget {
   final Map<String, Object> formData = {};
 
   final gmailValid = RegExp(r"^[a-z0-9](\.?[a-z0-9]){5,}@g(oogle)?mail\.com$");
+  final iduffValid = RegExp(r"^[a-z0-9](\.?[a-z0-9]){5,}@iduff.br$");
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +50,8 @@ class NewUserScreen extends StatelessWidget {
         return;
       }
 
-      if (!gmailValid.hasMatch(formData['email'].toString())) {
+      if (!gmailValid.hasMatch(formData['email'].toString()) ||
+          !iduffValid.hasMatch(formData['email'].toString())) {
         Widget alert = AlertDialog(
           title: Row(
             children: [
@@ -58,7 +60,7 @@ class NewUserScreen extends StatelessWidget {
                 color: Colors.amber,
               ),
               const Text(
-                " Digite um endereço gmail válido",
+                " Digite um endereço gmail ou iduff válido",
                 style: TextStyle(
                   fontSize: 12,
                   color: Color.fromARGB(255, 189, 39, 39),
