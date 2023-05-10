@@ -25,7 +25,7 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
 
   ScrollController controller = ScrollController();
 
-  Future<http.Response> getSubjects(int userId, String token) async {
+  Future getSubjects(int userId, String token) async {
     subjects = [];
     final dataUser = {"user_id": userId, "authentication_token": token};
 
@@ -42,19 +42,18 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
     subjectData = await data;
 
     print(data);
-    setState(() async {
-      if (subjectData.length == 0) {
-        print("Vazio");
-        return;
-      }
-      subjectData.forEach((subject) async {
-        subjects.add(
-          Subject(
-            id: subject["id"],
-            name: subject["name"],
-          ),
-        );
-      });
+
+    if (subjectData.length == 0) {
+      print("Vazio");
+      return;
+    }
+    subjectData.forEach((subject) {
+      subjects.add(
+        Subject(
+          id: subject["id"],
+          name: subject["name"],
+        ),
+      );
     });
 
     // controller.animateTo(

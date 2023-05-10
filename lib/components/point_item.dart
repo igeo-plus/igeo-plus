@@ -116,6 +116,7 @@ class _PointItemState extends State<PointItem> {
               ),
               Text(
                   "Lat: ${widget.point.lat!.toStringAsFixed(2)} - Long: ${widget.point.long!.toStringAsFixed(2)}"),
+              SizedBox(width: 7),
               Container(
                 margin: EdgeInsets.only(right: 2),
                 child: Icon(

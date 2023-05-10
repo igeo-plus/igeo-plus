@@ -106,35 +106,33 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
 
     print(data);
 
-    setState(() async {
-      pointData = data;
-      if (pointData.length == 0) {
-        return;
-      }
+    pointData = data;
+    if (pointData.length == 0) {
+      return;
+    }
 
-      pointData.forEach((point) async {
-        Point newPoint = Point(
-          id: point["id"],
-          user_id: point["user_id"],
-          subject_id: point["subject_id"],
-          name: point["name"],
-          lat: point["latitude"],
-          long: point["longitude"],
-          date: point["date"],
-          time: point["time"],
-          description: point["description"],
-          isFavorite: point["favorite"] as bool,
-        );
+    pointData.forEach((point) {
+      Point newPoint = Point(
+        id: point["id"],
+        user_id: point["user_id"],
+        subject_id: point["subject_id"],
+        name: point["name"],
+        lat: point["latitude"],
+        long: point["longitude"],
+        date: point["date"],
+        time: point["time"],
+        description: point["description"],
+        isFavorite: point["favorite"] as bool,
+      );
 
-        if (point["image"] is List && point["image"].length > 0) {
-          for (var url in point["image"]) {
-            newPoint.addUrlToImageList(url);
-          }
+      if (point["image"] is List && point["image"].length > 0) {
+        for (var url in point["image"]) {
+          newPoint.addUrlToImageList(url);
         }
-        pointList.addPoint(newPoint);
+      }
+      pointList.addPoint(newPoint);
 
-        print(newPoint.image);
-      });
+      print(newPoint.image);
     });
   }
 
