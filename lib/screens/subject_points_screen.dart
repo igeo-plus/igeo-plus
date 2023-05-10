@@ -37,8 +37,7 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
     };
 
     final http.Response response = await http.post(
-      Uri.parse(
-          "https://app.homologacao.uff.br/igeo-retaguarda/api/delete_point"),
+      Uri.parse("https://app.homologacao.uff.br/umm/api/delete_point_in_igeo"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

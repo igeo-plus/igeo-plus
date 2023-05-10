@@ -46,7 +46,7 @@ class _PointItemState extends State<PointItem> {
 
     final http.Response response = await http.post(
       Uri.parse(
-          "https://app.homologacao.uff.br/igeo-retaguarda/api/favorite_point"),
+          "https://app.homologacao.uff.br/umm/api/favorite_point_in_igeo"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -65,7 +65,7 @@ class _PointItemState extends State<PointItem> {
   Widget build(BuildContext context) {
     //final subject = ModalRoute.of(context)!.settings.arguments;
 
-    print("testandooooo" + widget.subject.toString());
+    //print("testandooooo" + widget.subject.toString());
     return InkWell(
       onTap: () =>
           _goToPointDetailsScreen(context, widget.subject, widget.point),
