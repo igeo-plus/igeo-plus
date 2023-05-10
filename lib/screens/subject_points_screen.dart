@@ -303,6 +303,7 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
                     child: CircularProgressIndicator(),
                   )
                 : ListView.builder(
+                    padding: const EdgeInsets.only(bottom: 50),
                     itemCount: pointList.getPointsForSubject(subject.id).length,
                     itemBuilder: (ctx, index) {
                       return Column(
