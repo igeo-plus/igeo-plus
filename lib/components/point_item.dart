@@ -80,7 +80,7 @@ class _PointItemState extends State<PointItem> {
         direction: DismissDirection.endToStart,
         background: Container(
           color: Theme.of(context).errorColor,
-          child: Icon(
+          child: const Icon(
             Icons.delete,
             color: Colors.white,
             size: 30,
@@ -89,14 +89,10 @@ class _PointItemState extends State<PointItem> {
           alignment: Alignment.centerRight,
         ),
         child: ListTile(
-          leading: FittedBox(
+          leading: const FittedBox(
             fit: BoxFit.fitWidth,
             child: CircleAvatar(
-              // child: Text(
-              //   "${point.id}",
-              //   style: TextStyle(fontSize: 12, color: Colors.white),
-              // ),
-              child: Icon(
+              child: const Icon(
                 Icons.gps_fixed_outlined,
                 color: Colors.white,
               ),
@@ -107,8 +103,8 @@ class _PointItemState extends State<PointItem> {
           subtitle: Row(
             children: [
               Container(
-                margin: EdgeInsets.only(right: 2),
-                child: Icon(
+                margin: const EdgeInsets.only(right: 2),
+                child: const Icon(
                   Icons.gps_fixed_sharp,
                   size: 13,
                   color: Color.fromARGB(255, 7, 163, 221),
@@ -117,30 +113,30 @@ class _PointItemState extends State<PointItem> {
               Text(
                   "Lat: ${widget.point.lat!.toStringAsFixed(2)} - Lon: ${widget.point.long!.toStringAsFixed(2)}"),
               const SizedBox(width: 3),
-              Container(
-                margin: EdgeInsets.only(right: 2),
-                child: Icon(
-                  Icons.calendar_month,
-                  size: 13,
-                  color: Color.fromARGB(255, 7, 163, 221),
-                ),
-              ),
-              Text(widget.point.date!)
+              // Container(
+              //   margin: const EdgeInsets.only(right: 2),
+              //   child: const Icon(
+              //     Icons.calendar_month,
+              //     size: 13,
+              //     color: Color.fromARGB(255, 7, 163, 221),
+              //   ),
+              // ),
+              // Text(widget.point.date!)
             ],
           ),
           trailing: IconButton(
             icon: isFavorite == true
-                ? Icon(
+                ? const Icon(
                     Icons.star,
                     color: Colors.amber,
                   )
-                : Icon(
+                : const Icon(
                     Icons.star_outline,
                     color: Colors.amber,
                   ),
             onPressed: () {
               setState(() {
-                print("ESTADO: " + isFavorite.toString());
+                //print("ESTADO: " + isFavorite.toString());
 
                 isFavorite = !isFavorite;
               });
