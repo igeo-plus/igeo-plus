@@ -43,32 +43,35 @@ class _LoginScreenState extends State<LoginScreen> {
     );
 
     final responseData = jsonDecode(response.body);
-    if (responseData["is_success"] == false) {
+    if (!responseData["is_success"] ||
+        responseData["messages"] == "Login ou senha incorretos") {
       Widget alert = AlertDialog(
         title: Row(
           children: [
-            Icon(
+            const Icon(
               Icons.warning_amber_outlined,
               color: Colors.amber,
             ),
-            const Text(" Usuário e/ou senha incorretos",
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Color.fromARGB(255, 189, 39, 39),
-                )),
+            const Text(
+              " Usuário e/ou senha incorretos",
+              style: TextStyle(
+                fontSize: 12,
+                color: Color.fromARGB(255, 189, 39, 39),
+              ),
+            ),
           ],
         ),
         actions: [
           TextButton(
             onPressed: () {
               Navigator.of(context).pop();
-              setState(() {});
+              return;
             },
             child: const Text("OK"),
           ),
         ],
       );
-      showDialog(context: context, builder: (ctx) => alert);
+      await showDialog(context: context, builder: (ctx) => alert);
       return;
     }
     setState(() {
@@ -144,8 +147,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     obscureText: true,
                     textInputAction: TextInputAction.done,
                     onSubmitted: (_) async {
-                      var a = await getUser(email!, password!);
-                      if (userJson["is_success"] != true) {
+                      await getUser(email!, password!);
+                      if (!userJson["is_success"]) {
                         return;
                       }
 
@@ -156,7 +159,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 ElevatedButton(
                   onPressed: () async {
-                    var a = await getUser(email!, password!);
+                    await getUser(email!, password!);
+                    if (!userJson["is_success"]) {
+                      return;
+                    }
 
                     Navigator.of(context).popAndPushNamed(AppRoutes.HOME2,
                         arguments: getUserData);
