@@ -37,7 +37,7 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
     };
 
     final http.Response response = await http.post(
-      Uri.parse("https://app.homologacao.uff.br/umm/api/delete_point_in_igeo"),
+      Uri.parse("https://app.uff.br/umm/api/delete_point_in_igeo"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -94,7 +94,7 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
     final dataUser = {"user_id": userId, "authentication_token": token};
 
     final http.Response response = await http.post(
-      Uri.parse('https://app.homologacao.uff.br/umm/api/get_points_from_igeo'),
+      Uri.parse('https://app.uff.br/umm/api/get_points_from_igeo'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -147,8 +147,7 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
       List<File> photos) async {
     var request = http.MultipartRequest(
       "POST",
-      Uri.parse(
-          "https://app.homologacao.uff.br/igeo-retaguarda/api/post_point"),
+      Uri.parse("https://app.uff.br/igeo-retaguarda/api/post_point"),
     );
 
     request.fields["authentication_token"] = widget.userData["token"];
@@ -186,7 +185,7 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
     };
 
     final http.Response response2 = await http.post(
-      Uri.parse('https://app.homologacao.uff.br/umm/api/get_points_from_igeo'),
+      Uri.parse('https://app.uff.br/umm/api/get_points_from_igeo'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

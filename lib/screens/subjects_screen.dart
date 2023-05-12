@@ -30,8 +30,7 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
     final dataUser = {"user_id": userId, "authentication_token": token};
 
     final http.Response response = await http.post(
-      Uri.parse(
-          'https://app.homologacao.uff.br/umm/api/get_subjects_from_igeo'),
+      Uri.parse('https://app.uff.br/umm/api/get_subjects_from_igeo'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -74,7 +73,7 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
     };
 
     final http.Response response = await http.post(
-      Uri.parse('https://app.homologacao.uff.br/umm/api/post_subject_in_igeo'),
+      Uri.parse('https://app.uff.br/umm/api/post_subject_in_igeo'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

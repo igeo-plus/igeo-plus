@@ -35,7 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final data = {"email": "$email", "password": "$password"};
 
     final http.Response response = await http.post(
-      Uri.parse('https://app.homologacao.uff.br/umm/api/sign_in_igeo'),
+      Uri.parse('https://app.uff.br/umm/api/sign_in_igeo'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

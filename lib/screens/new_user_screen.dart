@@ -139,7 +139,7 @@ class NewUserScreen extends StatelessWidget {
         return;
       }
       final http.Response response = await http.post(
-        Uri.parse('https://app.homologacao.uff.br/umm/api/sign_up_igeo'),
+        Uri.parse('https://app.uff.br/umm/api/sign_up_igeo'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
