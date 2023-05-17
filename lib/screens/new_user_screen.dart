@@ -4,11 +4,14 @@ import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 import 'dart:convert';
 
+import '../components/text.dart';
+
 class NewUserScreen extends StatelessWidget {
   //const NewUserScreen({super.key});
 
   final formKey = GlobalKey<FormState>();
   final Map<String, Object> formData = {};
+  bool accept = false;
 
   final gmailValid = RegExp(r"^[a-z0-9](\.?[a-z0-9]){5,}@g(oogle)?mail\.com$");
 
@@ -18,8 +21,46 @@ class NewUserScreen extends StatelessWidget {
       formKey.currentState?.save();
       print(formData);
 
-      if (formData['first_name'].toString().length < 2 ||
-          formData['last_name'].toString().length < 2) {
+      Widget alert = AlertDialog(
+        title: Row(
+          children: [
+            const Icon(
+              Icons.warning_amber_outlined,
+              color: Colors.amber,
+            ),
+            const Text(
+              " Termo de Responsabilidade e Consentimento",
+              style: TextStyle(
+                fontSize: 12,
+                color: Color.fromARGB(255, 189, 39, 39),
+              ),
+            ),
+          ],
+        ),
+        content: SingleChildScrollView(child: Text(signupText)),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              accept = !accept;
+            },
+            child: const Text("Concordo"),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              accept = !accept;
+              return;
+            },
+            child: const Text("Discordo"),
+          ),
+        ],
+      );
+      showDialog(context: context, builder: (ctx) => alert);
+
+      if (accept &&
+          (formData['first_name'].toString().length < 2 ||
+              formData['last_name'].toString().length < 2)) {
         Widget alert = AlertDialog(
           title: Row(
             children: [
