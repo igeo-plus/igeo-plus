@@ -13,7 +13,8 @@ class NewUserScreen extends StatelessWidget {
   Map<String, Object> formData = {};
   bool accept = false;
 
-  final gmailValid = RegExp(r"^[a-z0-9](\.?[a-z0-9]){5,}@g(oogle)?mail\.com$");
+  final gmailValid = RegExp(
+      r"^[a-z0-9](\.?_?[a-z0-9]){5,}[@](g(oogle)?mail\.com$|id.uff.br$)");
 
   @override
   Widget build(BuildContext context) {
@@ -90,39 +91,39 @@ class NewUserScreen extends StatelessWidget {
               ),
             ],
           );
-          showDialog(context: context, builder: (ctx) => alert);
+          await showDialog(context: context, builder: (ctx) => alert);
           return;
         }
 
-        // if (!gmailValid.hasMatch(formData['email'].toString())) {
-        //   Widget alert = AlertDialog(
-        //     title: Row(
-        //       children: [
-        //         const Icon(
-        //           Icons.warning_amber_outlined,
-        //           color: Colors.amber,
-        //         ),
-        //         const Text(
-        //           " Digite um endereço gmail válido",
-        //           style: TextStyle(
-        //             fontSize: 12,
-        //             color: Color.fromARGB(255, 189, 39, 39),
-        //           ),
-        //         ),
-        //       ],
-        //     ),
-        //     actions: [
-        //       TextButton(
-        //         onPressed: () {
-        //           Navigator.of(context).pop();
-        //         },
-        //         child: const Text("OK"),
-        //       ),
-        //     ],
-        //   );
-        //   showDialog(context: context, builder: (ctx) => alert);
-        //   return;
-        // }
+        if (gmailValid.hasMatch(formData['email'].toString()) == false) {
+          Widget alert = AlertDialog(
+            title: Row(
+              children: [
+                const Icon(
+                  Icons.warning_amber_outlined,
+                  color: Colors.amber,
+                ),
+                const Text(
+                  " Digite um endereço gmail ou iduff válido",
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Color.fromARGB(255, 189, 39, 39),
+                  ),
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text("OK"),
+              ),
+            ],
+          );
+          await showDialog(context: context, builder: (ctx) => alert);
+          return;
+        }
 
         if (formData['password'] != formData['password_confirmation']) {
           Widget alert = AlertDialog(
@@ -150,7 +151,7 @@ class NewUserScreen extends StatelessWidget {
               ),
             ],
           );
-          showDialog(context: context, builder: (ctx) => alert);
+          await showDialog(context: context, builder: (ctx) => alert);
           return;
         }
 
@@ -180,7 +181,7 @@ class NewUserScreen extends StatelessWidget {
               ),
             ],
           );
-          showDialog(context: context, builder: (ctx) => alert);
+          await showDialog(context: context, builder: (ctx) => alert);
           return;
         }
         final http.Response response = await http.post(
