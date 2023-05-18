@@ -2,7 +2,7 @@ String signupText = '''TERMO DE CONSENTIMENTO LEGAL
 
 Prezado(a) Usuário(a),
 
-O aplicativo iGeo é um projeto da Universidade Federal Fluminense (UFF), desenvolvido pelo Laboratório de Geografia Física e o UFF Mobile da Superintendência de Tecnologia da Informação (STI). Objetiva coletar registros por meio de textos, coordenadas geográficas e fotografias para o armazenamento de dados coletados em campo.
+O aplicativo iGeo é um projeto da Universidade Federal Fluminense (UFF), desenvolvido pelo Laboratório de Geografia Física e o UFF Mobile da Superintendência de Tecnologia da Informação (STI-UFF). Objetiva coletar registros por meio de textos, coordenadas geográficas e fotografias para o armazenamento de dados coletados em campo.
 
 O iGeo usa imagens e dados coletados em campo dos usuários para fins de ensino, pesquisa e extensão. Esses materiais serão utilizados pelos pesquisadores para fins acadêmicos e de interesse público.
 

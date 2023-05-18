@@ -10,7 +10,7 @@ class NewUserScreen extends StatelessWidget {
   //const NewUserScreen({super.key});
 
   final formKey = GlobalKey<FormState>();
-  final Map<String, Object> formData = {};
+  Map<String, Object> formData = {};
   bool accept = false;
 
   final gmailValid = RegExp(r"^[a-z0-9](\.?[a-z0-9]){5,}@g(oogle)?mail\.com$");
@@ -37,194 +37,201 @@ class NewUserScreen extends StatelessWidget {
             ),
           ],
         ),
-        content: SingleChildScrollView(child: Text(signupText)),
+        content: SingleChildScrollView(
+          child: Text(signupText),
+        ),
         actions: [
           TextButton(
             onPressed: () {
+              accept = true;
               Navigator.of(context).pop();
-              accept = !accept;
             },
             child: const Text("Concordo"),
           ),
           TextButton(
             onPressed: () {
               Navigator.of(context).pop();
-              accept = !accept;
+              accept = false;
+              final formKey = GlobalKey<FormState>();
+              Map<String, Object> formData = {};
               return;
             },
             child: const Text("Discordo"),
           ),
         ],
       );
-      showDialog(context: context, builder: (ctx) => alert);
+      await showDialog(context: context, builder: (ctx) => alert);
 
-      if (accept &&
-          (formData['first_name'].toString().length < 2 ||
-              formData['last_name'].toString().length < 2)) {
-        Widget alert = AlertDialog(
-          title: Row(
-            children: [
-              const Icon(
-                Icons.warning_amber_outlined,
-                color: Colors.amber,
-              ),
-              const Text(
-                " Nome ou sobrenome com menos de 2 caracteres",
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Color.fromARGB(255, 189, 39, 39),
+      if (accept) {
+        if (formData['first_name'].toString().length < 2 ||
+            formData['last_name'].toString().length < 2) {
+          Widget alert = AlertDialog(
+            title: Row(
+              children: [
+                const Icon(
+                  Icons.warning_amber_outlined,
+                  color: Colors.amber,
                 ),
+                const Text(
+                  " Nome ou sobrenome com menos de 2 caracteres",
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Color.fromARGB(255, 189, 39, 39),
+                  ),
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text("OK"),
               ),
             ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text("OK"),
-            ),
-          ],
-        );
-        showDialog(context: context, builder: (ctx) => alert);
-        return;
-      }
+          );
+          showDialog(context: context, builder: (ctx) => alert);
+          return;
+        }
 
-      // if (!gmailValid.hasMatch(formData['email'].toString())) {
-      //   Widget alert = AlertDialog(
-      //     title: Row(
-      //       children: [
-      //         const Icon(
-      //           Icons.warning_amber_outlined,
-      //           color: Colors.amber,
-      //         ),
-      //         const Text(
-      //           " Digite um endereço gmail válido",
-      //           style: TextStyle(
-      //             fontSize: 12,
-      //             color: Color.fromARGB(255, 189, 39, 39),
-      //           ),
-      //         ),
-      //       ],
-      //     ),
-      //     actions: [
-      //       TextButton(
-      //         onPressed: () {
-      //           Navigator.of(context).pop();
-      //         },
-      //         child: const Text("OK"),
-      //       ),
-      //     ],
-      //   );
-      //   showDialog(context: context, builder: (ctx) => alert);
-      //   return;
-      // }
+        // if (!gmailValid.hasMatch(formData['email'].toString())) {
+        //   Widget alert = AlertDialog(
+        //     title: Row(
+        //       children: [
+        //         const Icon(
+        //           Icons.warning_amber_outlined,
+        //           color: Colors.amber,
+        //         ),
+        //         const Text(
+        //           " Digite um endereço gmail válido",
+        //           style: TextStyle(
+        //             fontSize: 12,
+        //             color: Color.fromARGB(255, 189, 39, 39),
+        //           ),
+        //         ),
+        //       ],
+        //     ),
+        //     actions: [
+        //       TextButton(
+        //         onPressed: () {
+        //           Navigator.of(context).pop();
+        //         },
+        //         child: const Text("OK"),
+        //       ),
+        //     ],
+        //   );
+        //   showDialog(context: context, builder: (ctx) => alert);
+        //   return;
+        // }
 
-      if (formData['password'] != formData['password_confirmation']) {
-        Widget alert = AlertDialog(
-          title: Row(
-            children: [
-              const Icon(
-                Icons.warning_amber_outlined,
-                color: Colors.amber,
-              ),
-              const Text(
-                " Senha e confirmação de senha diferentes",
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Color.fromARGB(255, 189, 39, 39),
+        if (formData['password'] != formData['password_confirmation']) {
+          Widget alert = AlertDialog(
+            title: Row(
+              children: [
+                const Icon(
+                  Icons.warning_amber_outlined,
+                  color: Colors.amber,
                 ),
+                const Text(
+                  " Senha e confirmação de senha diferentes",
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Color.fromARGB(255, 189, 39, 39),
+                  ),
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text("OK"),
               ),
             ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text("OK"),
-            ),
-          ],
-        );
-        showDialog(context: context, builder: (ctx) => alert);
-        return;
-      }
+          );
+          showDialog(context: context, builder: (ctx) => alert);
+          return;
+        }
 
-      if (formData["password"].toString().length < 6) {
-        Widget alert = AlertDialog(
-          title: Row(
-            children: [
-              const Icon(
-                Icons.warning_amber_outlined,
-                color: Colors.amber,
-              ),
-              const Text(
-                " Senha menor que 6 caracteres",
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Color.fromARGB(255, 189, 39, 39),
+        if (formData["password"].toString().length < 6) {
+          Widget alert = AlertDialog(
+            title: Row(
+              children: [
+                const Icon(
+                  Icons.warning_amber_outlined,
+                  color: Colors.amber,
                 ),
+                const Text(
+                  " Senha menor que 6 caracteres",
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Color.fromARGB(255, 189, 39, 39),
+                  ),
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text("OK"),
               ),
             ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text("OK"),
-            ),
-          ],
+          );
+          showDialog(context: context, builder: (ctx) => alert);
+          return;
+        }
+        final http.Response response = await http.post(
+          Uri.parse('https://app.uff.br/umm/api/sign_up_igeo'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: jsonEncode(formData),
         );
-        showDialog(context: context, builder: (ctx) => alert);
-        return;
-      }
-      final http.Response response = await http.post(
-        Uri.parse('https://app.uff.br/umm/api/sign_up_igeo'),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(formData),
-      );
-      print(response.body);
+        print(response.body);
 
-      if (jsonDecode(response.body)["is_success"] == false) {
-        Widget alert = AlertDialog(
-          title: Row(
-            children: [
-              const Icon(
-                Icons.warning_amber_outlined,
-                color: Colors.amber,
-              ),
-              const Text(
-                " Algo deu errado. Tente novamente",
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Color.fromARGB(255, 189, 39, 39),
+        if (jsonDecode(response.body)["is_success"] == false) {
+          Widget alert = AlertDialog(
+            title: Row(
+              children: [
+                const Icon(
+                  Icons.warning_amber_outlined,
+                  color: Colors.amber,
                 ),
+                const Text(
+                  " Algo deu errado. Tente novamente",
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Color.fromARGB(255, 189, 39, 39),
+                  ),
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text("OK"),
               ),
             ],
+          );
+          showDialog(context: context, builder: (ctx) => alert);
+          return;
+        }
+        Navigator.of(context).pop();
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Novo usuário criado'),
+            duration: Duration(seconds: 2),
           ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text("OK"),
-            ),
-          ],
         );
-        showDialog(context: context, builder: (ctx) => alert);
+      } else {
         return;
       }
-      Navigator.of(context).pop();
-      ScaffoldMessenger.of(context).hideCurrentSnackBar();
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Novo usuário criado'),
-          duration: Duration(seconds: 2),
-        ),
-      );
     }
 
     return Scaffold(
