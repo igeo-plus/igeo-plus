@@ -1,0 +1,4 @@
+#Tue May 23 13:43:09 BRT 2023
+base.0=/home/pedro/code/flutter_projects/igeo_flutter/build/app/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+renamed.0=classes.dex
+path.0=classes.dex

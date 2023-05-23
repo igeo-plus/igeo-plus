@@ -1,0 +1,74 @@
+[
+    {
+        "merged": "/home/pedro/code/flutter_projects/igeo_flutter/build/geolocator_android/intermediates/merged_res/release/drawable/common_google_signin_btn_text_dark_normal.xml",
+        "source": "/home/pedro/.gradle/caches/transforms-3/44ac009e8d95e9369676832f723f86dd/transformed/jetified-play-services-base-18.1.0/res/drawable/common_google_signin_btn_text_dark_normal.xml"
+    },
+    {
+        "merged": "/home/pedro/code/flutter_projects/igeo_flutter/build/geolocator_android/intermediates/merged_res/release/drawable/common_google_signin_btn_text_disabled.xml",
+        "source": "/home/pedro/.gradle/caches/transforms-3/44ac009e8d95e9369676832f723f86dd/transformed/jetified-play-services-base-18.1.0/res/drawable/common_google_signin_btn_text_disabled.xml"
+    },
+    {
+        "merged": "/home/pedro/code/flutter_projects/igeo_flutter/build/geolocator_android/intermediates/merged_res/release/drawable/common_google_signin_btn_icon_dark_focused.xml",
+        "source": "/home/pedro/.gradle/caches/transforms-3/44ac009e8d95e9369676832f723f86dd/transformed/jetified-play-services-base-18.1.0/res/drawable/common_google_signin_btn_icon_dark_focused.xml"
+    },
+    {
+        "merged": "/home/pedro/code/flutter_projects/igeo_flutter/build/geolocator_android/intermediates/merged_res/release/drawable/common_google_signin_btn_icon_light_focused.xml",
+        "source": "/home/pedro/.gradle/caches/transforms-3/44ac009e8d95e9369676832f723f86dd/transformed/jetified-play-services-base-18.1.0/res/drawable/common_google_signin_btn_icon_light_focused.xml"
+    },
+    {
+        "merged": "/home/pedro/code/flutter_projects/igeo_flutter/build/geolocator_android/intermediates/merged_res/release/drawable/common_google_signin_btn_icon_light_normal.xml",
+        "source": "/home/pedro/.gradle/caches/transforms-3/44ac009e8d95e9369676832f723f86dd/transformed/jetified-play-services-base-18.1.0/res/drawable/common_google_signin_btn_icon_light_normal.xml"
+    },
+    {
+        "merged": "/home/pedro/code/flutter_projects/igeo_flutter/build/geolocator_android/intermediates/merged_res/release/drawable/common_google_signin_btn_text_light.xml",
+        "source": "/home/pedro/.gradle/caches/transforms-3/44ac009e8d95e9369676832f723f86dd/transformed/jetified-play-services-base-18.1.0/res/drawable/common_google_signin_btn_text_light.xml"
+    },
+    {
+        "merged": "/home/pedro/code/flutter_projects/igeo_flutter/build/geolocator_android/intermediates/merged_res/release/drawable/common_google_signin_btn_text_light_focused.xml",
+        "source": "/home/pedro/.gradle/caches/transforms-3/44ac009e8d95e9369676832f723f86dd/transformed/jetified-play-services-base-18.1.0/res/drawable/common_google_signin_btn_text_light_focused.xml"
+    },
+    {
+        "merged": "/home/pedro/code/flutter_projects/igeo_flutter/build/geolocator_android/intermediates/merged_res/release/drawable/notification_icon_background.xml",
+        "source": "/home/pedro/.gradle/caches/transforms-3/b0e21cb23eaa313e61fdb7630797d2d9/transformed/core-1.9.0/res/drawable/notification_icon_background.xml"
+    },
+    {
+        "merged": "/home/pedro/code/flutter_projects/igeo_flutter/build/geolocator_android/intermediates/merged_res/release/drawable/common_google_signin_btn_text_dark_focused.xml",
+        "source": "/home/pedro/.gradle/caches/transforms-3/44ac009e8d95e9369676832f723f86dd/transformed/jetified-play-services-base-18.1.0/res/drawable/common_google_signin_btn_text_dark_focused.xml"
+    },
+    {
+        "merged": "/home/pedro/code/flutter_projects/igeo_flutter/build/geolocator_android/intermediates/merged_res/release/drawable/common_google_signin_btn_text_light_normal.xml",
+        "source": "/home/pedro/.gradle/caches/transforms-3/44ac009e8d95e9369676832f723f86dd/transformed/jetified-play-services-base-18.1.0/res/drawable/common_google_signin_btn_text_light_normal.xml"
+    },
+    {
+        "merged": "/home/pedro/code/flutter_projects/igeo_flutter/build/geolocator_android/intermediates/merged_res/release/drawable/common_google_signin_btn_icon_dark_normal.xml",
+        "source": "/home/pedro/.gradle/caches/transforms-3/44ac009e8d95e9369676832f723f86dd/transformed/jetified-play-services-base-18.1.0/res/drawable/common_google_signin_btn_icon_dark_normal.xml"
+    },
+    {
+        "merged": "/home/pedro/code/flutter_projects/igeo_flutter/build/geolocator_android/intermediates/merged_res/release/drawable/notification_tile_bg.xml",
+        "source": "/home/pedro/.gradle/caches/transforms-3/b0e21cb23eaa313e61fdb7630797d2d9/transformed/core-1.9.0/res/drawable/notification_tile_bg.xml"
+    },
+    {
+        "merged": "/home/pedro/code/flutter_projects/igeo_flutter/build/geolocator_android/intermediates/merged_res/release/drawable/common_google_signin_btn_icon_dark.xml",
+        "source": "/home/pedro/.gradle/caches/transforms-3/44ac009e8d95e9369676832f723f86dd/transformed/jetified-play-services-base-18.1.0/res/drawable/common_google_signin_btn_icon_dark.xml"
+    },
+    {
+        "merged": "/home/pedro/code/flutter_projects/igeo_flutter/build/geolocator_android/intermediates/merged_res/release/drawable/common_google_signin_btn_icon_light.xml",
+        "source": "/home/pedro/.gradle/caches/transforms-3/44ac009e8d95e9369676832f723f86dd/transformed/jetified-play-services-base-18.1.0/res/drawable/common_google_signin_btn_icon_light.xml"
+    },
+    {
+        "merged": "/home/pedro/code/flutter_projects/igeo_flutter/build/geolocator_android/intermediates/merged_res/release/drawable/common_google_signin_btn_text_dark.xml",
+        "source": "/home/pedro/.gradle/caches/transforms-3/44ac009e8d95e9369676832f723f86dd/transformed/jetified-play-services-base-18.1.0/res/drawable/common_google_signin_btn_text_dark.xml"
+    },
+    {
+        "merged": "/home/pedro/code/flutter_projects/igeo_flutter/build/geolocator_android/intermediates/merged_res/release/drawable/notification_bg.xml",
+        "source": "/home/pedro/.gradle/caches/transforms-3/b0e21cb23eaa313e61fdb7630797d2d9/transformed/core-1.9.0/res/drawable/notification_bg.xml"
+    },
+    {
+        "merged": "/home/pedro/code/flutter_projects/igeo_flutter/build/geolocator_android/intermediates/merged_res/release/drawable/common_google_signin_btn_icon_disabled.xml",
+        "source": "/home/pedro/.gradle/caches/transforms-3/44ac009e8d95e9369676832f723f86dd/transformed/jetified-play-services-base-18.1.0/res/drawable/common_google_signin_btn_icon_disabled.xml"
+    },
+    {
+        "merged": "/home/pedro/code/flutter_projects/igeo_flutter/build/geolocator_android/intermediates/merged_res/release/drawable/notification_bg_low.xml",
+        "source": "/home/pedro/.gradle/caches/transforms-3/b0e21cb23eaa313e61fdb7630797d2d9/transformed/core-1.9.0/res/drawable/notification_bg_low.xml"
+    }
+]
