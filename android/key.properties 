@@ -1,0 +1,4 @@
+storePassword=littlepotato
+keyPassword=littlepotato
+keyAlias=upload
+storeFile=/home/pedro/upload-keystore.jks
