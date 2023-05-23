@@ -39,7 +39,12 @@ class NewUserScreen extends StatelessWidget {
           ],
         ),
         content: SingleChildScrollView(
-          child: Text(signupText),
+          child: Text(
+            signupText,
+            style: TextStyle(
+              fontSize: 9,
+            ),
+          ),
         ),
         actions: [
           TextButton(

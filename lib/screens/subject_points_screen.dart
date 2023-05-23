@@ -294,12 +294,13 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
       ),
       body: FutureBuilder(
         future: getPoints(widget.userData["id"], widget.userData["token"]),
-        builder: (context, snapshot) =>
-            snapshot.connectionState == ConnectionState.waiting
-                ? const Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : ListView.builder(
+        builder: (context, snapshot) => snapshot.connectionState ==
+                ConnectionState.waiting
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : pointList.getPointsForSubject(subject.id).isNotEmpty
+                ? ListView.builder(
                     padding: const EdgeInsets.only(bottom: 50),
                     itemCount: pointList.getPointsForSubject(subject.id).length,
                     itemBuilder: (ctx, index) {
@@ -315,6 +316,24 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
                         ],
                       );
                     },
+                  )
+                : Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.gps_fixed,
+                          color: Theme.of(context).colorScheme.error,
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        const Text(
+                          'Adicione seu primeiro ponto',
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                      ],
+                    ),
                   ),
       ),
       floatingActionButton: FloatingActionButton(

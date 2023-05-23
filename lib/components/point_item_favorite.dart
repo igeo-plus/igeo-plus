@@ -43,17 +43,17 @@ class PointItemFavorite extends StatelessWidget {
               margin: EdgeInsets.only(right: 2),
               child: Icon(
                 Icons.gps_fixed_sharp,
-                size: 13,
+                size: 12,
                 color: Color.fromARGB(255, 7, 163, 221),
               ),
             ),
             Text(
-                "Lat: ${point.lat!.toStringAsFixed(2)} - Lon: ${point.long!.toStringAsFixed(2)} - "),
+                "Lat: ${point.lat!.toStringAsFixed(1)} - Lon: ${point.long!.toStringAsFixed(1)} - "),
             Container(
               margin: EdgeInsets.only(right: 2),
               child: Icon(
                 Icons.calendar_month,
-                size: 13,
+                size: 12,
                 color: Color.fromARGB(255, 7, 163, 221),
               ),
             ),
