@@ -33,10 +33,10 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /home/pedro
 		INJECTED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml
 		ADDED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:5:9-42
 manifest
-ADDED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:1:1-51:12
-INJECTED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:1:1-51:12
-INJECTED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:1:1-51:12
-INJECTED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:1:1-51:12
+ADDED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:1:1-50:12
+INJECTED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:1:1-50:12
+INJECTED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:1:1-50:12
+INJECTED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:1:1-50:12
 MERGED from [:google_maps_flutter_android] /home/pedro/code/flutter_projects/igeo_flutter/build/google_maps_flutter_android/intermediates/merged_manifest/release/AndroidManifest.xml:2:1-9:12
 MERGED from [:image_picker_android] /home/pedro/code/flutter_projects/igeo_flutter/build/image_picker_android/intermediates/merged_manifest/release/AndroidManifest.xml:2:1-21:12
 MERGED from [:flutter_plugin_android_lifecycle] /home/pedro/code/flutter_projects/igeo_flutter/build/flutter_plugin_android_lifecycle/intermediates/merged_manifest/release/AndroidManifest.xml:2:1-9:12
@@ -69,20 +69,20 @@ MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] /home/pedro/.gradle/ca
 MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.5.1] /home/pedro/.gradle/caches/transforms-3/748d8fddc1667c7d70acd9fcac1d79a2/transformed/lifecycle-livedata-core-2.5.1/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.arch.core:core-runtime:2.1.0] /home/pedro/.gradle/caches/transforms-3/7e9264dcc74517e6f2da168b8fb68833/transformed/core-runtime-2.1.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.annotation:annotation-experimental:1.3.0] /home/pedro/.gradle/caches/transforms-3/41f380dc40eea13a8217061cb76cb985/transformed/jetified-annotation-experimental-1.3.0/AndroidManifest.xml:17:1-22:12
-INJECTED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:1:1-51:12
-INJECTED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:1:1-51:12
-INJECTED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:1:1-51:12
+INJECTED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:1:1-50:12
+INJECTED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:1:1-50:12
+INJECTED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:1:1-50:12
 	package
-		ADDED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:2:5-31
+		ADDED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:2:5-26
 		INJECTED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml
 		INJECTED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml
 	android:versionName
 		INJECTED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml
-		ADDED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:1:1-51:12
+		ADDED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:1:1-50:12
 		INJECTED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml
 	android:versionCode
 		INJECTED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml
-		ADDED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:1:1-51:12
+		ADDED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:1:1-50:12
 		INJECTED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml
 	xmlns:android
 		ADDED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:1:11-69
@@ -92,52 +92,48 @@ MERGED from [com.google.android.gms:play-services-maps:18.1.0] /home/pedro/.grad
 MERGED from [com.google.android.gms:play-services-maps:18.1.0] /home/pedro/.gradle/caches/transforms-3/dd7f577d92e65ca76c4f9b0ed8758f3a/transformed/jetified-play-services-maps-18.1.0/AndroidManifest.xml:24:5-67
 	android:name
 		ADDED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:39:22-64
-uses-permission#android.permission.QUERY_ALL_PACKAGES
-ADDED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:40:5-77
-	android:name
-		ADDED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:40:22-74
 uses-permission#android.permission.ACCESS_FINE_LOCATION
-ADDED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:41:5-78
+ADDED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:40:5-78
 MERGED from [:location] /home/pedro/code/flutter_projects/igeo_flutter/build/location/intermediates/merged_manifest/release/AndroidManifest.xml:10:5-79
 MERGED from [:location] /home/pedro/code/flutter_projects/igeo_flutter/build/location/intermediates/merged_manifest/release/AndroidManifest.xml:10:5-79
 	android:name
-		ADDED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:41:22-76
+		ADDED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:40:22-76
 uses-permission#android.permission.ACCESS_COARSE_LOCATION
-ADDED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:42:5-81
+ADDED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:41:5-81
 MERGED from [:location] /home/pedro/code/flutter_projects/igeo_flutter/build/location/intermediates/merged_manifest/release/AndroidManifest.xml:9:5-81
 MERGED from [:location] /home/pedro/code/flutter_projects/igeo_flutter/build/location/intermediates/merged_manifest/release/AndroidManifest.xml:9:5-81
 	android:name
-		ADDED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:42:22-78
+		ADDED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:41:22-78
 uses-permission#android.permission.FOREGROUND_SERVICE
-ADDED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:43:5-77
+ADDED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:42:5-77
 MERGED from [:geolocator_android] /home/pedro/code/flutter_projects/igeo_flutter/build/geolocator_android/intermediates/merged_manifest/release/AndroidManifest.xml:9:5-77
 MERGED from [:geolocator_android] /home/pedro/code/flutter_projects/igeo_flutter/build/geolocator_android/intermediates/merged_manifest/release/AndroidManifest.xml:9:5-77
 	android:name
-		ADDED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:43:22-74
+		ADDED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:42:22-74
 uses-permission#android.permission.ACCESS_BACKGROUND_LOCATION
-ADDED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:44:5-84
+ADDED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:43:5-84
 	android:name
-		ADDED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:44:22-82
+		ADDED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:43:22-82
 uses-permission#android.permission.RECORD_AUDIO
-ADDED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:45:5-70
+ADDED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:44:5-70
 	android:name
-		ADDED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:45:22-68
+		ADDED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:44:22-68
 uses-permission#android.permission.BLUETOOTH
-ADDED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:47:5-67
+ADDED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:46:5-67
 	android:name
-		ADDED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:47:22-65
+		ADDED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:46:22-65
 uses-permission#android.permission.BLUETOOTH_ADMIN
-ADDED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:48:5-73
+ADDED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:47:5-73
 	android:name
-		ADDED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:48:22-71
+		ADDED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:47:22-71
 uses-permission#android.permission.BLUETOOTH_CONNECT
-ADDED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:49:5-75
+ADDED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:48:5-75
 	android:name
-		ADDED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:49:22-73
+		ADDED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:48:22-73
 uses-permission#android.permission.CAMERA
-ADDED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:50:5-65
+ADDED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:49:5-65
 	android:name
-		ADDED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:50:22-62
+		ADDED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:49:22-62
 uses-sdk
 INJECTED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml
@@ -216,7 +212,7 @@ INJECTED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/mai
 		INJECTED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml
 		ADDED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml
 		INJECTED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml
-activity#com.igeo_flutter.MainActivity
+activity#br.uff.igeo.MainActivity
 ADDED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:7:9-27:20
 	android:launchMode
 		ADDED from /home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/AndroidManifest.xml:10:13-43
@@ -356,7 +352,7 @@ ADDED from [androidx.core:core:1.9.0] /home/pedro/.gradle/caches/transforms-3/b0
 		ADDED from [androidx.core:core:1.9.0] /home/pedro/.gradle/caches/transforms-3/b0e21cb23eaa313e61fdb7630797d2d9/transformed/core-1.9.0/AndroidManifest.xml:24:9-44
 	android:name
 		ADDED from [androidx.core:core:1.9.0] /home/pedro/.gradle/caches/transforms-3/b0e21cb23eaa313e61fdb7630797d2d9/transformed/core-1.9.0/AndroidManifest.xml:23:9-81
-permission#com.igeo.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+permission#br.uff.igeo.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
 ADDED from [androidx.core:core:1.9.0] /home/pedro/.gradle/caches/transforms-3/b0e21cb23eaa313e61fdb7630797d2d9/transformed/core-1.9.0/AndroidManifest.xml:22:5-24:47
 	android:protectionLevel
 		ADDED from [androidx.core:core:1.9.0] /home/pedro/.gradle/caches/transforms-3/b0e21cb23eaa313e61fdb7630797d2d9/transformed/core-1.9.0/AndroidManifest.xml:24:9-44
@@ -366,7 +362,7 @@ uses-permission#${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
 ADDED from [androidx.core:core:1.9.0] /home/pedro/.gradle/caches/transforms-3/b0e21cb23eaa313e61fdb7630797d2d9/transformed/core-1.9.0/AndroidManifest.xml:26:5-97
 	android:name
 		ADDED from [androidx.core:core:1.9.0] /home/pedro/.gradle/caches/transforms-3/b0e21cb23eaa313e61fdb7630797d2d9/transformed/core-1.9.0/AndroidManifest.xml:26:22-94
-uses-permission#com.igeo.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+uses-permission#br.uff.igeo.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
 ADDED from [androidx.core:core:1.9.0] /home/pedro/.gradle/caches/transforms-3/b0e21cb23eaa313e61fdb7630797d2d9/transformed/core-1.9.0/AndroidManifest.xml:26:5-97
 	android:name
 		ADDED from [androidx.core:core:1.9.0] /home/pedro/.gradle/caches/transforms-3/b0e21cb23eaa313e61fdb7630797d2d9/transformed/core-1.9.0/AndroidManifest.xml:26:22-94

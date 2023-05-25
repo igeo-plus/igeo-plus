@@ -1,6 +1,6 @@
 <variant
     name="release"
-    package="com.igeo_flutter"
+    package="br.uff.igeo"
     minSdkVersion="20"
     targetSdkVersion="33"
     shrinking="true"
@@ -31,7 +31,7 @@
   </manifestPlaceholders>
   <mainArtifact
       classOutputs="/home/pedro/code/flutter_projects/igeo_flutter/build/app/intermediates/javac/release/classes:/home/pedro/code/flutter_projects/igeo_flutter/build/app/tmp/kotlin-classes/release:/home/pedro/code/flutter_projects/igeo_flutter/build/app/kotlinToolingMetadata:/home/pedro/code/flutter_projects/igeo_flutter/build/app/intermediates/compile_and_runtime_not_namespaced_r_class_jar/release/R.jar"
-      applicationId="com.igeo"
+      applicationId="br.uff.igeo"
       generatedSourceFolders="/home/pedro/code/flutter_projects/igeo_flutter/build/app/generated/ap_generated_sources/release/out:/home/pedro/code/flutter_projects/igeo_flutter/build/app/generated/aidl_source_output_dir/release/out:/home/pedro/code/flutter_projects/igeo_flutter/build/app/generated/source/buildConfig/release:/home/pedro/code/flutter_projects/igeo_flutter/build/app/generated/renderscript_source_output_dir/release/out"
       generatedResourceFolders="/home/pedro/code/flutter_projects/igeo_flutter/build/app/generated/res/rs/release:/home/pedro/code/flutter_projects/igeo_flutter/build/app/generated/res/resValues/release">
   </mainArtifact>

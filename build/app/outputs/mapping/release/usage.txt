@@ -3466,6 +3466,20 @@ androidx.viewpager.widget.ViewPager$SavedState
 androidx.viewpager.widget.ViewPager$SimpleOnPageChangeListener
 androidx.viewpager.widget.ViewPager$ViewPositionComparator
 androidx.viewpager.widget.ViewPager
+br.uff.igeo.BuildConfig
+br.uff.igeo.R$attr
+br.uff.igeo.R$color
+br.uff.igeo.R$dimen
+br.uff.igeo.R$drawable
+br.uff.igeo.R$id
+br.uff.igeo.R$integer
+br.uff.igeo.R$layout
+br.uff.igeo.R$mipmap
+br.uff.igeo.R$string
+br.uff.igeo.R$style
+br.uff.igeo.R$styleable
+br.uff.igeo.R$xml
+br.uff.igeo.R
 com.baseflow.geocoding.BuildConfig
 com.baseflow.geocoding.GeocodingPlugin:
     private static final java.lang.String TAG
@@ -5646,20 +5660,6 @@ com.google.common.util.concurrent.ListenableFuture
 com.google.firebase.FirebaseApiNotAvailableException
 com.google.firebase.FirebaseException
 com.google.firebase.FirebaseExceptionMapper
-com.igeo_flutter.BuildConfig
-com.igeo_flutter.R$attr
-com.igeo_flutter.R$color
-com.igeo_flutter.R$dimen
-com.igeo_flutter.R$drawable
-com.igeo_flutter.R$id
-com.igeo_flutter.R$integer
-com.igeo_flutter.R$layout
-com.igeo_flutter.R$mipmap
-com.igeo_flutter.R$string
-com.igeo_flutter.R$style
-com.igeo_flutter.R$styleable
-com.igeo_flutter.R$xml
-com.igeo_flutter.R
 com.lyokone.location.BuildConfig
 com.lyokone.location.FlutterLocation:
     private static final int GPS_ENABLE_REQUEST
