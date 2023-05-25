@@ -1,4 +1,4 @@
-package com.igeo_flutter
+package br.uff.igeo
 
 import io.flutter.embedding.android.FlutterActivity
 

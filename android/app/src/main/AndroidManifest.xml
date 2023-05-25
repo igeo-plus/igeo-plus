@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.igeo_flutter">
+    package="br.uff.igeo">
    <application
         android:label="iGeo"
         android:name="${applicationName}"

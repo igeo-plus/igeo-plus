@@ -28,12 +28,15 @@ class NewUserScreen extends StatelessWidget {
             const Icon(
               Icons.warning_amber_outlined,
               color: Colors.amber,
+              size: 12,
             ),
-            const Text(
-              " Termo de Responsabilidade e Consentimento",
-              style: TextStyle(
-                fontSize: 12,
-                color: Color.fromARGB(255, 189, 39, 39),
+            Expanded(
+              child: const Text(
+                " Termo de Uso",
+                style: TextStyle(
+                  fontSize: 10,
+                  color: Color.fromARGB(255, 189, 39, 39),
+                ),
               ),
             ),
           ],
