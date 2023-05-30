@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:igeo_flutter/utils/routes.dart';
 
 class MainDrawer extends StatelessWidget {
   const MainDrawer({super.key});
@@ -21,11 +22,16 @@ class MainDrawer extends StatelessWidget {
       child: Column(
         children: [
           AppBar(
-            title: Text("Configurações"),
+            title: const Text("Menu"),
             automaticallyImplyLeading: false,
           ),
           //_createDrawerItem(Icons.person, "Editar conta", () => print("ok")),
-          _createDrawerItem(Icons.logout, "Sair", () => SystemNavigator.pop())
+          _createDrawerItem(
+              Icons.logout,
+              "Logout",
+              () => Navigator.of(context)
+                  .pushNamedAndRemoveUntil(AppRoutes.HOME, (route) => false)),
+          _createDrawerItem(Icons.close, "Fechar", () => SystemNavigator.pop())
         ],
       ),
     );

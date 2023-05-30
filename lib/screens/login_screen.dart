@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
 import '../utils/routes.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -16,6 +18,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   String? email;
   String? password;
+  bool savePassword = true;
 
   int? id;
   String? firstName;
@@ -25,6 +28,8 @@ class _LoginScreenState extends State<LoginScreen> {
   Map<String, dynamic>? getUserData;
 
   dynamic userJson;
+
+  final storage = const FlutterSecureStorage();
 
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -44,7 +49,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
     final responseData = jsonDecode(response.body);
     if (!responseData["is_success"] ||
-        responseData["messages"] == "Login ou senha incorretos") {
+        responseData["messages"] == "Login ou senha incorretos" ||
+        responseData == null) {
       Widget alert = AlertDialog(
         title: Row(
           children: [
@@ -101,6 +107,19 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  Future<void> readFromStorage() async {
+    _emailController.text = await storage.read(key: "KEY_USERNAME") ?? '';
+    _passwordController.text = await storage.read(key: "KEY_PASSWORD") ?? '';
+    email = await storage.read(key: "KEY_USERNAME") ?? '';
+    password = await storage.read(key: "KEY_PASSWORD") ?? '';
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    readFromStorage();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -116,7 +135,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Image.asset(
                     'assets/images/logo-login.png',
                     width: double.infinity,
-                    height: 150,
+                    height: 100,
                   ),
                   Padding(
                     padding: const EdgeInsets.all(10.0),
@@ -154,22 +173,47 @@ class _LoginScreenState extends State<LoginScreen> {
                           return;
                         }
 
-                        Navigator.of(context).popAndPushNamed(AppRoutes.HOME2,
-                            arguments: getUserData);
+                        Navigator.of(context)
+                            .pushNamed(AppRoutes.HOME2, arguments: getUserData);
                       },
                       autofillHints: [AutofillHints.password],
                     ),
                   ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text("Lembrar"),
+                      Checkbox(
+                          value: savePassword,
+                          onChanged: (_) {
+                            setState(() {
+                              savePassword = !savePassword;
+                            });
+                          }),
+                    ],
+                  ),
                   ElevatedButton(
                     onPressed: () async {
                       await getUser(email!, password!);
-                      if (!userJson["is_success"]) {
+                      if (userJson == null ||
+                          userJson != null && !userJson["is_success"]) {
                         return;
                       }
 
-                      Navigator.of(context).pushReplacementNamed(
-                          AppRoutes.HOME2,
-                          arguments: getUserData);
+                      if (savePassword) {
+                        await storage.write(
+                            key: "KEY_USERNAME", value: _emailController.text);
+
+                        await storage.write(
+                            key: "KEY_PASSWORD",
+                            value: _passwordController.text);
+                      }
+
+                      if (userJson["is_success"]) {
+                        Navigator.of(context).pushReplacementNamed(
+                            AppRoutes.HOME2,
+                            arguments: getUserData);
+                      }
                     },
                     child: const Text("Login"),
                   ),

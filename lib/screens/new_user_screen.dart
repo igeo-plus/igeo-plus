@@ -258,21 +258,25 @@ class NewUserScreen extends StatelessWidget {
                 decoration: const InputDecoration(labelText: 'Nome'),
                 textInputAction: TextInputAction.next,
                 onSaved: (name) => formData['first_name'] = name ?? '',
+                onChanged: (name) => formData['first_name'] = name ?? '',
               ),
               TextFormField(
                 decoration: const InputDecoration(labelText: 'Sobrenome'),
                 textInputAction: TextInputAction.next,
                 onSaved: (lastName) => formData['last_name'] = lastName ?? '',
+                onChanged: (lastName) => formData['last_name'] = lastName ?? '',
               ),
               TextFormField(
                 decoration: const InputDecoration(labelText: 'E-mail'),
                 textInputAction: TextInputAction.next,
                 onSaved: (email) => formData['email'] = email ?? '',
+                onChanged: (email) => formData['email'] = email ?? '',
               ),
               TextFormField(
                 decoration: InputDecoration(labelText: 'Senha'),
                 textInputAction: TextInputAction.next,
                 onSaved: (password) => formData['password'] = password ?? '',
+                onChanged: (password) => formData['password'] = password ?? '',
                 obscureText: true,
               ),
               TextFormField(
@@ -280,6 +284,9 @@ class NewUserScreen extends StatelessWidget {
                     const InputDecoration(labelText: 'Confirmação de senha'),
                 textInputAction: TextInputAction.next,
                 onSaved: (passwordConfirmation) =>
+                    formData['password_confirmation'] =
+                        passwordConfirmation ?? '',
+                onChanged: (passwordConfirmation) =>
                     formData['password_confirmation'] =
                         passwordConfirmation ?? '',
                 obscureText: true,
