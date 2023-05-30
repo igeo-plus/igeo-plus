@@ -109,75 +109,80 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
       body: SingleChildScrollView(
         child: Center(
-          child: Form(
-            child: Column(
-              children: [
-                Image.asset(
-                  'assets/images/logo-login.png',
-                  width: double.infinity,
-                  height: 150,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: TextField(
-                    keyboardType: TextInputType.text,
-                    onChanged: (_) {
-                      setState(() {
-                        email = _emailController.text;
-                      });
-                    },
-                    //onSubmitted: (_) => {},
-                    controller: _emailController,
-                    decoration: const InputDecoration(labelText: "Email"),
-                    textInputAction: TextInputAction.next,
+          child: AutofillGroup(
+            child: Form(
+              child: Column(
+                children: [
+                  Image.asset(
+                    'assets/images/logo-login.png',
+                    width: double.infinity,
+                    height: 150,
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: TextField(
-                    keyboardType: TextInputType.text,
-                    onChanged: (_) {
-                      setState(() {
-                        password = _passwordController.text;
-                      });
-                    },
-                    //onSubmitted: (_) => {},
-                    controller: _passwordController,
-                    decoration: const InputDecoration(labelText: "Senha"),
-                    obscureText: true,
-                    textInputAction: TextInputAction.done,
-                    onSubmitted: (_) async {
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: TextField(
+                      keyboardType: TextInputType.text,
+                      onChanged: (_) {
+                        setState(() {
+                          email = _emailController.text;
+                        });
+                      },
+                      //onSubmitted: (_) => {},
+                      controller: _emailController,
+                      decoration: const InputDecoration(labelText: "Email"),
+                      textInputAction: TextInputAction.next,
+                      autofillHints: [AutofillHints.username],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: TextField(
+                      keyboardType: TextInputType.text,
+                      onChanged: (_) {
+                        setState(() {
+                          password = _passwordController.text;
+                        });
+                      },
+                      //onSubmitted: (_) => {},
+                      controller: _passwordController,
+                      decoration: const InputDecoration(labelText: "Senha"),
+                      obscureText: true,
+                      textInputAction: TextInputAction.done,
+                      onSubmitted: (_) async {
+                        await getUser(email!, password!);
+                        if (!userJson["is_success"]) {
+                          return;
+                        }
+
+                        Navigator.of(context).popAndPushNamed(AppRoutes.HOME2,
+                            arguments: getUserData);
+                      },
+                      autofillHints: [AutofillHints.password],
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () async {
                       await getUser(email!, password!);
                       if (!userJson["is_success"]) {
                         return;
                       }
 
-                      Navigator.of(context).popAndPushNamed(AppRoutes.HOME2,
+                      Navigator.of(context).pushReplacementNamed(
+                          AppRoutes.HOME2,
                           arguments: getUserData);
                     },
+                    child: const Text("Login"),
                   ),
-                ),
-                ElevatedButton(
-                  onPressed: () async {
-                    await getUser(email!, password!);
-                    if (!userJson["is_success"]) {
-                      return;
-                    }
-
-                    Navigator.of(context).popAndPushNamed(AppRoutes.HOME2,
-                        arguments: getUserData);
-                  },
-                  child: const Text("Login"),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: TextButton(
-                    onPressed: () =>
-                        Navigator.of(context).pushNamed('/new-user-screen'),
-                    child: const Text("Novo usuário"),
-                  ),
-                )
-              ],
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: TextButton(
+                      onPressed: () =>
+                          Navigator.of(context).pushNamed('/new-user-screen'),
+                      child: const Text("Novo usuário"),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),

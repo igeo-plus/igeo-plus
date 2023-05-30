@@ -7,20 +7,18 @@ import 'dart:convert';
 import '../components/text.dart';
 
 class NewUserScreen extends StatelessWidget {
-  //const NewUserScreen({super.key});
-
   final formKey = GlobalKey<FormState>();
   Map<String, Object> formData = {};
   bool accept = false;
 
-  final gmailValid = RegExp(
-      r"^[a-z0-9](\.?_?[a-z0-9]){5,}[@](g(oogle)?mail\.com$|id.uff.br$)");
+  final gmailValid =
+      RegExp(r"^[a-z0-9](\.?_?[a-z0-9]){5,}[@](gmail.com$|id.uff.br$)");
 
   @override
   Widget build(BuildContext context) {
     submitForm() async {
       formKey.currentState?.save();
-      print(formData);
+      //print(formData);
 
       Widget alert = AlertDialog(
         title: Row(
@@ -30,8 +28,8 @@ class NewUserScreen extends StatelessWidget {
               color: Colors.amber,
               size: 12,
             ),
-            Expanded(
-              child: const Text(
+            const Expanded(
+              child: Text(
                 " Termo de Uso",
                 style: TextStyle(
                   fontSize: 10,
@@ -100,6 +98,7 @@ class NewUserScreen extends StatelessWidget {
             ],
           );
           await showDialog(context: context, builder: (ctx) => alert);
+          accept = false;
           return;
         }
 
@@ -112,7 +111,7 @@ class NewUserScreen extends StatelessWidget {
                   color: Colors.amber,
                 ),
                 const Text(
-                  " Digite um endereço gmail ou iduff válido",
+                  " Digite gmail/iduff válido",
                   style: TextStyle(
                     fontSize: 12,
                     color: Color.fromARGB(255, 189, 39, 39),
@@ -130,6 +129,7 @@ class NewUserScreen extends StatelessWidget {
             ],
           );
           await showDialog(context: context, builder: (ctx) => alert);
+          accept = false;
           return;
         }
 
@@ -160,6 +160,7 @@ class NewUserScreen extends StatelessWidget {
             ],
           );
           await showDialog(context: context, builder: (ctx) => alert);
+          accept = false;
           return;
         }
 

@@ -42,8 +42,6 @@ dependencies:
   latlng: ^0.2.0
   geolocator: ^9.0.2
   geocoding: ^2.1.0
-
-  location: ^4.4.0
   google_maps_flutter: ^2.2.5
   provider: ^6.0.5
   get: ^4.6.5
