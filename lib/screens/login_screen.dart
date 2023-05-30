@@ -180,9 +180,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      const Text("Lembrar"),
+                      const Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: const Text("Lembrar"),
+                      ),
                       Checkbox(
                           value: savePassword,
                           onChanged: (_) {

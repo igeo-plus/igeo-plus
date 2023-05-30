@@ -276,10 +276,6 @@
         "source": "/home/pedro/.gradle/caches/transforms-3/b0e21cb23eaa313e61fdb7630797d2d9/transformed/core-1.9.0/res/drawable-hdpi-v4/notify_panel_notification_icon_bg.png"
     },
     {
-        "merged": "/home/pedro/code/flutter_projects/igeo_flutter/build/app/intermediates/merged_res/release/drawable_navigation_empty_icon.xml.flat",
-        "source": "/home/pedro/code/flutter_projects/igeo_flutter/build/location/intermediates/packaged_res/release/drawable/navigation_empty_icon.xml"
-    },
-    {
         "merged": "/home/pedro/code/flutter_projects/igeo_flutter/build/app/intermediates/merged_res/release/mipmap-hdpi_launcher_icon.png.flat",
         "source": "/home/pedro/code/flutter_projects/igeo_flutter/android/app/src/main/res/mipmap-hdpi/launcher_icon.png"
     },

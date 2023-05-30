@@ -133,7 +133,6 @@
 -keep class br.uff.igeo.MainActivity { <init>(); }
 -keep class com.baseflow.geolocator.GeolocatorLocationService { <init>(); }
 -keep class com.google.android.gms.common.api.GoogleApiActivity { <init>(); }
--keep class com.lyokone.location.FlutterLocationService { <init>(); }
 -keep class io.flutter.plugins.imagepicker.ImagePickerFileProvider { <init>(); }
 
 # End of content from /home/pedro/code/flutter_projects/igeo_flutter/build/app/intermediates/aapt_proguard_file/release/aapt_rules.txt
@@ -437,6 +436,23 @@
 }
 
 # End of content from /home/pedro/.gradle/caches/transforms-3/895de4c5071b0ea0605333bc40072f2f/transformed/rules/lib/META-INF/proguard/androidx-annotations.pro
+# The proguard configuration file for the following section is /home/pedro/.gradle/caches/transforms-3/29c1fdb7356914aa63dd783280561c9c/transformed/rules/lib/META-INF/proguard/protobuf.pro
+# Recently Protobuf Javalite introduced a change that relies on reflection,
+# which doesn't work with Proguard. This rule keeps the reflection usages in
+# (shaded) Protobuf classes in Tink as-is.
+# The location of this file is determined by
+# - https://developer.android.com/studio/build/shrink-code#configuration-files
+# - https://docs.bazel.build/versions/master/be/java.html#java_library.resources
+# See also:
+# - https://github.com/google/tink/issues/361
+# - https://github.com/protocolbuffers/protobuf/issues/6463
+# WARNING: the shaded package name com.google.crypto.tink.shaded.protobuf must
+# be kept in sync with jar_jar_rules.txt.
+-keepclassmembers class * extends com.google.crypto.tink.shaded.protobuf.GeneratedMessageLite {
+  <fields>;
+}
+
+# End of content from /home/pedro/.gradle/caches/transforms-3/29c1fdb7356914aa63dd783280561c9c/transformed/rules/lib/META-INF/proguard/protobuf.pro
 # The proguard configuration file for the following section is <unknown>
 -ignorewarnings
 # End of content from <unknown>
