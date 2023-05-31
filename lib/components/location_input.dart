@@ -35,6 +35,9 @@ class _LocationInputState extends State<LocationInput> {
   double? long;
   LocationPermission? permission;
 
+  CameraPosition? cameraPosition;
+  GoogleMapController? mapController;
+
   Future<void> _getCurrentUserLocation(Point point) async {
     permission = await Geolocator.requestPermission();
     if (permission == LocationPermission.denied) {
@@ -56,7 +59,14 @@ class _LocationInputState extends State<LocationInput> {
 
         lat = locData.latitude;
         long = locData.longitude;
+        cameraPosition = CameraPosition(
+          target: LatLng(lat!, long!),
+          zoom: 13,
+        );
       },
+    );
+    mapController?.animateCamera(
+      CameraUpdate.newCameraPosition(cameraPosition!),
     );
 
     //final staticMapImageUrl = LocationUtil.generateLocationPreviewImage(
@@ -89,7 +99,14 @@ class _LocationInputState extends State<LocationInput> {
     setState(() {
       lat = locData.latitude;
       long = locData.longitude;
+      cameraPosition = CameraPosition(
+        target: LatLng(lat!, long!),
+        zoom: 13,
+      );
     });
+    mapController?.animateCamera(
+      CameraUpdate.newCameraPosition(cameraPosition!),
+    );
 
     final LatLng? selectedPosition = await Navigator.of(context).push(
       MaterialPageRoute(
@@ -103,7 +120,14 @@ class _LocationInputState extends State<LocationInput> {
     setState(() {
       lat = selectedPosition.latitude;
       long = selectedPosition.longitude;
+      cameraPosition = CameraPosition(
+        target: LatLng(lat!, long!),
+        zoom: 13,
+      );
     });
+    mapController?.animateCamera(
+      CameraUpdate.newCameraPosition(cameraPosition!),
+    );
     point.changeCoordinates(lat!, long!);
   }
 
@@ -131,8 +155,7 @@ class _LocationInputState extends State<LocationInput> {
                   ),
                 )
               : GoogleMap(
-                  initialCameraPosition:
-                      CameraPosition(target: LatLng(lat!, long!), zoom: 13),
+                  initialCameraPosition: cameraPosition!,
                   markers: {
                     Marker(
                       markerId: const MarkerId('p1'),
@@ -140,6 +163,11 @@ class _LocationInputState extends State<LocationInput> {
                     ),
                   },
                   mapType: MapType.satellite,
+                  onMapCreated: (controller) {
+                    setState(() {
+                      mapController = controller;
+                    });
+                  },
                 ),
         ),
         Row(
