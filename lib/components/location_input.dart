@@ -96,14 +96,18 @@ class _LocationInputState extends State<LocationInput> {
     }
     final locData = await Geolocator.getCurrentPosition();
 
-    setState(() {
-      lat = locData.latitude;
-      long = locData.longitude;
-      cameraPosition = CameraPosition(
-        target: LatLng(lat!, long!),
-        zoom: 13,
-      );
-    });
+    setState(
+      () {
+        lat = locData.latitude;
+        long = locData.longitude;
+        cameraPosition = CameraPosition(
+          target: LatLng(lat!, long!),
+          zoom: 13,
+        );
+      },
+    );
+    point.changeCoordinates(lat!, long!);
+    widget.setPoint(point);
     mapController?.animateCamera(
       CameraUpdate.newCameraPosition(cameraPosition!),
     );
@@ -129,6 +133,7 @@ class _LocationInputState extends State<LocationInput> {
       CameraUpdate.newCameraPosition(cameraPosition!),
     );
     point.changeCoordinates(lat!, long!);
+    widget.setPoint(point);
   }
 
   @override

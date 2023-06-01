@@ -8,6 +8,7 @@ class MapScreen extends StatefulWidget {
   final bool isReadOnly;
 
   const MapScreen({
+    super.key,
     this.lat = -22,
     this.long = -43,
     this.isReadOnly = false,
