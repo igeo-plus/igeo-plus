@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:get/get.dart';
+import 'dart:convert';
 
 import '../models/point.dart';
 import '../models/subject.dart';
@@ -8,8 +11,10 @@ import '../utils/routes.dart';
 class PointItemFavorite extends StatelessWidget {
   final Point point;
   final List<Subject> subjects;
+  final Map<String, dynamic> userData;
 
-  const PointItemFavorite(this.point, this.subjects, {super.key});
+  const PointItemFavorite(this.point, this.subjects, this.userData,
+      {super.key});
 
   void _goToPointDetailsScreen(
       BuildContext context, List<Subject> subjects, Point point) {
@@ -19,46 +24,84 @@ class PointItemFavorite extends StatelessWidget {
         arguments: {"subject": subject, "point": point});
   }
 
+  Future favoritePoint(int userId, String token, int pointId) async {
+    final data = {
+      "user_id": userId,
+      "authentication_token": token,
+      "id": pointId
+    };
+
+    final http.Response response = await http.post(
+      Uri.parse("https://app.uff.br/umm/api/favorite_point_in_igeo"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(data),
+    );
+    return response;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => _goToPointDetailsScreen(context, subjects, point),
-      splashColor: Colors.amber,
-      hoverColor: Color.fromARGB(255, 181, 220, 238),
-      child: ListTile(
-        leading: FittedBox(
-          fit: BoxFit.fitWidth,
-          child: CircleAvatar(
-            child: Icon(
-              Icons.star_border_outlined,
-              color: Colors.amber,
-            ),
-            //backgroundColor: Colors.grey,
-          ),
+    return Dismissible(
+      direction: DismissDirection.horizontal,
+      background: Container(
+        color: Colors.amber,
+        child: const Icon(
+          Icons.star_border_outlined,
+          color: Colors.white,
+          size: 30,
         ),
-        title: Text(point.name!),
-        subtitle: Row(
-          children: [
-            Container(
-              margin: EdgeInsets.only(right: 2),
+        padding: const EdgeInsets.only(right: 20),
+        alignment: Alignment.centerRight,
+      ),
+      key: ValueKey(point.id),
+      onDismissed: (_) {
+        point.toggleFavorite();
+        favoritePoint(
+          userData["id"],
+          userData["token"],
+          point.id!,
+        );
+      },
+      child: InkWell(
+        onTap: () => _goToPointDetailsScreen(context, subjects, point),
+        splashColor: Colors.amber,
+        hoverColor: Color.fromARGB(255, 181, 220, 238),
+        child: ListTile(
+          leading: FittedBox(
+            fit: BoxFit.fitWidth,
+            child: CircleAvatar(
               child: Icon(
-                Icons.gps_fixed_sharp,
-                size: 12,
-                color: Color.fromARGB(255, 7, 163, 221),
+                Icons.star_border_outlined,
+                color: Colors.amber,
               ),
             ),
-            Text(
-                "Lat: ${point.lat!.toStringAsFixed(1)} - Lon: ${point.long!.toStringAsFixed(1)} - "),
-            Container(
-              margin: EdgeInsets.only(right: 2),
-              child: Icon(
-                Icons.calendar_month,
-                size: 12,
-                color: Color.fromARGB(255, 7, 163, 221),
+          ),
+          title: Text(point.name!),
+          subtitle: Row(
+            children: [
+              Container(
+                margin: EdgeInsets.only(right: 2),
+                child: Icon(
+                  Icons.gps_fixed_sharp,
+                  size: 12,
+                  color: Color.fromARGB(255, 7, 163, 221),
+                ),
               ),
-            ),
-            Text(point.date!)
-          ],
+              Text(
+                  "Lat: ${point.lat!.toStringAsFixed(1)} - Lon: ${point.long!.toStringAsFixed(1)} - "),
+              Container(
+                margin: EdgeInsets.only(right: 2),
+                child: Icon(
+                  Icons.calendar_month,
+                  size: 12,
+                  color: Color.fromARGB(255, 7, 163, 221),
+                ),
+              ),
+              Text(point.date!)
+            ],
+          ),
         ),
       ),
     );

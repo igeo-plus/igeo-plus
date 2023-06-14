@@ -69,14 +69,14 @@ class _PointItemState extends State<PointItem> {
       onTap: () =>
           _goToPointDetailsScreen(context, widget.subject, widget.point),
       splashColor: Colors.amber,
-      hoverColor: Color.fromARGB(255, 181, 220, 238),
+      hoverColor: const Color.fromARGB(255, 181, 220, 238),
       child: Dismissible(
         key: ValueKey(widget.point.id),
         onDismissed: (_) {
           widget.onDeletePoint(widget.userData["id"], widget.userData["token"],
               widget.point.id!);
         },
-        direction: DismissDirection.endToStart,
+        direction: DismissDirection.horizontal,
         background: Container(
           color: Theme.of(context).errorColor,
           child: const Icon(

@@ -137,6 +137,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
               PointItemFavorite(
                 pointList2[index],
                 subjects,
+                widget.userData,
               ),
             ],
           );
