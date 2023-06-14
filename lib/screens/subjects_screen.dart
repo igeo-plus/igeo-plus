@@ -125,6 +125,10 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
         });
   }
 
+  Future<void> refresh(BuildContext context) {
+    return getSubjects(widget.userData["id"], widget.userData["token"]);
+  }
+
   // @override
   // void initState() {
   //   super.initState();
@@ -135,8 +139,7 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: RefreshIndicator(
-        onRefresh: () =>
-            getSubjects(widget.userData["id"], widget.userData["token"]),
+        onRefresh: () => refresh(context),
         child: FutureBuilder(
           future: getSubjects(widget.userData["id"], widget.userData["token"]),
           builder: (context, snapshot) => snapshot.connectionState ==
