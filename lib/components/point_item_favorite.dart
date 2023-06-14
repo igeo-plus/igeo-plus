@@ -47,13 +47,13 @@ class PointItemFavorite extends StatelessWidget {
       direction: DismissDirection.horizontal,
       background: Container(
         color: Colors.amber,
+        padding: const EdgeInsets.only(right: 20),
+        alignment: Alignment.centerRight,
         child: const Icon(
           Icons.star_border_outlined,
           color: Colors.white,
           size: 30,
         ),
-        padding: const EdgeInsets.only(right: 20),
-        alignment: Alignment.centerRight,
       ),
       key: ValueKey(point.id),
       onDismissed: (_) {
@@ -67,9 +67,9 @@ class PointItemFavorite extends StatelessWidget {
       child: InkWell(
         onTap: () => _goToPointDetailsScreen(context, subjects, point),
         splashColor: Colors.amber,
-        hoverColor: Color.fromARGB(255, 181, 220, 238),
+        hoverColor: const Color.fromARGB(255, 181, 220, 238),
         child: ListTile(
-          leading: FittedBox(
+          leading: const FittedBox(
             fit: BoxFit.fitWidth,
             child: CircleAvatar(
               child: Icon(
@@ -82,8 +82,8 @@ class PointItemFavorite extends StatelessWidget {
           subtitle: Row(
             children: [
               Container(
-                margin: EdgeInsets.only(right: 2),
-                child: Icon(
+                margin: const EdgeInsets.only(right: 2),
+                child: const Icon(
                   Icons.gps_fixed_sharp,
                   size: 12,
                   color: Color.fromARGB(255, 7, 163, 221),
@@ -92,8 +92,8 @@ class PointItemFavorite extends StatelessWidget {
               Text(
                   "Lat: ${point.lat!.toStringAsFixed(1)} - Lon: ${point.long!.toStringAsFixed(1)} - "),
               Container(
-                margin: EdgeInsets.only(right: 2),
-                child: Icon(
+                margin: const EdgeInsets.only(right: 2),
+                child: const Icon(
                   Icons.calendar_month,
                   size: 12,
                   color: Color.fromARGB(255, 7, 163, 221),
