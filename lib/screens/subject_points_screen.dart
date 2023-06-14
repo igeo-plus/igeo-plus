@@ -292,49 +292,54 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
           ),
         ],
       ),
-      body: FutureBuilder(
-        future: getPoints(widget.userData["id"], widget.userData["token"]),
-        builder: (context, snapshot) => snapshot.connectionState ==
-                ConnectionState.waiting
-            ? const Center(
-                child: CircularProgressIndicator(),
-              )
-            : pointList.getPointsForSubject(subject.id).isNotEmpty
-                ? ListView.builder(
-                    padding: const EdgeInsets.only(bottom: 50),
-                    itemCount: pointList.getPointsForSubject(subject.id).length,
-                    itemBuilder: (ctx, index) {
-                      return Column(
+      body: RefreshIndicator(
+        onRefresh: () =>
+            getPoints(widget.userData["id"], widget.userData["token"]),
+        child: FutureBuilder(
+          future: getPoints(widget.userData["id"], widget.userData["token"]),
+          builder: (context, snapshot) => snapshot.connectionState ==
+                  ConnectionState.waiting
+              ? const Center(
+                  child: CircularProgressIndicator(),
+                )
+              : pointList.getPointsForSubject(subject.id).isNotEmpty
+                  ? ListView.builder(
+                      padding: const EdgeInsets.only(bottom: 50),
+                      itemCount:
+                          pointList.getPointsForSubject(subject.id).length,
+                      itemBuilder: (ctx, index) {
+                        return Column(
+                          children: [
+                            PointItem(
+                              pointList.getPointsForSubject(subject.id)[index],
+                              subject,
+                              widget.userData,
+                              deletePointDef,
+                              changeFavorite,
+                            )
+                          ],
+                        );
+                      },
+                    )
+                  : Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          PointItem(
-                            pointList.getPointsForSubject(subject.id)[index],
-                            subject,
-                            widget.userData,
-                            deletePointDef,
-                            changeFavorite,
-                          )
+                          Icon(
+                            Icons.gps_fixed,
+                            color: Theme.of(context).colorScheme.error,
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          const Text(
+                            'Adicione seu primeiro ponto',
+                            style: TextStyle(color: Colors.grey),
+                          ),
                         ],
-                      );
-                    },
-                  )
-                : Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.gps_fixed,
-                          color: Theme.of(context).colorScheme.error,
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        const Text(
-                          'Adicione seu primeiro ponto',
-                          style: TextStyle(color: Colors.grey),
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => awaitResultFromNewPointScreen(context),
