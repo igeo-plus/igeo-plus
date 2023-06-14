@@ -124,7 +124,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('iGeo'),
+        title: const Text('iGeo'),
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -136,6 +136,23 @@ class _LoginScreenState extends State<LoginScreen> {
                     'assets/images/logo-login.png',
                     width: double.infinity,
                     height: 100,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          "Desenvolvido pelo ",
+                          style: TextStyle(color: Colors.blueGrey),
+                        ),
+                        const Text(
+                          "LAGEF (UFF)",
+                          style: TextStyle(
+                              color: Color.fromARGB(255, 7, 163, 221)),
+                        )
+                      ],
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(10.0),
