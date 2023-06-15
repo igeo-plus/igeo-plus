@@ -125,9 +125,9 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
         });
   }
 
-  Future<void> refresh(BuildContext context) {
-    return getSubjects(widget.userData["id"], widget.userData["token"]);
-  }
+  // Future<void> refresh(BuildContext context) {
+  //   return getSubjects(widget.userData["id"], widget.userData["token"]);
+  // }
 
   // @override
   // void initState() {
@@ -138,42 +138,39 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: RefreshIndicator(
-        onRefresh: () => refresh(context),
-        child: FutureBuilder(
-          future: getSubjects(widget.userData["id"], widget.userData["token"]),
-          builder: (context, snapshot) => snapshot.connectionState ==
-                  ConnectionState.waiting
-              ? const Center(
-                  child: CircularProgressIndicator(),
-                )
-              : subjects.length > 0
-                  ? ListView.builder(
-                      controller: controller,
-                      itemCount: subjects.length,
-                      itemBuilder: (ctx, index) {
-                        return SubjectItem(subjects[index], widget.userData);
-                      },
-                    )
-                  : Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.beach_access,
-                            color: Theme.of(context).primaryColor,
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          const Text(
-                            'Nenhum trabalho de campo criado',
-                            style: TextStyle(color: Colors.grey),
-                          ),
-                        ],
+      body: FutureBuilder(
+        future: getSubjects(widget.userData["id"], widget.userData["token"]),
+        builder: (context, snapshot) =>
+            snapshot.connectionState == ConnectionState.waiting
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : subjects.length > 0
+                    ? ListView.builder(
+                        controller: controller,
+                        itemCount: subjects.length,
+                        itemBuilder: (ctx, index) {
+                          return SubjectItem(subjects[index], widget.userData);
+                        },
+                      )
+                    : Center(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.beach_access,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            const Text(
+                              'Nenhum trabalho de campo criado',
+                              style: TextStyle(color: Colors.grey),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-        ),
       ),
       drawer: const MainDrawer(),
       floatingActionButton: FloatingActionButton(
