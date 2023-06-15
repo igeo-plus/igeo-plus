@@ -235,6 +235,11 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
   //   super.initState();
   //   getPoints(widget.userData["id"], widget.userData["token"]);
   // }
+  Future<void> refresh(BuildContext context) async {
+    setState(() {
+      pointList = PointList();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -293,8 +298,7 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
         ],
       ),
       body: RefreshIndicator(
-        onRefresh: () =>
-            getPoints(widget.userData["id"], widget.userData["token"]),
+        onRefresh: () => refresh(context),
         child: FutureBuilder(
           future: getPoints(widget.userData["id"], widget.userData["token"]),
           builder: (context, snapshot) => snapshot.connectionState ==
