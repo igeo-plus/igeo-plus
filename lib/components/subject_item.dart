@@ -10,8 +10,10 @@ import '../utils/routes.dart';
 class SubjectItem extends StatelessWidget {
   final Subject subject;
   final Map<String, dynamic> userData;
+  final Function(int, String, int) onDeleteSubject;
 
-  const SubjectItem(this.subject, this.userData);
+  const SubjectItem(this.subject, this.userData, this.onDeleteSubject,
+      {super.key});
 
   void _selectSubject(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(
@@ -20,66 +22,93 @@ class SubjectItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(2.0),
-      child: InkWell(
-        splashColor: Colors.amber,
-        hoverColor: Color.fromARGB(255, 181, 220, 238),
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(15),
-          topRight: Radius.circular(15),
-          bottomLeft: Radius.circular(15),
-          bottomRight: Radius.circular(15),
-        ),
-        onTap: () => _selectSubject(context),
-        child: Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(25),
+    return Dismissible(
+      direction: DismissDirection.horizontal,
+      background: ClipRRect(
+        borderRadius: BorderRadius.circular(25),
+        child: Padding(
+          padding: const EdgeInsets.all(2.0),
+          child: Container(
+            color: Theme.of(context).colorScheme.error,
+            padding: const EdgeInsets.only(right: 20),
+            alignment: Alignment.centerRight,
+            child: const Icon(
+              Icons.delete,
+              color: Colors.white,
+              size: 30,
+            ),
           ),
-          elevation: 4,
-          margin: EdgeInsets.all(10),
-          child: Column(
-            children: [
-              Stack(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(15),
-                      topRight: Radius.circular(15),
-                      bottomLeft: Radius.circular(15),
-                      bottomRight: Radius.circular(15),
-                    ),
-                    child: Image.asset(
-                      "assets/images/subject_item_image.png",
-                      height: 150,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 20,
-                    right: 0,
-                    child: Container(
-                      width: 180,
-                      color: Colors.black54,
-                      padding: EdgeInsets.symmetric(
-                        vertical: 5,
-                        horizontal: 20,
+        ),
+      ),
+      key: ValueKey(subject.id),
+      onDismissed: (_) {
+        onDeleteSubject(
+          userData["id"],
+          userData["token"],
+          subject.id,
+        );
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(2.0),
+        child: InkWell(
+          splashColor: Colors.amber,
+          hoverColor: const Color.fromARGB(255, 181, 220, 238),
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(15),
+            topRight: Radius.circular(15),
+            bottomLeft: Radius.circular(15),
+            bottomRight: Radius.circular(15),
+          ),
+          onTap: () => _selectSubject(context),
+          child: Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(25),
+            ),
+            elevation: 4,
+            margin: const EdgeInsets.all(10),
+            child: Column(
+              children: [
+                Stack(
+                  children: [
+                    ClipRRect(
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(15),
+                        topRight: Radius.circular(15),
+                        bottomLeft: Radius.circular(15),
+                        bottomRight: Radius.circular(15),
                       ),
-                      child: Text(
-                        subject.name,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
+                      child: Image.asset(
+                        "assets/images/subject_item_image.png",
+                        height: 150,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 20,
+                      right: 0,
+                      child: Container(
+                        width: 180,
+                        color: Colors.black54,
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 5,
+                          horizontal: 20,
                         ),
-                        softWrap: true,
-                        overflow: TextOverflow.fade,
+                        child: Text(
+                          subject.name,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                          ),
+                          softWrap: true,
+                          overflow: TextOverflow.fade,
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

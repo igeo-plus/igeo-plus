@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class ImageScreen extends StatelessWidget {
   final String imageUrl;
@@ -9,9 +7,15 @@ class ImageScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Foto")),
-      body: Container(
-        child: Center(child: Image.network(imageUrl)),
+      appBar: AppBar(title: const Text("Foto")),
+      body: Center(
+        child: InteractiveViewer(
+          panEnabled: false,
+          boundaryMargin: const EdgeInsets.all(100),
+          minScale: 0.5,
+          maxScale: 2,
+          child: Image.network(imageUrl),
+        ),
       ),
     );
   }

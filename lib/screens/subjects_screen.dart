@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
@@ -125,6 +127,59 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
         });
   }
 
+  deleteSubject(int userId, String token, int subjectId) async {
+    final data = {
+      "user_id": userId,
+      "authentication_token": token,
+      "id": subjectId
+    };
+
+    final http.Response response = await http.post(
+      Uri.parse("https://app.uff.br/umm/api/delete_subject_in_igeo"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(data),
+    );
+    print("AQUI:" + response.body.toString());
+    return response;
+  }
+
+  deleteSubjectDef(int userId, String token, int subjectId) async {
+    Widget alert = AlertDialog(
+      title: const Text("Deletar trabalho de campo?",
+          style: TextStyle(
+            color: Color.fromARGB(255, 189, 39, 39),
+          )),
+      actions: [
+        TextButton(
+          onPressed: () async {
+            Navigator.of(context).pop();
+            subjects.removeWhere((element) => element.id == subjectId);
+            await deleteSubject(userId, token, subjectId);
+
+            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: const Text('Campo deletado'),
+                duration: const Duration(seconds: 2),
+              ),
+            );
+          },
+          child: const Text("Sim"),
+        ),
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+            setState(() {});
+          },
+          child: const Text("Não"),
+        ),
+      ],
+    );
+    showDialog(context: context, builder: (ctx) => alert);
+  }
+
   // Future<void> refresh(BuildContext context) {
   //   return getSubjects(widget.userData["id"], widget.userData["token"]);
   // }
@@ -145,12 +200,16 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
                 ? const Center(
                     child: CircularProgressIndicator(),
                   )
-                : subjects.length > 0
+                : subjects.isNotEmpty
                     ? ListView.builder(
                         controller: controller,
                         itemCount: subjects.length,
                         itemBuilder: (ctx, index) {
-                          return SubjectItem(subjects[index], widget.userData);
+                          return SubjectItem(
+                            subjects[index],
+                            widget.userData,
+                            deleteSubjectDef,
+                          );
                         },
                       )
                     : Center(
