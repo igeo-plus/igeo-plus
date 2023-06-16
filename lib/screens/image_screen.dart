@@ -10,11 +10,11 @@ class ImageScreen extends StatelessWidget {
       appBar: AppBar(title: const Text("Foto")),
       body: Center(
         child: InteractiveViewer(
-          panEnabled: false,
-          boundaryMargin: const EdgeInsets.all(100),
-          minScale: 0.5,
-          maxScale: 2,
-          child: Image.network(imageUrl),
+          maxScale: 4,
+          child: Image.network(
+            imageUrl,
+            width: double.infinity,
+          ),
         ),
       ),
     );

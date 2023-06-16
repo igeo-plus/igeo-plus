@@ -24,19 +24,16 @@ class SubjectItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Dismissible(
       direction: DismissDirection.horizontal,
-      background: ClipRRect(
-        borderRadius: BorderRadius.circular(25),
-        child: Padding(
-          padding: const EdgeInsets.all(2.0),
-          child: Container(
-            color: Theme.of(context).colorScheme.error,
-            padding: const EdgeInsets.only(right: 20),
-            alignment: Alignment.centerRight,
-            child: const Icon(
-              Icons.delete,
-              color: Colors.white,
-              size: 30,
-            ),
+      background: Padding(
+        padding: const EdgeInsets.all(2.0),
+        child: Container(
+          color: Theme.of(context).colorScheme.error,
+          padding: const EdgeInsets.only(right: 20),
+          alignment: Alignment.centerRight,
+          child: const Icon(
+            Icons.delete,
+            color: Colors.white,
+            size: 30,
           ),
         ),
       ),

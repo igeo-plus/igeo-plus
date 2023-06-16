@@ -1,5 +1,3 @@
-import 'dart:js_util';
-
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
@@ -147,10 +145,11 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
 
   deleteSubjectDef(int userId, String token, int subjectId) async {
     Widget alert = AlertDialog(
-      title: const Text("Deletar trabalho de campo?",
+      title: const Text("Deletar campo?",
           style: TextStyle(
             color: Color.fromARGB(255, 189, 39, 39),
           )),
+      content: Text("Todos os pontos serão perdidos!"),
       actions: [
         TextButton(
           onPressed: () async {
