@@ -120,8 +120,8 @@ class _NewPointFormScreenState extends State<NewPointFormScreen> {
                       if (id == null) {
                         Navigator.of(context).pop();
                       } else {
-                        printIps();
-                        //sendBackData(context, locationInput.point!, subject);
+                        //printIps();
+                        sendBackData(context, locationInput.point!, subject);
                       }
                     },
                     child: const Text(
