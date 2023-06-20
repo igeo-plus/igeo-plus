@@ -143,11 +143,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const Text(
-                          "Desenvolvido pelo ",
+                          "Desenvolvido por ",
                           style: TextStyle(color: Colors.blueGrey),
                         ),
                         const Text(
-                          "LAGEF (UFF)",
+                          "LAGEF e STI (UFF)",
                           style: TextStyle(
                               color: Color.fromARGB(255, 7, 163, 221)),
                         )

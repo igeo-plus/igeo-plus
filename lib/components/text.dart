@@ -1,4 +1,4 @@
-String signupText = '''TERMO DE CONSENTIMENTO LEGAL
+String signupText = '''TERMO DE CONSENTIMENTO LEGAL E DE RESPONSABILIDADE
 
 Prezado(a) Usuário(a),
 
@@ -27,8 +27,10 @@ Confirmo que:
 
 3. Entendo que os materiais podem ser usados em seu formato original ou editados. Isso inclui, mas não se limita a, produzir transcrições ou que acompanhem as descrições escritas dos materiais.
 
-4. Entendo que os materiais continuarão sendo de responsabilidade do iGeo, sempre com a anuência do autor original e podem ser usados em suas publicações, sites e outros meios de publicidade material, e autoriza-se expressamente tal uso.
+4. Entendo que os materiais podem ser usados em suas publicações, sites e outros meios de publicidade material, e autoriza-se expressamente tal uso.
 
 5. Entendo que os materiais serão mantidos de acordo com os regulamentos de proteção de dados pessoais relevantes. Não me oponho que o iGeo transfira os materiais e/ou armazene-os para fins de pesquisa, ensino e preservação da memória social.
 
-6. Compreendo que não guardarei imagens pessoais e sim apenas imagens de paisagens e/ou outros elementos objetos do estudo de um determinado trabalho de campo. Entendo que minha conta poderá ser excluída caso guarde imagens pessoais ou com a presença de pessoas.''';
+6. Compreendo que não guardarei imagens pessoais e sim apenas imagens de paisagens e/ou outros elementos objetos do estudo de um determinado trabalho de campo. Entendo que minha conta poderá ser excluída caso guarde imagens pessoais ou com a presença de pessoas.
+
+7. Compreendo que a inserção de dados é de minha responsabilidade e que qualquer conteúdo salvo que não esteja de acordo com a legislação brasileira poderá ser encaminhado para a justiça e autoridades''';
