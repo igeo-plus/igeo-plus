@@ -11,10 +11,10 @@ class NewUserScreen extends StatelessWidget {
   Map<String, Object> formData = {};
   bool accept = false;
 
-  // final gmailValid =
-  //     RegExp(r"^[a-z0-9](\.?_?[a-z0-9]){5,}[@](gmail.com$|id.uff.br$)");
+  final gmailValid =
+      RegExp(r"^[a-z0-9](\.?_?[a-z0-9]){5,}[@](gmail.com$|id.uff.br$)");
 
-  final gmailValid = RegExp(r"^[a-z0-9](\.?_?[a-z0-9]){5,}[@](id.uff.br$)");
+  //final gmailValid = RegExp(r"^[a-z0-9](\.?_?[a-z0-9]){5,}[@](id.uff.br$)");
 
   @override
   Widget build(BuildContext context) {

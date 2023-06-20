@@ -233,6 +233,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         Navigator.of(context).pushReplacementNamed(
                             AppRoutes.HOME2,
                             arguments: getUserData);
+                        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                                'Serviço de salvar fotos temporariamente desativado'),
+                            duration: Duration(seconds: 3),
+                          ),
+                        );
                       }
                     },
                     child: const Text("Login"),
