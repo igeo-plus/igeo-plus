@@ -40,44 +40,37 @@ class _LoginScreenState extends State<LoginScreen> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
-  // Future<UserCredential?> _handleSignIn() async {
-  //   GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
-  //   GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
+  Future<UserCredential?> _handleSignIn() async {
+    GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+    GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
 
-  //   final AuthCredential credential = GoogleAuthProvider.credential(
-  //     accessToken: googleAuth.accessToken,
-  //     idToken: googleAuth.idToken,
-  //   );
+    final AuthCredential credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
 
-  //   UserCredential? userCredential =
-  //       await _auth.signInWithCredential(credential);
-  //   User? user = userCredential.user;
+    UserCredential? userCredential =
+        await _auth.signInWithCredential(credential);
+    User? user = userCredential.user;
 
-  //   print(user!.displayName);
-
-  //   return userCredential;
-  // }
-  Future<String?> _handleSignIn() async {
-    try {
-      final GoogleSignInAccount? googleSignInAccount =
-          await _googleSignIn.signIn();
-      final GoogleSignInAuthentication googleSignInAuthentication =
-          await googleSignInAccount!.authentication;
-      final AuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleSignInAuthentication.accessToken,
-        idToken: googleSignInAuthentication.idToken,
+    if (user != null) {
+      Widget alert = AlertDialog(
+        title: Text("Login"),
+        content: Text(user.email.toString()),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              return;
+            },
+            child: const Text("OK"),
+          ),
+        ],
       );
-      final UserCredential userCredential =
-          await _auth.signInWithCredential(credential);
-      final User? user = userCredential.user;
-      print(user!.email);
-      await _auth.signInWithCredential(credential);
-      print(credential);
-      _googleSignIn.disconnect();
-    } on FirebaseAuthException catch (e) {
-      print(e.message);
-      throw e;
+      await showDialog(context: context, builder: (ctx) => alert);
     }
+
+    //return userCredential;
   }
 
   getUser(String email, String password) async {
