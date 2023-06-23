@@ -8,6 +8,9 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../utils/routes.dart';
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -34,7 +37,48 @@ class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  //String errorText = '';
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+
+  // Future<UserCredential?> _handleSignIn() async {
+  //   GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+  //   GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
+
+  //   final AuthCredential credential = GoogleAuthProvider.credential(
+  //     accessToken: googleAuth.accessToken,
+  //     idToken: googleAuth.idToken,
+  //   );
+
+  //   UserCredential? userCredential =
+  //       await _auth.signInWithCredential(credential);
+  //   User? user = userCredential.user;
+
+  //   print(user!.displayName);
+
+  //   return userCredential;
+  // }
+  Future<String?> _handleSignIn() async {
+    try {
+      final GoogleSignInAccount? googleSignInAccount =
+          await _googleSignIn.signIn();
+      final GoogleSignInAuthentication googleSignInAuthentication =
+          await googleSignInAccount!.authentication;
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleSignInAuthentication.accessToken,
+        idToken: googleSignInAuthentication.idToken,
+      );
+      final UserCredential userCredential =
+          await _auth.signInWithCredential(credential);
+      final User? user = userCredential.user;
+      print(user!.email);
+      await _auth.signInWithCredential(credential);
+      print(credential);
+      _googleSignIn.disconnect();
+    } on FirebaseAuthException catch (e) {
+      print(e.message);
+      throw e;
+    }
+  }
 
   getUser(String email, String password) async {
     final data = {"email": "$email", "password": "$password"};
@@ -213,46 +257,47 @@ class _LoginScreenState extends State<LoginScreen> {
                     ],
                   ),
                   ElevatedButton(
-                    onPressed: () async {
-                      await getUser(email!, password!);
-                      if (userJson == null ||
-                          userJson != null && !userJson["is_success"]) {
-                        return;
-                      }
+                    onPressed: _handleSignIn,
+                    // onPressed: () async {
+                    //   await getUser(email!, password!);
+                    //   if (userJson == null ||
+                    //       userJson != null && !userJson["is_success"]) {
+                    //     return;
+                    //   }
 
-                      if (savePassword) {
-                        await storage.write(
-                            key: "KEY_USERNAME", value: _emailController.text);
+                    //   if (savePassword) {
+                    //     await storage.write(
+                    //         key: "KEY_USERNAME", value: _emailController.text);
 
-                        await storage.write(
-                            key: "KEY_PASSWORD",
-                            value: _passwordController.text);
-                      }
+                    //     await storage.write(
+                    //         key: "KEY_PASSWORD",
+                    //         value: _passwordController.text);
+                    //   }
 
-                      if (userJson["is_success"]) {
-                        Navigator.of(context).pushReplacementNamed(
-                            AppRoutes.HOME2,
-                            arguments: getUserData);
-                        ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text(
-                                'Serviço de salvar fotos temporariamente desativado'),
-                            duration: Duration(seconds: 3),
-                          ),
-                        );
-                      }
-                    },
+                    //   if (userJson["is_success"]) {
+                    //     Navigator.of(context).pushReplacementNamed(
+                    //         AppRoutes.HOME2,
+                    //         arguments: getUserData);
+                    //     ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                    //     ScaffoldMessenger.of(context).showSnackBar(
+                    //       const SnackBar(
+                    //         content: Text(
+                    //             'Serviço de salvar fotos temporariamente desativado'),
+                    //         duration: Duration(seconds: 3),
+                    //       ),
+                    //     );
+                    //   }
+                    // },
                     child: const Text("Login"),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: TextButton(
-                      onPressed: () =>
-                          Navigator.of(context).pushNamed('/new-user-screen'),
-                      child: const Text("Novo usuário"),
-                    ),
-                  )
+                  // Padding(
+                  //   padding: const EdgeInsets.only(top: 10),
+                  //   child: TextButton(
+                  //     onPressed: () =>
+                  //         Navigator.of(context).pushNamed('/new-user-screen'),
+                  //     child: const Text("Novo usuário"),
+                  //   ),
+                  // )
                 ],
               ),
             ),

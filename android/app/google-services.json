@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "786796109481",
+    "firebase_url": "https://igeo-flutter-default-rtdb.firebaseio.com",
+    "project_id": "igeo-flutter",
+    "storage_bucket": "igeo-flutter.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:786796109481:android:125212ca680d3cf41813b8",
+        "android_client_info": {
+          "package_name": "br.uff.igeo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "786796109481-pgdouui5n48splvujvprglb6thos729k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.uff.igeo",
+            "certificate_hash": "459b2e531716c14feda77b3b6f551669f1f740e6"
+          }
+        },
+        {
+          "client_id": "786796109481-49i0b0mubhh3uu3oh7vs3m740i5ifl17.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKYYWUENiO10mtLROqyHEls7sTyQJ0-Ts"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "786796109481-1kljiouuddrtc4gve22reid48tc01f9u.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "786796109481-vn4s5fvrc653m69062lormivot22hvqp.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.igeoFlutter"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
