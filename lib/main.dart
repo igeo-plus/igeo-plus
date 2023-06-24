@@ -13,6 +13,7 @@ import 'screens/new_user_screen.dart';
 
 import 'models/point_list.dart';
 import 'models/subject.dart';
+import 'models/auth.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (_) => Auth()),
         ChangeNotifierProvider(create: (_) => PointList()),
       ],
       child: MaterialApp(

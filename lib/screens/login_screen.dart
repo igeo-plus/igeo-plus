@@ -3,8 +3,10 @@ import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 import 'dart:convert';
 import 'dart:math';
+import 'package:provider/provider.dart';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:igeo_flutter/models/auth.dart';
 
 import '../utils/routes.dart';
 
@@ -40,38 +42,38 @@ class _LoginScreenState extends State<LoginScreen> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
-  Future<UserCredential?> _handleSignIn() async {
-    GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
-    GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
+  // Future<UserCredential?> _handleSignIn() async {
+  //   GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+  //   GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
 
-    final AuthCredential credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
+  //   final AuthCredential credential = GoogleAuthProvider.credential(
+  //     accessToken: googleAuth.accessToken,
+  //     idToken: googleAuth.idToken,
+  //   );
 
-    UserCredential? userCredential =
-        await _auth.signInWithCredential(credential);
-    User? user = userCredential.user;
+  //   UserCredential? userCredential =
+  //       await _auth.signInWithCredential(credential);
+  //   User? user = userCredential.user;
 
-    if (user != null) {
-      Widget alert = AlertDialog(
-        title: Text("Login"),
-        content: Text(user.email.toString()),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-              return;
-            },
-            child: const Text("OK"),
-          ),
-        ],
-      );
-      await showDialog(context: context, builder: (ctx) => alert);
-    }
+  //   if (user != null) {
+  //     Widget alert = AlertDialog(
+  //       title: Text("Login"),
+  //       content: Text(user.email.toString()),
+  //       actions: [
+  //         TextButton(
+  //           onPressed: () {
+  //             Navigator.of(context).pop();
+  //             return;
+  //           },
+  //           child: const Text("OK"),
+  //         ),
+  //       ],
+  //     );
+  //     await showDialog(context: context, builder: (ctx) => alert);
+  //   }
 
-    //return userCredential;
-  }
+  //   //return userCredential;
+  // }
 
   getUser(String email, String password) async {
     final data = {"email": "$email", "password": "$password"};
@@ -149,6 +151,16 @@ class _LoginScreenState extends State<LoginScreen> {
     _passwordController.text = await storage.read(key: "KEY_PASSWORD") ?? '';
     email = await storage.read(key: "KEY_USERNAME") ?? '';
     password = await storage.read(key: "KEY_PASSWORD") ?? '';
+  }
+
+  Future<void> login() async {
+    Auth auth = Provider.of<Auth>(context, listen: false);
+    await auth.handleSignIn(_auth, _googleSignIn, context);
+  }
+
+  Future<void> logOut() async {
+    Auth auth = Provider.of<Auth>(context, listen: false);
+    await auth.signOut(_auth, _googleSignIn);
   }
 
   @override
@@ -250,47 +262,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     ],
                   ),
                   ElevatedButton(
-                    onPressed: _handleSignIn,
-                    // onPressed: () async {
-                    //   await getUser(email!, password!);
-                    //   if (userJson == null ||
-                    //       userJson != null && !userJson["is_success"]) {
-                    //     return;
-                    //   }
-
-                    //   if (savePassword) {
-                    //     await storage.write(
-                    //         key: "KEY_USERNAME", value: _emailController.text);
-
-                    //     await storage.write(
-                    //         key: "KEY_PASSWORD",
-                    //         value: _passwordController.text);
-                    //   }
-
-                    //   if (userJson["is_success"]) {
-                    //     Navigator.of(context).pushReplacementNamed(
-                    //         AppRoutes.HOME2,
-                    //         arguments: getUserData);
-                    //     ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                    //     ScaffoldMessenger.of(context).showSnackBar(
-                    //       const SnackBar(
-                    //         content: Text(
-                    //             'Serviço de salvar fotos temporariamente desativado'),
-                    //         duration: Duration(seconds: 3),
-                    //       ),
-                    //     );
-                    //   }
-                    // },
-                    child: const Text("Login"),
+                    onPressed: login,
+                    child: const Text("Gmail Login"),
                   ),
-                  // Padding(
-                  //   padding: const EdgeInsets.only(top: 10),
-                  //   child: TextButton(
-                  //     onPressed: () =>
-                  //         Navigator.of(context).pushNamed('/new-user-screen'),
-                  //     child: const Text("Novo usuário"),
-                  //   ),
-                  // )
+                  ElevatedButton(
+                    onPressed: logOut,
+                    child: const Text("Logout"),
+                  ),
                 ],
               ),
             ),
