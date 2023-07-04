@@ -21,16 +21,19 @@ A segurança dos dados armazenados na nossa base é garantida por meio do acesso
 ATENÇÃO! O iGeo não solicita dados pessoais de qualquer natureza via WhatsApp ou ligação telefônica. Todos os dados são coletados por formulário eletrônico ou por e-mail institucional.
 
 Confirmo que:
-1. Eu concedo ao projeto iGeo da UFF, uma licença exclusiva, sub licenciável consentimento e licença para usar, reproduzir e publicar todos e quaisquer direitos de imagem em qualquer meio/mídia em conexão com os propósitos juntamente com o direito do aplicativo iGeo autorizar outros a fazê-lo.
 
-2. Eu atribuo e transfiro para o iGeo, direitos autorais passados, presentes e futuros, quaisquer direitos dos colaboradores em relação a isso e/ou quaisquer imagens estáticas, textos e dados. Esses direitos, no entanto, podem ser anulados, se estiverem sob os critérios de exceção previstos pela LGPD.
+1. Sou maior de idade (a partir de 18 anos).
 
-3. Entendo que os materiais podem ser usados em seu formato original ou editados. Isso inclui, mas não se limita a, produzir transcrições ou que acompanhem as descrições escritas dos materiais.
+2. Eu concedo ao projeto iGeo da UFF, uma licença exclusiva, sub licenciável consentimento e licença para usar, reproduzir e publicar todos e quaisquer direitos de imagem em qualquer meio/mídia em conexão com os propósitos juntamente com o direito do aplicativo iGeo autorizar outros a fazê-lo.
 
-4. Entendo que os materiais podem ser usados em suas publicações, sites e outros meios de publicidade material, e autoriza-se expressamente tal uso.
+4. Eu atribuo e transfiro para o iGeo, direitos autorais passados, presentes e futuros, quaisquer direitos dos colaboradores em relação a isso e/ou quaisquer imagens estáticas, textos e dados. Esses direitos, no entanto, podem ser anulados, se estiverem sob os critérios de exceção previstos pela LGPD.
 
-5. Entendo que os materiais serão mantidos de acordo com os regulamentos de proteção de dados pessoais relevantes. Não me oponho que o iGeo transfira os materiais e/ou armazene-os para fins de pesquisa, ensino e preservação da memória social.
+5. Entendo que os materiais podem ser usados em seu formato original ou editados. Isso inclui, mas não se limita a, produzir transcrições ou que acompanhem as descrições escritas dos materiais.
 
-6. Compreendo que não guardarei imagens pessoais e sim apenas imagens de paisagens e/ou outros elementos objetos do estudo de um determinado trabalho de campo. Entendo que minha conta poderá ser excluída caso guarde imagens pessoais ou com a presença de pessoas.
+6. Entendo que os materiais podem ser usados em suas publicações, sites e outros meios de publicidade material, e autoriza-se expressamente tal uso.
 
-7. Compreendo que a inserção de dados é de minha responsabilidade e que qualquer conteúdo salvo que não esteja de acordo com a legislação brasileira poderá ser encaminhado para a justiça e autoridades''';
+7. Entendo que os materiais serão mantidos de acordo com os regulamentos de proteção de dados pessoais relevantes. Não me oponho que o iGeo transfira os materiais e/ou armazene-os para fins de pesquisa, ensino e preservação da memória social.
+
+8. Compreendo que não guardarei imagens pessoais e sim apenas imagens de paisagens e/ou outros elementos objetos do estudo de um determinado trabalho de campo. Entendo que minha conta poderá ser excluída caso guarde imagens pessoais ou com a presença de pessoas.
+
+9. Compreendo que a inserção de dados é de minha responsabilidade e que qualquer conteúdo salvo que não esteja de acordo com a legislação brasileira poderá ser encaminhado para a justiça e autoridades''';

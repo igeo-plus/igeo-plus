@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'dart:convert';
 import 'dart:math';
 import 'package:provider/provider.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:igeo_flutter/models/auth.dart';
@@ -42,6 +43,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
+  bool isLoading = false;
+
   // Future<UserCredential?> _handleSignIn() async {
   //   GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
   //   GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
@@ -75,68 +78,68 @@ class _LoginScreenState extends State<LoginScreen> {
   //   //return userCredential;
   // }
 
-  getUser(String email, String password) async {
-    final data = {"email": "$email", "password": "$password"};
+  // getUser(String email, String password) async {
+  //   final data = {"email": "$email", "password": "$password"};
 
-    final http.Response response = await http.post(
-      Uri.parse('https://app.uff.br/umm/api/sign_in_igeo'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(data),
-    );
+  //   final http.Response response = await http.post(
+  //     Uri.parse('https://app.homologacao.uff.br/api/sign_in'),
+  //     headers: <String, String>{
+  //       'Content-Type': 'application/json; charset=UTF-8',
+  //     },
+  //     body: jsonEncode(data),
+  //   );
 
-    final responseData = jsonDecode(response.body);
-    if (!responseData["is_success"] ||
-        responseData["messages"] == "Login ou senha incorretos" ||
-        responseData == null) {
-      Widget alert = AlertDialog(
-        title: Row(
-          children: [
-            const Icon(
-              Icons.warning_amber_outlined,
-              color: Colors.amber,
-            ),
-            const Text(
-              " Usuário e/ou senha incorretos",
-              style: TextStyle(
-                fontSize: 12,
-                color: Color.fromARGB(255, 189, 39, 39),
-              ),
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-              return;
-            },
-            child: const Text("OK"),
-          ),
-        ],
-      );
-      await showDialog(context: context, builder: (ctx) => alert);
-      return;
-    }
-    setState(() {
-      userJson = jsonDecode(response.body);
-      id = userJson["data"]["user"]["id"];
-      firstName = userJson["data"]["user"]["first_name"];
-      lastName = userJson["data"]["user"]["last_name"];
-      token = userJson["data"]["user"]["authentication_token"];
+  //   final responseData = jsonDecode(response.body);
+  //   if (!responseData["is_success"] ||
+  //       responseData["messages"] == "Login ou senha incorretos" ||
+  //       responseData == null) {
+  //     Widget alert = AlertDialog(
+  //       title: const Row(
+  //         children: [
+  //           Icon(
+  //             Icons.warning_amber_outlined,
+  //             color: Colors.amber,
+  //           ),
+  //           Text(
+  //             " Usuário e/ou senha incorretos",
+  //             style: TextStyle(
+  //               fontSize: 12,
+  //               color: Color.fromARGB(255, 189, 39, 39),
+  //             ),
+  //           ),
+  //         ],
+  //       ),
+  //       actions: [
+  //         TextButton(
+  //           onPressed: () {
+  //             Navigator.of(context).pop();
+  //             return;
+  //           },
+  //           child: const Text("OK"),
+  //         ),
+  //       ],
+  //     );
+  //     await showDialog(context: context, builder: (ctx) => alert);
+  //     return;
+  //   }
+  //   setState(() {
+  //     userJson = jsonDecode(response.body);
+  //     id = userJson["data"]["user"]["id"];
+  //     firstName = userJson["data"]["user"]["first_name"];
+  //     lastName = userJson["data"]["user"]["last_name"];
+  //     token = userJson["data"]["user"]["authentication_token"];
 
-      getUserData = {
-        "id": id,
-        "firstName": firstName,
-        "lastName": lastName,
-        "token": token,
-      };
-    });
+  //     getUserData = {
+  //       "id": id,
+  //       "firstName": firstName,
+  //       "lastName": lastName,
+  //       "token": token,
+  //     };
+  //   });
 
-    //print(getUserData);
-    //return response.body;
-  }
+  //   //print(getUserData);
+  //   //return response.body;
+  // }
 
   void _goToSubjectsScreen(
       BuildContext context, Map<String, dynamic> userData) {
@@ -154,8 +157,19 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> login() async {
+    setState(() {
+      isLoading = true;
+    });
     Auth auth = Provider.of<Auth>(context, listen: false);
-    await auth.handleSignIn(_auth, _googleSignIn, context);
+    Map<String, dynamic> data =
+        await auth.sendTokenSignIn(_auth, _googleSignIn, context);
+
+    setState(() {
+      getUserData = data;
+      isLoading = false;
+    });
+
+    print(getUserData);
   }
 
   Future<void> logOut() async {
@@ -163,11 +177,11 @@ class _LoginScreenState extends State<LoginScreen> {
     await auth.signOut(_auth, _googleSignIn);
   }
 
-  @override
-  void initState() {
-    super.initState();
-    readFromStorage();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   readFromStorage();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -176,103 +190,119 @@ class _LoginScreenState extends State<LoginScreen> {
         title: const Text('iGeo'),
       ),
       body: SingleChildScrollView(
-        child: Center(
-          child: AutofillGroup(
-            child: Form(
-              child: Column(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Image.asset(
+              'assets/images/logo-login.png',
+              width: double.infinity,
+              height: 200,
+            ),
+            const Padding(
+              padding: EdgeInsets.only(top: 8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset(
-                    'assets/images/logo-login.png',
-                    width: double.infinity,
-                    height: 100,
+                  Text(
+                    "Desenvolvido por ",
+                    style: TextStyle(color: Colors.blueGrey),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                          "Desenvolvido por ",
-                          style: TextStyle(color: Colors.blueGrey),
-                        ),
-                        const Text(
-                          "LAGEF e STI (UFF)",
-                          style: TextStyle(
-                              color: Color.fromARGB(255, 7, 163, 221)),
-                        )
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: TextField(
-                      keyboardType: TextInputType.text,
-                      onChanged: (_) {
-                        setState(() {
-                          email = _emailController.text;
-                        });
-                      },
-                      //onSubmitted: (_) => {},
-                      controller: _emailController,
-                      decoration: const InputDecoration(labelText: "Email"),
-                      textInputAction: TextInputAction.next,
-                      autofillHints: [AutofillHints.username],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: TextField(
-                      keyboardType: TextInputType.text,
-                      onChanged: (_) {
-                        setState(() {
-                          password = _passwordController.text;
-                        });
-                      },
-                      //onSubmitted: (_) => {},
-                      controller: _passwordController,
-                      decoration: const InputDecoration(labelText: "Senha"),
-                      obscureText: true,
-                      textInputAction: TextInputAction.done,
-                      onSubmitted: (_) async {
-                        await getUser(email!, password!);
-                        if (!userJson["is_success"]) {
-                          return;
-                        }
-
-                        Navigator.of(context)
-                            .pushNamed(AppRoutes.HOME2, arguments: getUserData);
-                      },
-                      autofillHints: [AutofillHints.password],
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      const Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: const Text("Lembrar"),
-                      ),
-                      Checkbox(
-                          value: savePassword,
-                          onChanged: (_) {
-                            setState(() {
-                              savePassword = !savePassword;
-                            });
-                          }),
-                    ],
-                  ),
-                  ElevatedButton(
-                    onPressed: login,
-                    child: const Text("Gmail Login"),
-                  ),
-                  ElevatedButton(
-                    onPressed: logOut,
-                    child: const Text("Logout"),
-                  ),
+                  Text(
+                    "LAGEF e STI (UFF)",
+                    style: TextStyle(color: Color.fromARGB(255, 7, 163, 221)),
+                  )
                 ],
               ),
             ),
-          ),
+            // Padding(
+            //   padding: const EdgeInsets.all(10.0),
+            //   child: TextField(
+            //     keyboardType: TextInputType.text,
+            //     onChanged: (_) {
+            //       setState(() {
+            //         email = _emailController.text;
+            //       });
+            //     },
+            //     //onSubmitted: (_) => {},
+            //     controller: _emailController,
+            //     decoration: const InputDecoration(labelText: "Email"),
+            //     textInputAction: TextInputAction.next,
+            //     autofillHints: [AutofillHints.username],
+            //   ),
+            // ),
+            // Padding(
+            //   padding: const EdgeInsets.all(10.0),
+            //   child: TextField(
+            //     keyboardType: TextInputType.text,
+            //     onChanged: (_) {
+            //       setState(() {
+            //         password = _passwordController.text;
+            //       });
+            //     },
+            //     //onSubmitted: (_) => {},
+            //     controller: _passwordController,
+            //     decoration: const InputDecoration(labelText: "Senha"),
+            //     obscureText: true,
+            //     textInputAction: TextInputAction.done,
+            //     onSubmitted: (_) async {
+            //       await getUser(email!, password!);
+            //       if (!userJson["is_success"]) {
+            //         return;
+            //       }
+
+            //       Navigator.of(context)
+            //           .pushNamed(AppRoutes.HOME2, arguments: getUserData);
+            //     },
+            //     autofillHints: [AutofillHints.password],
+            //   ),
+            // ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.start,
+            //   children: [
+            //     const Padding(
+            //       padding: const EdgeInsets.all(10.0),
+            //       child: const Text("Lembrar"),
+            //     ), style: ButtonStyle(
+
+            //     Checkbox(
+            //         value: savePassword,
+            //         onChanged: (_) {
+            //           setState(() {
+            //             savePassword = !savePassword;
+            //           });
+            //         }),
+            //   ],
+            // ),
+            const SizedBox(
+              height: 50,
+            ),
+            // ElevatedButton(
+            //   onPressed: login,
+            //   child: const Text("Gmail Login"),
+            // ),
+
+            isLoading
+                ? CircularProgressIndicator(
+                    color: Colors.amber,
+                  )
+                : SignInButton(
+                    Buttons.Google,
+                    onPressed: () async {
+                      await login();
+                      Navigator.of(context)
+                          .pushNamed(AppRoutes.HOME2, arguments: getUserData);
+                    },
+                    text: "Login com Google/Gmail",
+                  ),
+            const SizedBox(
+              height: 30,
+            ),
+            TextButton(
+              onPressed: logOut,
+              child: const Text("Logout"),
+            ),
+          ],
         ),
       ),
     );

@@ -1,10 +1,88 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'dart:io';
+import 'package:http/http.dart' as http;
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class Auth with ChangeNotifier {
+  sendTokenSignIn(FirebaseAuth auth, GoogleSignIn googleSignIn,
+      BuildContext context) async {
+    GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+
+    if (googleUser == null) return null;
+
+    GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
+
+    final AuthCredential credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+
+    UserCredential? userCredential =
+        await auth.signInWithCredential(credential);
+
+    User? user = userCredential.user;
+
+    final response = await http.post(
+      Uri.parse("https://app.homologacao.uff.br/igeo-retaguarda/api/sign_in"),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer ${googleAuth.idToken.toString()}',
+      },
+    );
+
+    final responseData = jsonDecode(response.body);
+    if (!responseData["is_success"] ||
+        responseData["messages"] == "Login ou senha incorretos" ||
+        responseData == null) {
+      Widget alert = AlertDialog(
+        title: const Row(
+          children: [
+            Icon(
+              Icons.warning_amber_outlined,
+              color: Colors.amber,
+            ),
+            Text(
+              " Usuário e/ou senha incorretos",
+              style: TextStyle(
+                fontSize: 12,
+                color: Color.fromARGB(255, 189, 39, 39),
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              return;
+            },
+            child: const Text("OK"),
+          ),
+        ],
+      );
+      await showDialog(context: context, builder: (ctx) => alert);
+      return;
+    }
+    int id = responseData["data"]["user"]["id"];
+    String firstName = responseData["data"]["user"]["first_name"] ?? "";
+    String lastName = responseData["data"]["user"]["last_name"] ?? "";
+    String token = responseData["data"]["user"]["authentication_token"] ?? "";
+
+    Map<String, dynamic> getUserData = {
+      "id": id,
+      "firstName": firstName,
+      "lastName": lastName,
+      "token": token,
+    };
+
+    return getUserData;
+  }
+
   Future<Map<String, dynamic>?> handleSignIn(FirebaseAuth auth,
       GoogleSignIn googleSignIn, BuildContext context) async {
     GoogleSignInAccount? googleUser = await googleSignIn.signIn();
@@ -34,8 +112,18 @@ class Auth with ChangeNotifier {
         ],
       );
       await showDialog(context: context, builder: (ctx) => alert);
+
+      String token = googleAuth.idToken.toString();
+
+      while (token.length > 0) {
+        int initLength = (token.length >= 500 ? 500 : token.length);
+        print(token.substring(0, initLength));
+        int endLength = token.length;
+        token = token.substring(initLength, endLength);
+      }
     }
-    print("AQUI  " + userCredential.user!.uid.toString());
+    //print(googleAuth.idToken.toString());
+    //print("AQUI  " + userCredential.user!.uid.toString());
     //return userCredential;
 
     Map<String, dynamic> userData = {
