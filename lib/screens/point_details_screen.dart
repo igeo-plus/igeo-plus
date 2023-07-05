@@ -24,7 +24,7 @@ class PointDetailScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: FittedBox(
-          child: Text("Ponto ${point.id!.toInt()} de ${subject.name}"),
+          child: Text("Ponto em ${subject.name}"),
         ),
       ),
       body: Center(

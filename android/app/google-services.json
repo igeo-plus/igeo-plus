@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "786796109481-bkpnjtld64i829dkeb271qt0n9lirbst.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.uff.igeo",
+            "certificate_hash": "b7751885ba7d51ced38b0cbbdcc30de9775b1fc6"
+          }
+        },
+        {
           "client_id": "786796109481-pgdouui5n48splvujvprglb6thos729k.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

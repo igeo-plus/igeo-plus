@@ -198,7 +198,9 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
         builder: (context, snapshot) =>
             snapshot.connectionState == ConnectionState.waiting
                 ? const Center(
-                    child: CircularProgressIndicator(),
+                    child: CircularProgressIndicator(
+                      color: Colors.amber,
+                    ),
                   )
                 : subjects.isNotEmpty
                     ? ListView.builder(

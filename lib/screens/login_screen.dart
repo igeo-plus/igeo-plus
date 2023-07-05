@@ -166,7 +166,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
     setState(() {
       getUserData = data;
-      isLoading = false;
     });
 
     print(getUserData);
@@ -187,7 +186,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('iGeo'),
+        title: const Text("iGeo"),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -287,11 +286,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     color: Colors.amber,
                   )
                 : SignInButton(
-                    Buttons.Google,
+                    Buttons.GoogleDark,
                     onPressed: () async {
                       await login();
                       Navigator.of(context)
                           .pushNamed(AppRoutes.HOME2, arguments: getUserData);
+                      setState(() {
+                        isLoading = false;
+                      });
                     },
                     text: "Login com Google/Gmail",
                   ),

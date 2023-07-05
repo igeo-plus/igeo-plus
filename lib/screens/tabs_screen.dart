@@ -12,6 +12,11 @@ import '../components/main_drawer.dart';
 
 import '../models/subject.dart';
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import '/models/auth.dart';
+import '/utils/routes.dart';
+
 class TabsScreen extends StatefulWidget {
   const TabsScreen({super.key});
 
@@ -45,9 +50,27 @@ class _TabsScreenState extends State<TabsScreen> {
       });
     }
 
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+    final GoogleSignIn _googleSignIn = GoogleSignIn();
+
+    Future<void> logOut() async {
+      Auth auth = Provider.of<Auth>(context, listen: false);
+      await auth.signOut(_auth, _googleSignIn);
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(_screens[_selectedScreenIndex]['title'] as String),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.of(context)
+                  .pushNamedAndRemoveUntil(AppRoutes.HOME, (route) => false);
+              logOut();
+            },
+            icon: const Icon(Icons.logout),
+          ),
+        ],
       ),
       drawer: const MainDrawer(),
       body: _screens[_selectedScreenIndex]['screen'] as Widget,

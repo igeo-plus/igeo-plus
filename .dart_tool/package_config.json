@@ -218,6 +218,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "flutter_svg",
+      "rootUri": "file:///home/pedro/.pub-cache/hosted/pub.dev/flutter_svg-2.0.7",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
+    },
+    {
       "name": "flutter_test",
       "rootUri": "file:///home/pedro/snap/flutter/common/flutter/packages/flutter_test",
       "packageUri": "lib/",
@@ -488,6 +494,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "path_parsing",
+      "rootUri": "file:///home/pedro/.pub-cache/hosted/pub.dev/path_parsing-1.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "path_provider",
       "rootUri": "file:///home/pedro/.pub-cache/hosted/pub.dev/path_provider-2.0.14",
       "packageUri": "lib/",
@@ -525,9 +537,9 @@
     },
     {
       "name": "petitparser",
-      "rootUri": "file:///home/pedro/.pub-cache/hosted/pub.dev/petitparser-5.1.0",
+      "rootUri": "file:///home/pedro/.pub-cache/hosted/pub.dev/petitparser-5.4.0",
       "packageUri": "lib/",
-      "languageVersion": "2.18"
+      "languageVersion": "2.19"
     },
     {
       "name": "platform",
@@ -650,6 +662,24 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "vector_graphics",
+      "rootUri": "file:///home/pedro/.pub-cache/hosted/pub.dev/vector_graphics-1.1.7",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "vector_graphics_codec",
+      "rootUri": "file:///home/pedro/.pub-cache/hosted/pub.dev/vector_graphics_codec-1.1.7",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "vector_graphics_compiler",
+      "rootUri": "file:///home/pedro/.pub-cache/hosted/pub.dev/vector_graphics_compiler-1.1.7",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
+    },
+    {
       "name": "vector_math",
       "rootUri": "file:///home/pedro/.pub-cache/hosted/pub.dev/vector_math-2.1.4",
       "packageUri": "lib/",
@@ -675,9 +705,9 @@
     },
     {
       "name": "xml",
-      "rootUri": "file:///home/pedro/.pub-cache/hosted/pub.dev/xml-6.2.2",
+      "rootUri": "file:///home/pedro/.pub-cache/hosted/pub.dev/xml-6.3.0",
       "packageUri": "lib/",
-      "languageVersion": "2.18"
+      "languageVersion": "2.19"
     },
     {
       "name": "yaml",
@@ -692,7 +722,7 @@
       "languageVersion": "2.18"
     }
   ],
-  "generated": "2023-07-04T18:34:38.249017Z",
+  "generated": "2023-07-05T01:19:12.926579Z",
   "generator": "pub",
   "generatorVersion": "3.0.5"
 }

@@ -305,7 +305,9 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
           builder: (context, snapshot) => snapshot.connectionState ==
                   ConnectionState.waiting
               ? const Center(
-                  child: CircularProgressIndicator(),
+                  child: CircularProgressIndicator(
+                    color: Colors.amber,
+                  ),
                 )
               : pointList.getPointsForSubject(subject.id).isNotEmpty
                   ? ListView.builder(
