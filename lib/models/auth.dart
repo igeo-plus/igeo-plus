@@ -28,6 +28,70 @@ class Auth with ChangeNotifier {
 
     User? user = userCredential.user;
 
+    bool accept = true;
+
+    final responseNewUser = await http.post(
+      Uri.parse("https://app.homologacao.uff.br/igeo-retaguarda/api/new_user"),
+      body: {
+        "email": googleUser.email.toString(),
+      },
+    );
+
+    final responseNewUserData = jsonDecode(responseNewUser.body);
+
+    if (responseNewUserData["new_user"] == true) {
+      Widget alert = AlertDialog(
+        title: const Row(
+          children: [
+            Icon(
+              Icons.warning_amber_outlined,
+              color: Colors.amber,
+              size: 12,
+            ),
+            Expanded(
+              child: Text(
+                " Termos de Uso",
+                style: TextStyle(
+                  fontSize: 10,
+                  color: Color.fromARGB(255, 189, 39, 39),
+                ),
+              ),
+            ),
+          ],
+        ),
+        content: SingleChildScrollView(
+          child: Text(
+            signupText,
+            style: const TextStyle(
+              fontSize: 9,
+            ),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              accept = true;
+              Navigator.of(context).pop();
+            },
+            child: const Text("Concordo"),
+          ),
+          TextButton(
+            onPressed: () async {
+              Navigator.of(context).pop();
+              accept = false;
+              await googleSignIn.signOut();
+              await auth.signOut();
+              return;
+            },
+            child: const Text("Discordo"),
+          ),
+        ],
+      );
+      await showDialog(context: context, builder: (ctx) => alert);
+    }
+
+    if (accept == false) return;
+
     final response = await http.post(
       Uri.parse("https://app.homologacao.uff.br/igeo-retaguarda/api/sign_in"),
       headers: {
@@ -69,55 +133,6 @@ class Auth with ChangeNotifier {
       );
       await showDialog(context: context, builder: (ctx) => alert);
       return;
-    }
-
-    if (responseData["new_user"] == true) {
-      Widget alert = AlertDialog(
-        title: const Row(
-          children: [
-            Icon(
-              Icons.warning_amber_outlined,
-              color: Colors.amber,
-              size: 12,
-            ),
-            Expanded(
-              child: Text(
-                " Termos de Uso",
-                style: TextStyle(
-                  fontSize: 10,
-                  color: Color.fromARGB(255, 189, 39, 39),
-                ),
-              ),
-            ),
-          ],
-        ),
-        content: SingleChildScrollView(
-          child: Text(
-            signupText,
-            style: const TextStyle(
-              fontSize: 9,
-            ),
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              //accept = true;
-              Navigator.of(context).pop();
-            },
-            child: const Text("Concordo"),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-              //accept = false;
-              return;
-            },
-            child: const Text("Discordo"),
-          ),
-        ],
-      );
-      await showDialog(context: context, builder: (ctx) => alert);
     }
 
     int id = responseData["data"]["user"]["id"];
