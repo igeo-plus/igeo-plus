@@ -7,6 +7,8 @@ import 'package:http/http.dart' as http;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+import '../components/text.dart';
+
 class Auth with ChangeNotifier {
   sendTokenSignIn(FirebaseAuth auth, GoogleSignIn googleSignIn,
       BuildContext context) async {
@@ -68,6 +70,56 @@ class Auth with ChangeNotifier {
       await showDialog(context: context, builder: (ctx) => alert);
       return;
     }
+
+    if (responseData["new_user"] == true) {
+      Widget alert = AlertDialog(
+        title: const Row(
+          children: [
+            Icon(
+              Icons.warning_amber_outlined,
+              color: Colors.amber,
+              size: 12,
+            ),
+            Expanded(
+              child: Text(
+                " Termos de Uso",
+                style: TextStyle(
+                  fontSize: 10,
+                  color: Color.fromARGB(255, 189, 39, 39),
+                ),
+              ),
+            ),
+          ],
+        ),
+        content: SingleChildScrollView(
+          child: Text(
+            signupText,
+            style: const TextStyle(
+              fontSize: 9,
+            ),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              //accept = true;
+              Navigator.of(context).pop();
+            },
+            child: const Text("Concordo"),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              //accept = false;
+              return;
+            },
+            child: const Text("Discordo"),
+          ),
+        ],
+      );
+      await showDialog(context: context, builder: (ctx) => alert);
+    }
+
     int id = responseData["data"]["user"]["id"];
     String firstName = responseData["data"]["user"]["first_name"] ?? "";
     String lastName = responseData["data"]["user"]["last_name"] ?? "";
