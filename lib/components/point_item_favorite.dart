@@ -32,8 +32,7 @@ class PointItemFavorite extends StatelessWidget {
     };
 
     final http.Response response = await http.post(
-      Uri.parse(
-          "https://app.homologacao.uff.br/umm/api/favorite_point_in_igeo"),
+      Uri.parse("https://app.uff.br/umm/api/favorite_point_in_igeo"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

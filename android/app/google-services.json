@@ -1,21 +1,20 @@
 {
   "project_info": {
-    "project_number": "786796109481",
-    "firebase_url": "https://igeo-flutter-default-rtdb.firebaseio.com",
-    "project_id": "igeo-flutter",
-    "storage_bucket": "igeo-flutter.appspot.com"
+    "project_number": "234706913921",
+    "project_id": "igeo-e6789",
+    "storage_bucket": "igeo-e6789.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:786796109481:android:125212ca680d3cf41813b8",
+        "mobilesdk_app_id": "1:234706913921:android:900f382a3b9b4898e65b80",
         "android_client_info": {
           "package_name": "br.uff.igeo"
         }
       },
       "oauth_client": [
         {
-          "client_id": "786796109481-bkpnjtld64i829dkeb271qt0n9lirbst.apps.googleusercontent.com",
+          "client_id": "234706913921-3m3de06nvofdes5thuopqitfm0hl2alv.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "br.uff.igeo",
@@ -23,32 +22,40 @@
           }
         },
         {
-          "client_id": "786796109481-pgdouui5n48splvujvprglb6thos729k.apps.googleusercontent.com",
+          "client_id": "234706913921-frrmc119lpbl1gr148mqi4hg1qu7oh7i.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "br.uff.igeo",
-            "certificate_hash": "459b2e531716c14feda77b3b6f551669f1f740e6"
+            "certificate_hash": "f406ec05d4daae188d7275c8d796e5bc0333469e"
           }
         },
         {
-          "client_id": "786796109481-49i0b0mubhh3uu3oh7vs3m740i5ifl17.apps.googleusercontent.com",
+          "client_id": "234706913921-klm69t5poqfpovv5ldf6nc48h2u3ngp0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.uff.igeo",
+            "certificate_hash": "df0a31c8e104a263182c5953d4bf73490d4d1ee0"
+          }
+        },
+        {
+          "client_id": "234706913921-13la681esjka7spim2vkt0r2ec7hndlb.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAKYYWUENiO10mtLROqyHEls7sTyQJ0-Ts"
+          "current_key": "AIzaSyCdyaODdBjO4rePiVD3x8wICSRTpBwNE5E"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "786796109481-1kljiouuddrtc4gve22reid48tc01f9u.apps.googleusercontent.com",
+              "client_id": "234706913921-13la681esjka7spim2vkt0r2ec7hndlb.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "786796109481-vn4s5fvrc653m69062lormivot22hvqp.apps.googleusercontent.com",
+              "client_id": "234706913921-4k83cb660t3sm8t00mmkbo4q9tlc04rc.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "com.example.igeoFlutter"

@@ -31,7 +31,7 @@ class Auth with ChangeNotifier {
     bool accept = true;
 
     final responseNewUser = await http.post(
-      Uri.parse("https://app.homologacao.uff.br/igeo-retaguarda/api/new_user"),
+      Uri.parse("https://app.uff.br/igeo-retaguarda/api/new_user"),
       body: {
         "email": googleUser.email.toString(),
       },
@@ -93,7 +93,7 @@ class Auth with ChangeNotifier {
     if (accept == false) return;
 
     final response = await http.post(
-      Uri.parse("https://app.homologacao.uff.br/igeo-retaguarda/api/sign_in"),
+      Uri.parse("https://app.uff.br/igeo-retaguarda/api/sign_in"),
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
