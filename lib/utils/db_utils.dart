@@ -23,4 +23,14 @@ class DbUtil {
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
+
+  static Future<List<Map<String, dynamic>>> getData(String table) async {
+    final db = await DbUtil.database();
+    return db.query(table);
+  }
+
+  static queryImages(String pointLocalId) async {
+    final db = await DbUtil.database();
+    return db.rawQuery('SELECT * FROM points WHERE id=?', [pointLocalId]);
+  }
 }
