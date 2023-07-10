@@ -161,21 +161,21 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
     request.fields["point[time]"] = time;
     request.fields["point[description]"] = description;
 
-    // if (photos.isNotEmpty) {
-    //   for (var photo in photos) {
-    //     Future<Uint8List> buffer = photo.readAsBytes();
+    if (photos.isNotEmpty) {
+      for (var photo in photos) {
+        Future<Uint8List> buffer = photo.readAsBytes();
 
-    //     request.files.add(
-    //       http.MultipartFile.fromBytes(
-    //         'point[photos][]',
-    //         await buffer,
-    //         filename: photo.path,
-    //       ),
-    //     );
-    //   }
-    // }
-    //print("print request:  " + request.fields.toString());
-    //print(request.files.toString());
+        request.files.add(
+          http.MultipartFile.fromBytes(
+            'point[photos][]',
+            await buffer,
+            filename: photo.path,
+          ),
+        );
+      }
+    }
+    print("print request:  " + request.fields.toString());
+    print(request.files.toString());
 
     var response = await request.send();
 
