@@ -43,6 +43,11 @@ class _NewPointFormScreenState extends State<NewPointFormScreen> {
     pickedImages.add(pickedImage);
   }
 
+  // void removeImage(File pickedImage) {
+  //   pickedImage.delete();
+  //   pickedImages.remove(pickedImage);
+  // }
+
   void sendBackData(BuildContext context, Point newPoint, Subject subject) {
     newPoint.id = 1;
     newPoint.name = name;

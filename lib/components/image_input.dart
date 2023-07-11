@@ -57,7 +57,8 @@ class _ImageInputState extends State<ImageInput> {
     widget.onSelectImage(savedImage);
   }
 
-  void removePicture(File file) {
+  void removePicture(File file) async {
+    await file.delete();
     setState(() {
       storedImage.remove(file);
     });
@@ -110,17 +111,18 @@ class _ImageInputState extends State<ImageInput> {
                           child: GridTile(
                             footer: GridTileBar(
                               backgroundColor: Colors.black54,
-                              leading: Center(
-                                child: IconButton(
-                                  onPressed: () {
-                                    removePicture(storedImage[index]);
-                                  },
-                                  icon: Icon(
-                                    Icons.delete,
-                                    color: Theme.of(context).colorScheme.error,
-                                  ),
-                                ),
-                              ),
+                              // leading: Center(
+                              //   child: IconButton(
+                              //     onPressed: () async {
+                              //       await storedImage[index].delete();
+                              //       removePicture(storedImage[index]);
+                              //     },
+                              //     icon: Icon(
+                              //       Icons.delete,
+                              //       color: Theme.of(context).colorScheme.error,
+                              //     ),
+                              //   ),
+                              // ),
                             ),
                             child: Image.file(
                               storedImage[index],
