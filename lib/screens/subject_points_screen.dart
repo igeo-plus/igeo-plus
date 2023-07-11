@@ -11,6 +11,7 @@ import 'package:igeo_flutter/models/point.dart';
 import '../models/point_list.dart';
 
 import '../utils/routes.dart';
+import '../utils/db_utils.dart';
 
 import '../components/point_item.dart';
 
@@ -173,7 +174,18 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
           ),
         );
       }
+      DbUtil.insert(
+        'points',
+        {
+          'id': userId.toString() + date + time,
+          'image1': photos[0].path,
+          'image2': photos[1].path,
+          'image3': photos[1].path,
+          'imag4': photos[1].path
+        },
+      );
     }
+
     print("print request:  " + request.fields.toString());
     print(request.files.toString());
 

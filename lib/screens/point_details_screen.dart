@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'dart:io';
 
 import '../models/point.dart';
 import '../models/subject.dart';
 import '../utils/location_util.dart';
+import '../utils/db_utils.dart';
 
 import '../components/image_item.dart';
 
@@ -17,10 +19,23 @@ class PointDetailScreen extends StatelessWidget {
     final point = arguments["point"] as Point;
     final subject = arguments["subject"] as Subject;
 
+    List<File> images = [];
+
     final imageUrl = LocationUtil.generateLocationPreviewImage(
       latitude: point.lat!.toDouble(),
       longitude: point.long!.toDouble(),
     );
+
+    Future<void> loadData() async {
+      List<Map> result = await DbUtil.queryImages(
+          point.user_id.toString() + point.date! + point.time!);
+
+      images.add(File(result[0]['image1']));
+      images.add(File(result[1]['image2']));
+      images.add(File(result[2]['image3']));
+      images.add(File(result[3]['image4']));
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: FittedBox(
@@ -170,7 +185,8 @@ class PointDetailScreen extends StatelessWidget {
                                                 4,
                                         child: GridView.builder(
                                           padding: const EdgeInsets.all(10),
-                                          itemCount: point.image.length,
+                                          itemCount: images
+                                              .length, //point.image.length,
                                           gridDelegate:
                                               SliverGridDelegateWithFixedCrossAxisCount(
                                             crossAxisCount: 2,
@@ -178,10 +194,11 @@ class PointDetailScreen extends StatelessWidget {
                                             crossAxisSpacing: 5,
                                             mainAxisSpacing: 5,
                                           ),
-                                          itemBuilder: (BuildContext context,
-                                                  index) =>
-                                              ImageItem(
-                                                  imageUrl: point.image[index]),
+                                          itemBuilder:
+                                              (BuildContext context, index) =>
+                                                  Image.file(images[index]),
+                                          //ImageItem(
+                                          // imageUrl: point.image[index]),
                                         ),
                                       ),
                               ],
