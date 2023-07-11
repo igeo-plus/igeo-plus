@@ -242,6 +242,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "gallery_saver",
+      "rootUri": "file:///home/pedro/.pub-cache/hosted/pub.dev/gallery_saver-2.3.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "geocoding",
       "rootUri": "file:///home/pedro/.pub-cache/hosted/pub.dev/geocoding-2.1.0",
       "packageUri": "lib/",
@@ -384,6 +390,12 @@
       "rootUri": "file:///home/pedro/.pub-cache/hosted/pub.dev/image-4.0.17",
       "packageUri": "lib/",
       "languageVersion": "2.15"
+    },
+    {
+      "name": "image_gallery_saver",
+      "rootUri": "file:///home/pedro/.pub-cache/hosted/pub.dev/image_gallery_saver-2.0.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
     },
     {
       "name": "image_picker",
@@ -740,7 +752,7 @@
       "languageVersion": "2.18"
     }
   ],
-  "generated": "2023-07-11T01:27:42.275181Z",
+  "generated": "2023-07-11T15:11:03.835396Z",
   "generator": "pub",
   "generatorVersion": "3.0.5"
 }

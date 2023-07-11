@@ -19,7 +19,7 @@ class PointDetailScreen extends StatelessWidget {
     final point = arguments["point"] as Point;
     final subject = arguments["subject"] as Subject;
 
-    List<File> images = [];
+    List<String> images = [];
 
     final imageUrl = LocationUtil.generateLocationPreviewImage(
       latitude: point.lat!.toDouble(),
@@ -33,22 +33,22 @@ class PointDetailScreen extends StatelessWidget {
 
       if (dataList.asMap().containsKey(0) &&
           dataList[0]['image1'].toString().isEmpty == false) {
-        images.add(File(dataList[0]['image1']));
+        images.add(dataList[0]['image1']);
       }
 
       if (dataList.asMap().containsKey(0) &&
           dataList[0]['image2'].toString().isEmpty == false) {
-        images.add(File(dataList[0]['image2']));
+        images.add(dataList[0]['image2']);
       }
 
       if (dataList.asMap().containsKey(0) &&
           dataList[0]['image3'].toString().isEmpty == false) {
-        images.add(File(dataList[0]['image3']));
+        images.add(dataList[0]['image3']);
       }
 
       if (dataList.asMap().containsKey(0) &&
           dataList[0]['image4'].toString().isEmpty == false) {
-        images.add(File(dataList[0]['image4']));
+        images.add(dataList[0]['image4']);
       }
 
       // dataList[1] != '' ? images.add(File(dataList[1]['image2'])) : null;
