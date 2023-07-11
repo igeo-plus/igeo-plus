@@ -29,7 +29,8 @@ class DbUtil {
     return db.query(table);
   }
 
-  static queryImages(String pointLocalId) async {
+  static Future<List<Map<String, dynamic>>> queryImages(
+      String pointLocalId) async {
     final db = await DbUtil.database();
     return db.rawQuery('SELECT * FROM points WHERE id=?', [pointLocalId]);
   }
