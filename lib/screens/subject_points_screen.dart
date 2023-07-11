@@ -163,17 +163,17 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
     request.fields["point[description]"] = description;
 
     if (photos.isNotEmpty) {
-      for (var photo in photos) {
-        Future<Uint8List> buffer = photo.readAsBytes();
+      // for (var photo in photos) {
+      //   Future<Uint8List> buffer = photo.readAsBytes();
 
-        request.files.add(
-          http.MultipartFile.fromBytes(
-            'point[photos][]',
-            await buffer,
-            filename: photo.path,
-          ),
-        );
-      }
+      //   request.files.add(
+      //     http.MultipartFile.fromBytes(
+      //       'point[photos][]',
+      //       await buffer,
+      //       filename: photo.path,
+      //     ),
+      //   );
+      // }
       DbUtil.insert(
         'points',
         {
