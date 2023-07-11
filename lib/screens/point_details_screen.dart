@@ -27,14 +27,38 @@ class PointDetailScreen extends StatelessWidget {
     );
 
     Future<void> loadData() async {
-      List<Map> result = await DbUtil.queryImages(
+      final dataList = await DbUtil.queryImages(
           point.user_id.toString() + point.date! + point.time!);
+      print("OK:" + images.toString());
 
-      images.add(File(result[0]['image1']));
-      images.add(File(result[1]['image2']));
-      images.add(File(result[2]['image3']));
-      images.add(File(result[3]['image4']));
+      if (dataList.asMap().containsKey(0) &&
+          dataList[0]['image1'].toString().isEmpty == false) {
+        images.add(File(dataList[0]['image1']));
+      }
+
+      if (dataList.asMap().containsKey(0) &&
+          dataList[0]['image2'].toString().isEmpty == false) {
+        images.add(File(dataList[0]['image2']));
+      }
+
+      if (dataList.asMap().containsKey(0) &&
+          dataList[0]['image3'].toString().isEmpty == false) {
+        images.add(File(dataList[0]['image3']));
+      }
+
+      if (dataList.asMap().containsKey(0) &&
+          dataList[0]['image4'].toString().isEmpty == false) {
+        images.add(File(dataList[0]['image4']));
+      }
+
+      // dataList[1] != '' ? images.add(File(dataList[1]['image2'])) : null;
+      // dataList[2] != '' ? images.add(File(dataList[2]['image3'])) : null;
+      // dataList[3] != '' ? images.add(File(dataList[3]['image4'])) : null;
+      print(dataList);
     }
+
+    //loadData();
+    print("AQUI" + images.toString());
 
     return Scaffold(
       appBar: AppBar(
@@ -42,25 +66,27 @@ class PointDetailScreen extends StatelessWidget {
           child: Text("Ponto em ${subject.name}"),
         ),
       ),
-      body: Center(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: InteractiveViewer(
-                  child: Image.network(
-                    imageUrl,
+      body: FutureBuilder(
+        future: loadData(),
+        builder: (ctx, snapshot) => Center(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: InteractiveViewer(
+                    child: Image.network(
+                      imageUrl,
+                    ),
                   ),
                 ),
               ),
-            ),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Container(
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Container(
                       width: double.infinity,
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
@@ -173,13 +199,16 @@ class PointDetailScreen extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                point.image.length == 0
+                                //point.image.length == 0
+                                images.isEmpty
                                     ? Center(
                                         child: Text(
                                         "Sem fotos adicionadas",
                                         style: TextStyle(color: Colors.grey),
                                       ))
-                                    : SizedBox(
+                                    : //Image.file(
+                                    //images[0]) //Text(images.toString())
+                                    SizedBox(
                                         height:
                                             MediaQuery.of(context).size.height /
                                                 4,
@@ -196,20 +225,22 @@ class PointDetailScreen extends StatelessWidget {
                                           ),
                                           itemBuilder:
                                               (BuildContext context, index) =>
-                                                  Image.file(images[index]),
-                                          //ImageItem(
-                                          // imageUrl: point.image[index]),
+                                                  //Image.file(images[index]),
+                                                  ImageItem(
+                                                      imageUrl: images[index]),
                                         ),
                                       ),
                               ],
                             ),
                           ),
                         ],
-                      )),
+                      ),
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

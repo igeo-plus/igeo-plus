@@ -178,10 +178,10 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
         'points',
         {
           'id': userId.toString() + date + time,
-          'image1': photos[0].path,
-          'image2': photos[1].path,
-          'image3': photos[1].path,
-          'imag4': photos[1].path
+          'image1': photos.asMap().containsKey(0) ? photos[0].path : '',
+          'image2': photos.asMap().containsKey(1) ? photos[1].path : '',
+          'image3': photos.asMap().containsKey(2) ? photos[2].path : '',
+          'image4': photos.asMap().containsKey(3) ? photos[3].path : ''
         },
       );
     }
