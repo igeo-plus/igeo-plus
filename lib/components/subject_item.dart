@@ -9,15 +9,15 @@ import '../utils/routes.dart';
 
 class SubjectItem extends StatelessWidget {
   final Subject subject;
-  final Map<String, dynamic> userData;
-  final Function(int, String, int) onDeleteSubject;
+  //final Map<String, dynamic> userData;
+  //final Function(int, String, int) onDeleteSubject;
+  final Function(int) onDeleteSubject;
 
-  const SubjectItem(this.subject, this.userData, this.onDeleteSubject,
-      {super.key});
+  const SubjectItem(this.subject, this.onDeleteSubject, {super.key});
 
   void _selectSubject(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => SubjectPointsScreen(userData, subject)));
+    Navigator.of(context).push(
+        MaterialPageRoute(builder: (context) => SubjectPointsScreen(subject)));
   }
 
   @override
@@ -40,10 +40,9 @@ class SubjectItem extends StatelessWidget {
       key: ValueKey(subject.id),
       onDismissed: (_) {
         onDeleteSubject(
-          userData["id"],
-          userData["token"],
-          subject.id,
-        );
+            //userData["id"],
+            //userData["token"],
+            subject.id);
       },
       child: Padding(
         padding: const EdgeInsets.all(2.0),

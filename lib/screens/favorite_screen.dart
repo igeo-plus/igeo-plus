@@ -11,9 +11,9 @@ import '../models/point.dart';
 import '../components/point_item_favorite.dart';
 
 class FavoriteScreen extends StatefulWidget {
-  final Map<String, dynamic> userData;
+  //final Map<String, dynamic> userData;
 
-  const FavoriteScreen(this.userData, {super.key});
+  const FavoriteScreen(); //this.userData, {super.key});
 
   @override
   State<FavoriteScreen> createState() => _FavoriteScreenState();
@@ -121,8 +121,8 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   @override
   void initState() {
     super.initState();
-    getPoints(widget.userData["id"], widget.userData["token"]);
-    getSubjects(widget.userData["id"], widget.userData["token"]);
+    //getPoints(widget.userData["id"], widget.userData["token"]);
+    //getSubjects(widget.userData["id"], widget.userData["token"]);
   }
 
   @override
@@ -134,11 +134,12 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
         itemBuilder: (ctx, index) {
           return Column(
             children: [
-              PointItemFavorite(
-                pointList2[index],
-                subjects,
-                widget.userData,
-              ),
+              Text("OK"),
+              // PointItemFavorite(
+              //   pointList2[index],
+              //   subjects,
+              //   widget.userData,
+              // ),
             ],
           );
         },

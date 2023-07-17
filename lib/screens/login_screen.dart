@@ -40,8 +40,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  //final FirebaseAuth _auth = FirebaseAuth.instance;
+  //final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   bool isLoading = false;
 
@@ -142,10 +142,12 @@ class _LoginScreenState extends State<LoginScreen> {
   // }
 
   void _goToSubjectsScreen(
-      BuildContext context, Map<String, dynamic> userData) {
+    BuildContext context,
+  ) {
+    //Map<String, dynamic> userData) {
     Navigator.of(context).popAndPushNamed(
       AppRoutes.HOME2,
-      arguments: userData,
+      //arguments: userData,
     );
   }
 
@@ -156,25 +158,25 @@ class _LoginScreenState extends State<LoginScreen> {
     password = await storage.read(key: "KEY_PASSWORD") ?? '';
   }
 
-  Future<void> login() async {
-    setState(() {
-      isLoading = true;
-    });
-    Auth auth = Provider.of<Auth>(context, listen: false);
-    Map<String, dynamic> data =
-        await auth.sendTokenSignIn(_auth, _googleSignIn, context);
+  // Future<void> login() async {
+  //   setState(() {
+  //     isLoading = true;
+  //   });
+  //   Auth auth = Provider.of<Auth>(context, listen: false);
+  //   Map<String, dynamic> data =
+  //       await auth.sendTokenSignIn(_auth, _googleSignIn, context);
 
-    setState(() {
-      getUserData = data;
-    });
+  //   setState(() {
+  //     getUserData = data;
+  //   });
 
-    print(getUserData);
-  }
+  //   print(getUserData);
+  // }
 
-  Future<void> logOut() async {
-    Auth auth = Provider.of<Auth>(context, listen: false);
-    await auth.signOut(_auth, _googleSignIn);
-  }
+  // Future<void> logOut() async {
+  //   Auth auth = Provider.of<Auth>(context, listen: false);
+  //   await auth.signOut(_auth, _googleSignIn);
+  // }
 
   // @override
   // void initState() {
@@ -288,9 +290,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 : SignInButton(
                     Buttons.GoogleDark,
                     onPressed: () async {
-                      await login();
-                      Navigator.of(context)
-                          .pushNamed(AppRoutes.HOME2, arguments: getUserData);
+                      //await login();
+                      Navigator.of(context).pushNamed(
+                        AppRoutes.HOME2,
+                      ); //arguments: getUserData);
                       setState(() {
                         isLoading = false;
                       });
@@ -301,7 +304,7 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 30,
             ),
             TextButton(
-              onPressed: logOut,
+              onPressed: () {}, //logOut,
               child: const Text("Logout"),
             ),
           ],

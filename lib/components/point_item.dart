@@ -11,18 +11,18 @@ import '../utils/routes.dart';
 class PointItem extends StatefulWidget {
   final Point point;
   final Subject subject;
-  final Map<String, dynamic> userData;
+  //final Map<String, dynamic> userData;
   final Function(int, String, int) onDeletePoint;
   final void Function(int, int) onToggleFavorite;
-  //final bool isFavorite;
+  final bool isFavorite;
 
   const PointItem(
     this.point,
     this.subject,
-    this.userData,
+    //this.userData,
     this.onDeletePoint,
     this.onToggleFavorite,
-    //this.isFavorite,
+    this.isFavorite,
   );
 
   @override
@@ -73,8 +73,8 @@ class _PointItemState extends State<PointItem> {
       child: Dismissible(
         key: ValueKey(widget.point.id),
         onDismissed: (_) {
-          widget.onDeletePoint(widget.userData["id"], widget.userData["token"],
-              widget.point.id!);
+          //widget.onDeletePoint(widget.userData["id"], widget.userData["token"],
+          //widget.point.id!);
         },
         direction: DismissDirection.horizontal,
         background: Container(
@@ -139,11 +139,11 @@ class _PointItemState extends State<PointItem> {
 
                 isFavorite = !isFavorite;
               });
-              favoritePoint(
-                widget.userData["id"],
-                widget.userData["token"],
-                widget.point.id!,
-              );
+              // favoritePoint(
+              //   widget.userData["id"],
+              //   widget.userData["token"],
+              //   widget.point.id!,
+              // );
               widget.onToggleFavorite(widget.point.id!, widget.subject.id);
             },
           ),

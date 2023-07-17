@@ -16,10 +16,10 @@ import '../utils/db_utils.dart';
 import '../components/point_item.dart';
 
 class SubjectPointsScreen extends StatefulWidget {
-  final Map<String, dynamic> userData;
+  //final Map<String, dynamic> userData;
   final Subject subject;
 
-  const SubjectPointsScreen(this.userData, this.subject, {super.key});
+  const SubjectPointsScreen(this.subject, {super.key});
 
   @override
   State<SubjectPointsScreen> createState() => _SubjectPointsScreenState();
@@ -87,30 +87,66 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
     showDialog(context: context, builder: (ctx) => alert);
   }
 
-  Future<void> getPoints(int userId, String token) async {
+  // Future<void> getPoints() async {
+  //   //int userId, String token) async {
+  //   pointList.clear();
+  //   setState(() {
+  //     pointList = PointList();
+  //   });
+  //   final dataUser = {"user_id": userId, "authentication_token": token};
+
+  //   final http.Response response = await http.post(
+  //     Uri.parse('https://app.uff.br/umm/api/get_points_from_igeo'),
+  //     headers: <String, String>{
+  //       'Content-Type': 'application/json; charset=UTF-8',
+  //     },
+  //     body: jsonEncode(dataUser),
+  //   );
+
+  //   var data = jsonDecode(response.body);
+
+  //   print(data);
+
+  //   pointData = data;
+  //   if (pointData.length == 0) {
+  //     return;
+  //   }
+
+  //   pointData.forEach((point) {
+  //     Point newPoint = Point(
+  //       id: point["id"],
+  //       user_id: point["user_id"],
+  //       subject_id: point["subject_id"],
+  //       name: point["name"],
+  //       lat: point["latitude"],
+  //       long: point["longitude"],
+  //       date: point["date"],
+  //       time: point["time"],
+  //       description: point["description"],
+  //       isFavorite: point["favorite"] as bool,
+  //     );
+
+  //     if (point["image"] is List && point["image"].length > 0) {
+  //       for (var url in point["image"]) {
+  //         newPoint.addUrlToImageList(url);
+  //       }
+  //     }
+  //     pointList.addPoint(newPoint);
+
+  //     //print(newPoint.image);
+  //   });
+  // }
+
+  getPoints() async {
     pointList.clear();
     setState(() {
       pointList = PointList();
     });
-    final dataUser = {"user_id": userId, "authentication_token": token};
-
-    final http.Response response = await http.post(
-      Uri.parse('https://app.uff.br/umm/api/get_points_from_igeo'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(dataUser),
-    );
-
-    var data = jsonDecode(response.body);
-
-    print(data);
-
-    pointData = data;
+    pointData = await DbUtil.getData("points");
     if (pointData.length == 0) {
+      print("vazio");
       return;
     }
-
     pointData.forEach((point) {
       Point newPoint = Point(
         id: point["id"],
@@ -122,7 +158,7 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
         date: point["date"],
         time: point["time"],
         description: point["description"],
-        isFavorite: point["favorite"] as bool,
+        isFavorite: point["is_favorite"] == point["is_favorite"],
       );
 
       if (point["image"] is List && point["image"].length > 0) {
@@ -131,9 +167,8 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
         }
       }
       pointList.addPoint(newPoint);
-
-      //print(newPoint.image);
     });
+    return await DbUtil.getData("points");
   }
 
   Future postPoint(
@@ -144,67 +179,65 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
       String date,
       String time,
       String description,
-      int userId,
+      //int userId,
       List<File> photos) async {
-    var request = http.MultipartRequest(
-      "POST",
-      Uri.parse("https://app.uff.br/igeo-retaguarda/api/post_point"),
-    );
+    // var request = http.MultipartRequest(
+    //   "POST",
+    //   Uri.parse("https://app.uff.br/igeo-retaguarda/api/post_point"),
+    // );
 
-    request.fields["authentication_token"] = widget.userData["token"];
-    request.fields["user_id"] = '${widget.userData["id"]}';
-    request.fields["point[user_id]"] = '${widget.userData["id"]}';
-    request.fields["point[subject_id]"] = "$subjectId";
-    request.fields["point[name]"] = name;
-    request.fields["point[latitude]"] = "$latitude";
-    request.fields["point[longitude]"] = "$longitude";
-    request.fields["point[date]"] = date;
-    request.fields["point[time]"] = time;
-    request.fields["point[description]"] = description;
+    // request.fields["authentication_token"] = widget.userData["token"];
+    // request.fields["user_id"] = '${widget.userData["id"]}';
+    // request.fields["point[user_id]"] = '${widget.userData["id"]}';
+    // request.fields["point[subject_id]"] = "$subjectId";
+    // request.fields["point[name]"] = name;
+    // request.fields["point[latitude]"] = "$latitude";
+    // request.fields["point[longitude]"] = "$longitude";
+    // request.fields["point[date]"] = date;
+    // request.fields["point[time]"] = time;
+    // request.fields["point[description]"] = description;
 
     if (photos.isNotEmpty) {
-      // for (var photo in photos) {
-      //   Future<Uint8List> buffer = photo.readAsBytes();
-
-      //   request.files.add(
-      //     http.MultipartFile.fromBytes(
-      //       'point[photos][]',
-      //       await buffer,
-      //       filename: photo.path,
-      //     ),
-      //   );
-      // }
       DbUtil.insert(
         'points',
         {
-          'id': userId.toString() + date + time,
+          'subject_id': subjectId,
+          'name': name,
+          'lat': latitude,
+          'long': longitude,
+          'date': date,
+          'time': time,
+          'description': description,
           'image1': photos.asMap().containsKey(0) ? photos[0].path : '',
           'image2': photos.asMap().containsKey(1) ? photos[1].path : '',
           'image3': photos.asMap().containsKey(2) ? photos[2].path : '',
           'image4': photos.asMap().containsKey(3) ? photos[3].path : ''
         },
       );
+    } else {
+      DbUtil.insert(
+        'points',
+        {
+          'subject_id': subjectId,
+          'name': name,
+          'lat': latitude,
+          'long': longitude,
+          'date': date,
+          'time': time,
+          'description': description,
+        },
+      );
     }
 
-    print("print request:  " + request.fields.toString());
-    print(request.files.toString());
+    // final http.Response response2 = await http.post(
+    //   Uri.parse('https://app.uff.br/umm/api/get_points_from_igeo'),
+    //   headers: <String, String>{
+    //     'Content-Type': 'application/json; charset=UTF-8',
+    //   },
+    //   body: jsonEncode(dataUser),
+    // );
 
-    var response = await request.send();
-
-    final dataUser = {
-      "user_id": userId,
-      "authentication_token": widget.userData["token"]
-    };
-
-    final http.Response response2 = await http.post(
-      Uri.parse('https://app.uff.br/umm/api/get_points_from_igeo'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(dataUser),
-    );
-
-    var data = jsonDecode(response2.body);
+    var data = getPoints();
 
     pointData = data;
     if (pointData.length == 0) {
@@ -223,7 +256,7 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
           date: point["date"],
           time: point["time"],
           description: point["description"],
-          isFavorite: point["favorite"] as bool,
+          isFavorite: point["is_favorite"] == point["is_favorite"],
         );
 
         if (point["image"] is List && point["image"].length > 0) {
@@ -235,7 +268,7 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
       });
     });
 
-    return response.stream.bytesToString();
+    print(pointData);
   }
 
   void changeFavorite(int pointId, int subjectId) {
@@ -259,7 +292,7 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
     final Subject subject = widget.subject;
 
     print("testando:" + subject.name);
-    print(widget.userData);
+    //print(widget.userData);
     print(subject.name);
     //print(pointList.getPointsForSubject(widget.subject.id));
 
@@ -280,7 +313,6 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
           result.date!,
           result.time!,
           result.description!,
-          widget.userData["id"],
           result.pickedImages!);
 
       //getPoints(widget.userData["id"], widget.userData["token"]);
@@ -312,7 +344,7 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
       body: RefreshIndicator(
         onRefresh: () => refresh(context),
         child: FutureBuilder(
-          future: getPoints(widget.userData["id"], widget.userData["token"]),
+          future: getPoints(),
           builder: (context, snapshot) => snapshot.connectionState ==
                   ConnectionState.waiting
               ? const Center(
@@ -328,12 +360,14 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
                       itemBuilder: (ctx, index) {
                         return Column(
                           children: [
+                            //Text("OK"),
                             PointItem(
                               pointList.getPointsForSubject(subject.id)[index],
                               subject,
-                              widget.userData,
+                              //widget.userData,
                               deletePointDef,
                               changeFavorite,
+                              false,
                             )
                           ],
                         );

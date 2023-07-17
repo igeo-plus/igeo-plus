@@ -29,14 +29,14 @@ int _selectedScreenIndex = 0;
 class _TabsScreenState extends State<TabsScreen> {
   @override
   Widget build(BuildContext context) {
-    final Map<String, dynamic> userData =
-        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    // final Map<String, dynamic> userData =
+    //     ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
 
     final List<Map<String, Object>> _screens = [
-      {"title": "Campos", "screen": SubjectsScreen(userData)},
+      {"title": "Campos", "screen": SubjectsScreen()},
       {
         "title": "Pontos Favoritos",
-        "screen": FavoriteScreen(userData),
+        "screen": FavoriteScreen(),
       },
       // {
       //   "title": "Classificação de Praias",
@@ -50,13 +50,13 @@ class _TabsScreenState extends State<TabsScreen> {
       });
     }
 
-    final FirebaseAuth _auth = FirebaseAuth.instance;
-    final GoogleSignIn _googleSignIn = GoogleSignIn();
+    //final FirebaseAuth _auth = FirebaseAuth.instance;
+    //final GoogleSignIn _googleSignIn = GoogleSignIn();
 
-    Future<void> logOut() async {
-      Auth auth = Provider.of<Auth>(context, listen: false);
-      await auth.signOut(_auth, _googleSignIn);
-    }
+    // Future<void> logOut() async {
+    //   Auth auth = Provider.of<Auth>(context, listen: false);
+    //   await auth.signOut(_auth, _googleSignIn);
+    // }
 
     return Scaffold(
       appBar: AppBar(
@@ -66,7 +66,7 @@ class _TabsScreenState extends State<TabsScreen> {
             onPressed: () {
               Navigator.of(context)
                   .pushNamedAndRemoveUntil(AppRoutes.HOME, (route) => false);
-              logOut();
+              //logOut();
             },
             icon: const Icon(Icons.logout),
           ),

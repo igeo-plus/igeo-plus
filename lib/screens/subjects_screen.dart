@@ -10,9 +10,11 @@ import '../components/subject_item.dart';
 import '../components/new_subject_form.dart';
 import '../components/main_drawer.dart';
 
+import '../utils/db_utils.dart';
+
 class SubjectsScreen extends StatefulWidget {
-  final Map<String, dynamic> userData;
-  const SubjectsScreen(this.userData, {super.key});
+  //final Map<String, dynamic> userData;
+  const SubjectsScreen();
 
   @override
   State<SubjectsScreen> createState() => _SubjectsScreenState();
@@ -25,74 +27,123 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
 
   ScrollController controller = ScrollController();
 
-  Future getSubjects(int userId, String token) async {
+  // Future getSubjects(int userId, String token) async {
+  //   subjects = [];
+  //   final dataUser = {"user_id": userId, "authentication_token": token};
+
+  //   final http.Response response = await http.post(
+  //     Uri.parse('https://app.uff.br/umm/api/get_subjects_from_igeo'),
+  //     headers: <String, String>{
+  //       'Content-Type': 'application/json; charset=UTF-8',
+  //     },
+  //     body: jsonEncode(dataUser),
+  //   );
+
+  //   var data = jsonDecode(response.body);
+  //   subjectData = await data;
+
+  //   print(data);
+
+  //   if (subjectData.length == 0) {
+  //     print("Vazio");
+  //     return;
+  //   }
+  //   subjectData.forEach((subject) {
+  //     subjects.add(
+  //       Subject(
+  //         id: subject["id"],
+  //         name: subject["name"],
+  //       ),
+  //     );
+  //   });
+
+  // controller.animateTo(
+  //   controller.position.maxScrollExtent,
+  //   curve: Curves.easeOut,
+  //   duration: const Duration(milliseconds: 300),
+  // );
+
+  //   return response;
+  // }
+
+  getSubjects() async {
     subjects = [];
-    final dataUser = {"user_id": userId, "authentication_token": token};
-
-    final http.Response response = await http.post(
-      Uri.parse('https://app.uff.br/umm/api/get_subjects_from_igeo'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(dataUser),
-    );
-
-    var data = jsonDecode(response.body);
-    subjectData = await data;
-
-    print(data);
-
+    subjectData = await DbUtil.getData("subjects");
     if (subjectData.length == 0) {
-      print("Vazio");
+      print("vazio");
       return;
     }
+
     subjectData.forEach((subject) {
       subjects.add(
-        Subject(
-          id: subject["id"],
-          name: subject["name"],
-        ),
+        Subject(id: subject["id"], name: subject["name"]),
       );
     });
-
-    // controller.animateTo(
-    //   controller.position.maxScrollExtent,
-    //   curve: Curves.easeOut,
-    //   duration: const Duration(milliseconds: 300),
-    // );
-
-    return response;
-  }
-
-  Future<http.Response> postSubject(
-      int subjectId, String name, int userId, String token) async {
-    final data = {
-      "user_id": userId,
-      "authentication_token": token,
-      "name": name
-    };
-
-    final http.Response response = await http.post(
-      Uri.parse('https://app.uff.br/umm/api/post_subject_in_igeo'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(data),
+    subjects.forEach(
+      (subject) => print("${subject.id} - ${subject.name}"),
     );
-
-    return response;
   }
+
+  // Future<http.Response> postSubject(
+  //     int subjectId, String name, int userId, String token) async {
+  //   final data = {
+  //     "user_id": userId,
+  //     "authentication_token": token,
+  //     "name": name
+  //   };
+
+  //   final http.Response response = await http.post(
+  //     Uri.parse('https://app.uff.br/umm/api/post_subject_in_igeo'),
+  //     headers: <String, String>{
+  //       'Content-Type': 'application/json; charset=UTF-8',
+  //     },
+  //     body: jsonEncode(data),
+  //   );
+
+  //   return response;
+  // }
+
+  Future postSubject(String name) async {
+    await DbUtil.insert('subjects', {
+      'name': name,
+    });
+  }
+
+  // void _addSubject(String name) {
+  //   postSubject(subjects.isEmpty ? 0 : subjects.last.id + 1, name,
+  //           widget.userData["id"], widget.userData["token"])
+  //       .then((value) => setState(() {
+  //             subjects.add(Subject(
+  //               id: subjects.isEmpty ? 0 : subjects.last.id + 1,
+  //               name: name,
+  //             ));
+  //             //getSubjects(widget.userData["id"], widget.userData["token"]);
+  //           }));
+
+  //   Navigator.of(context).pop();
+  //   ScaffoldMessenger.of(context).hideCurrentSnackBar();
+  //   ScaffoldMessenger.of(context).showSnackBar(
+  //     const SnackBar(
+  //       content: Text('Campo adicionado'),
+  //       duration: Duration(seconds: 2),
+  //       // action: SnackBarAction(
+  //       //   label: 'DESFAZER',
+  //       //   onPressed: () {
+  //       //     cart.removeSingleItem(product.id);
+  //       //   },
+  //     ),
+  //   );
+
+  //   //getSubjects(widget.userData["id"], widget.userData["token"]);
+  // }
 
   void _addSubject(String name) {
-    postSubject(subjects.isEmpty ? 0 : subjects.last.id + 1, name,
-            widget.userData["id"], widget.userData["token"])
-        .then((value) => setState(() {
-              subjects.add(Subject(
-                id: subjects.isEmpty ? 0 : subjects.last.id + 1,
-                name: name,
-              ));
-              //getSubjects(widget.userData["id"], widget.userData["token"]);
-            }));
+    postSubject(name).then((value) => setState(() {
+          subjects.add(Subject(
+            id: subjects.isEmpty ? 0 : subjects.last.id + 1,
+            name: name,
+          ));
+        }));
 
     Navigator.of(context).pop();
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
@@ -100,15 +151,8 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
       const SnackBar(
         content: Text('Campo adicionado'),
         duration: Duration(seconds: 2),
-        // action: SnackBarAction(
-        //   label: 'DESFAZER',
-        //   onPressed: () {
-        //     cart.removeSingleItem(product.id);
-        //   },
       ),
     );
-
-    //getSubjects(widget.userData["id"], widget.userData["token"]);
   }
 
   _openNewSubjectFormModal(BuildContext context) {
@@ -143,41 +187,42 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
     return response;
   }
 
-  deleteSubjectDef(int userId, String token, int subjectId) async {
-    Widget alert = AlertDialog(
-      title: const Text("Deletar campo?",
-          style: TextStyle(
-            color: Color.fromARGB(255, 189, 39, 39),
-          )),
-      content: Text("Todos os pontos serão perdidos!"),
-      actions: [
-        TextButton(
-          onPressed: () async {
-            Navigator.of(context).pop();
-            subjects.removeWhere((element) => element.id == subjectId);
-            await deleteSubject(userId, token, subjectId);
+  // deleteSubjectDef(int userId, String token, int subjectId) async {
+  //   Widget alert = AlertDialog(
+  //     title: const Text("Deletar campo?",
+  //         style: TextStyle(
+  //           color: Color.fromARGB(255, 189, 39, 39),
+  //         )),
+  //     content: Text("Todos os pontos serão perdidos!"),
+  //     actions: [
+  //       TextButton(
+  //         onPressed: () async {
+  //           Navigator.of(context).pop();
+  //           subjects.removeWhere((element) => element.id == subjectId);
+  //           await deleteSubject(userId, token, subjectId);
 
-            ScaffoldMessenger.of(context).hideCurrentSnackBar();
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: const Text('Campo deletado'),
-                duration: const Duration(seconds: 2),
-              ),
-            );
-          },
-          child: const Text("Sim"),
-        ),
-        TextButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-            setState(() {});
-          },
-          child: const Text("Não"),
-        ),
-      ],
-    );
-    showDialog(context: context, builder: (ctx) => alert);
-  }
+  //           ScaffoldMessenger.of(context).hideCurrentSnackBar();
+  //           ScaffoldMessenger.of(context).showSnackBar(
+  //             SnackBar(
+  //               content: const Text('Campo deletado'),
+  //               duration: const Duration(seconds: 2),
+  //             ),
+  //           );
+  //         },
+  //         child: const Text("Sim"),
+  //       ),
+  //       TextButton(
+  //         onPressed: () {
+  //           Navigator.of(context).pop();
+  //           setState(() {});
+  //         },
+  //         child: const Text("Não"),
+  //       ),
+  //     ],
+  //   );
+  //   showDialog(context: context, builder: (ctx) => alert);
+  // }
+  deleteSubjectDef(int subjectId) async {}
 
   // Future<void> refresh(BuildContext context) {
   //   return getSubjects(widget.userData["id"], widget.userData["token"]);
@@ -193,7 +238,7 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder(
-        future: getSubjects(widget.userData["id"], widget.userData["token"]),
+        future: getSubjects(),
         builder: (context, snapshot) =>
             snapshot.connectionState == ConnectionState.waiting
                 ? const Center(
@@ -208,7 +253,7 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
                         itemBuilder: (ctx, index) {
                           return SubjectItem(
                             subjects[index],
-                            widget.userData,
+                            //widget.userData,
                             deleteSubjectDef,
                           );
                         },

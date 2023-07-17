@@ -66,7 +66,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '234706913921',
     projectId: 'igeo-e6789',
     storageBucket: 'igeo-e6789.appspot.com',
-    iosClientId: '234706913921-4k83cb660t3sm8t00mmkbo4q9tlc04rc.apps.googleusercontent.com',
+    iosClientId:
+        '234706913921-4k83cb660t3sm8t00mmkbo4q9tlc04rc.apps.googleusercontent.com',
     iosBundleId: 'com.example.igeoFlutter',
   );
 
@@ -76,7 +77,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '234706913921',
     projectId: 'igeo-e6789',
     storageBucket: 'igeo-e6789.appspot.com',
-    iosClientId: '234706913921-4k83cb660t3sm8t00mmkbo4q9tlc04rc.apps.googleusercontent.com',
+    iosClientId:
+        '234706913921-4k83cb660t3sm8t00mmkbo4q9tlc04rc.apps.googleusercontent.com',
     iosBundleId: 'com.example.igeoFlutter',
   );
 }

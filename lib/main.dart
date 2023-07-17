@@ -18,11 +18,16 @@ import 'models/auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  //WidgetsFlutterBinding.ensureInitialized();
+  //await Firebase.initializeApp(
+  //  options: DefaultFirebaseOptions.currentPlatform,
+  // );
+  sqfliteFfiInit();
+
+  databaseFactory = databaseFactoryFfi;
   runApp(MyApp());
 }
 
@@ -33,7 +38,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => Auth()),
+        //ChangeNotifierProvider(create: (_) => Auth()),
         ChangeNotifierProvider(create: (_) => PointList()),
       ],
       child: MaterialApp(
