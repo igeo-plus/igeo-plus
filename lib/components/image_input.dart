@@ -5,6 +5,7 @@ import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart' as syspaths;
 
 import 'package:image_picker/image_picker.dart';
+import 'package:gallery_saver/gallery_saver.dart';
 
 class ImageInput extends StatefulWidget {
   final Function onSelectImage;
@@ -53,6 +54,8 @@ class _ImageInputState extends State<ImageInput> {
     final appDir = await syspaths.getApplicationDocumentsDirectory();
     String fileName = path.basename(storedImage.last.path);
     final savedImage = await storedImage.last.copy('${appDir.path}/$fileName');
+
+    await GallerySaver.saveImage(savedImage.path);
 
     widget.onSelectImage(savedImage);
   }

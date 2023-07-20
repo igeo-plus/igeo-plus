@@ -89,8 +89,8 @@ class PointDetailScreen extends StatelessWidget {
                       width: double.infinity,
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        border:
-                            Border.all(color: Color.fromARGB(255, 7, 163, 221)),
+                        border: Border.all(
+                            color: const Color.fromARGB(255, 7, 163, 221)),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Column(
@@ -100,7 +100,7 @@ class PointDetailScreen extends StatelessWidget {
                             child: FittedBox(
                               child: Text(
                                 "${point.name}",
-                                style: TextStyle(
+                                style: const TextStyle(
                                     color: Color.fromARGB(255, 7, 163, 221),
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold),
@@ -160,8 +160,8 @@ class PointDetailScreen extends StatelessWidget {
                             padding: const EdgeInsets.only(bottom: 10),
                             child: Column(
                               children: [
-                                Row(
-                                  children: const [
+                                const Row(
+                                  children: [
                                     Icon(
                                       Icons.textsms,
                                       size: 14,
@@ -185,8 +185,8 @@ class PointDetailScreen extends StatelessWidget {
                             padding: const EdgeInsets.only(bottom: 10),
                             child: Column(
                               children: [
-                                Row(
-                                  children: const [
+                                const Row(
+                                  children: [
                                     Icon(
                                       Icons.photo,
                                       size: 14,
@@ -200,7 +200,7 @@ class PointDetailScreen extends StatelessWidget {
                                 ),
                                 //point.image.length == 0
                                 images.isEmpty
-                                    ? Center(
+                                    ? const Center(
                                         child: Text(
                                         "Sem fotos adicionadas",
                                         style: TextStyle(color: Colors.grey),
@@ -216,7 +216,7 @@ class PointDetailScreen extends StatelessWidget {
                                           itemCount: images
                                               .length, //point.image.length,
                                           gridDelegate:
-                                              SliverGridDelegateWithFixedCrossAxisCount(
+                                              const SliverGridDelegateWithFixedCrossAxisCount(
                                             crossAxisCount: 2,
                                             childAspectRatio: 3 / 2,
                                             crossAxisSpacing: 5,

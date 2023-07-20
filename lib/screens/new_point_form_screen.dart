@@ -119,12 +119,12 @@ class _NewPointFormScreenState extends State<NewPointFormScreen> {
                         sendBackData(context, locationInput.point!, subject);
                       }
                     },
+                    style: ElevatedButton.styleFrom(
+                      primary: Theme.of(context).primaryColor,
+                    ),
                     child: const Text(
                       "Novo ponto",
                       style: TextStyle(fontFamily: 'Roboto'),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      primary: Theme.of(context).primaryColor,
                     ),
                   ),
                 )
