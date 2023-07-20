@@ -20,14 +20,14 @@ import 'firebase_options.dart';
 
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
-void main() async {
+void main() {
   //WidgetsFlutterBinding.ensureInitialized();
   //await Firebase.initializeApp(
   //  options: DefaultFirebaseOptions.currentPlatform,
   // );
-  sqfliteFfiInit();
+  //sqfliteFfiInit();
 
-  databaseFactory = databaseFactoryFfi;
+  //databaseFactory = databaseFactoryFfi;
   runApp(MyApp());
 }
 

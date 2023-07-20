@@ -136,6 +136,12 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
   //     //print(newPoint.image);
   //   });
   // }
+  bool toBoolean(String str, [bool strict = false]) {
+    if (strict == true) {
+      return str == '1' || str == 'true';
+    }
+    return str != '0' && str != 'false' && str != '';
+  }
 
   getPoints() async {
     pointList.clear();
@@ -153,12 +159,12 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
         user_id: point["user_id"],
         subject_id: point["subject_id"],
         name: point["name"],
-        lat: point["latitude"],
-        long: point["longitude"],
+        lat: point["lat"],
+        long: point["long"],
         date: point["date"],
         time: point["time"],
         description: point["description"],
-        isFavorite: point["is_favorite"] == point["is_favorite"],
+        isFavorite: toBoolean(point["is_favorite"]),
       );
 
       if (point["image"] is List && point["image"].length > 0) {
@@ -168,6 +174,7 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
       }
       pointList.addPoint(newPoint);
     });
+    print(await DbUtil.getData("points"));
     return await DbUtil.getData("points");
   }
 
@@ -237,7 +244,7 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
     //   body: jsonEncode(dataUser),
     // );
 
-    var data = getPoints();
+    List data = await getPoints();
 
     pointData = data;
     if (pointData.length == 0) {
@@ -251,12 +258,12 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
           user_id: point["user_id"],
           subject_id: point["subject_id"],
           name: point["name"],
-          lat: point["latitude"],
-          long: point["longitude"],
+          lat: point["lat"],
+          long: point["long"],
           date: point["date"],
           time: point["time"],
           description: point["description"],
-          isFavorite: point["is_favorite"] == point["is_favorite"],
+          isFavorite: toBoolean(point["is_favorite"]),
         );
 
         if (point["image"] is List && point["image"].length > 0) {
@@ -294,7 +301,6 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
     print("testando:" + subject.name);
     //print(widget.userData);
     print(subject.name);
-    //print(pointList.getPointsForSubject(widget.subject.id));
 
     void awaitResultFromNewPointScreen(BuildContext context) async {
       final result = await Navigator.pushNamed(context, AppRoutes.NEW_POINT,

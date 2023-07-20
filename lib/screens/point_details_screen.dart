@@ -27,8 +27,7 @@ class PointDetailScreen extends StatelessWidget {
     );
 
     Future<void> loadData() async {
-      final dataList = await DbUtil.queryImages(
-          point.user_id.toString() + point.date! + point.time!);
+      final dataList = await DbUtil.queryImages(point.id!, point.subject_id!);
       print("OK:" + images.toString());
 
       if (dataList.asMap().containsKey(0) &&

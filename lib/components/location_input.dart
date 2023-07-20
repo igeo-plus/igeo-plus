@@ -39,51 +39,46 @@ class _LocationInputState extends State<LocationInput> {
   GoogleMapController? mapController;
 
   Future<void> _getCurrentUserLocation(Point point) async {
-    try {
+    permission = await Geolocator.requestPermission();
+    if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        permission = await Geolocator.requestPermission();
-        if (permission == LocationPermission.denied) {
-          return Future.error('Location permissions are denied');
-        }
+        return Future.error('Location permissions are denied');
       }
-
-      if (permission == LocationPermission.deniedForever) {
-        return Future.error(
-            'Location permissions are permanently denied, we cannot request permissions.');
-      }
-      final locData = await Geolocator.getCurrentPosition();
-      print(locData);
-      setState(
-        () {
-          //_previewImgUrl = staticMapImageUrl;
-
-          lat = locData.latitude;
-          long = locData.longitude;
-          cameraPosition = CameraPosition(
-            target: LatLng(lat!, long!),
-            zoom: 13,
-          );
-        },
-      );
-      mapController?.animateCamera(
-        CameraUpdate.newCameraPosition(cameraPosition!),
-      );
-
-      //final staticMapImageUrl = LocationUtil.generateLocationPreviewImage(
-      //  latitude: locData.latitude,
-      //  longitude: locData.longitude,
-      //);
-
-      //point.changeCoordinates(widget.lat!, widget.long!);
-
-      print("${lat!} + ${long!} OK");
-      point.changeCoordinates(lat!, long!);
-      widget.setPoint(point);
-    } catch (error) {
-      point.changeCoordinates(-22, -43);
-      widget.setPoint(point);
     }
+
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+    final locData = await Geolocator.getCurrentPosition();
+    print(locData);
+    setState(
+      () {
+        //_previewImgUrl = staticMapImageUrl;
+
+        lat = locData.latitude;
+        long = locData.longitude;
+        cameraPosition = CameraPosition(
+          target: LatLng(lat!, long!),
+          zoom: 13,
+        );
+      },
+    );
+    mapController?.animateCamera(
+      CameraUpdate.newCameraPosition(cameraPosition!),
+    );
+
+    //final staticMapImageUrl = LocationUtil.generateLocationPreviewImage(
+    //  latitude: locData.latitude,
+    //  longitude: locData.longitude,
+    //);
+
+    //point.changeCoordinates(widget.lat!, widget.long!);
+
+    print("${lat!} + ${long!} OK");
+    point.changeCoordinates(lat!, long!);
+    widget.setPoint(point);
   }
 
   Future<void> _selectOnMap(Point point) async {

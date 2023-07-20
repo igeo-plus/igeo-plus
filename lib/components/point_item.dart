@@ -110,7 +110,7 @@ class _PointItemState extends State<PointItem> {
                 ),
               ),
               Text(
-                  "Lat: ${widget.point.lat!.toStringAsFixed(2)} - Lon: ${widget.point.long!.toStringAsFixed(2)}"),
+                  "Lat: ${widget.point.lat?.toStringAsFixed(2)} - Lon: ${widget.point.long?.toStringAsFixed(2)}"),
               const SizedBox(width: 3),
               // Container(
               //   margin: const EdgeInsets.only(right: 2),
