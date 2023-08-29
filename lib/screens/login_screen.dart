@@ -304,8 +304,25 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 30,
             ),
             TextButton(
+              onPressed: () async {
+                //await login();
+                Navigator.of(context).pushNamed(
+                  AppRoutes.HOME2,
+                ); //arguments: getUserData);
+                setState(() {
+                  isLoading = false;
+                });
+              },
+              child: const Text("Continue sem login"),
+            ),
+            TextButton(
               onPressed: () {}, //logOut,
-              child: const Text("Logout"),
+              child: const Text(
+                "Logout",
+                style: TextStyle(
+                  color: Colors.blueGrey,
+                ),
+              ),
             ),
           ],
         ),
