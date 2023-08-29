@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
+import 'package:intl/intl.dart';
 
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart' as syspaths;
 
 import 'package:image_picker/image_picker.dart';
 import 'package:gallery_saver/gallery_saver.dart';
+import 'package:image/image.dart' as img;
+import 'package:geolocator/geolocator.dart';
+
+import 'package:igeo_flutter/models/point.dart';
 
 class ImageInput extends StatefulWidget {
   final Function onSelectImage;
-  const ImageInput(this.onSelectImage);
+  ImageInput(this.onSelectImage);
 
   @override
   State<ImageInput> createState() => _ImageInputState();
@@ -18,7 +23,36 @@ class ImageInput extends StatefulWidget {
 class _ImageInputState extends State<ImageInput> {
   List<File> storedImage = [];
 
+  double? lat;
+  double? long;
+  LocationPermission? permission;
+
+  Future<void> _getCurrentUserLocation() async {
+    permission = await Geolocator.requestPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+    final locData = await Geolocator.getCurrentPosition();
+    print(locData);
+    setState(
+      () {
+        lat = locData.latitude;
+        long = locData.longitude;
+      },
+    );
+    print("${lat!} + ${long!} OK");
+  }
+
   void takePicture() async {
+    await _getCurrentUserLocation();
     if (storedImage.length >= 4) {
       AlertDialog alert = AlertDialog(
         title: const Text("Você atingiu o limite de 4 imagens"),
@@ -45,8 +79,20 @@ class _ImageInputState extends State<ImageInput> {
       return;
     }
 
+    final decodeImg = img.decodeImage(File(imageFile.path).readAsBytesSync());
+
+    img.drawString(
+      decodeImg!,
+      '${DateFormat('yyyy-MM-dd – kk:mm').format(DateTime.now())} - Lat: $lat - Long: $long',
+      x: 10,
+      y: 10,
+      font: img.arial24,
+    );
+
+    final encodeImage = img.encodeJpg(decodeImg, quality: 100);
+
     setState(() {
-      storedImage.add(File(imageFile.path));
+      storedImage.add(File(imageFile.path)..writeAsBytesSync(encodeImage));
     });
 
     //print(storedImage.last.readAsBytes());
