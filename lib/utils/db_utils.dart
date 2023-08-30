@@ -21,6 +21,9 @@ class DbUtil {
 
     db.execute(
         'CREATE TABLE points (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name TEXT, lat REAL, long REAL, date TEXT, time TEXT, description TEXT, is_favorite TEXT DEFAULT "false", image1 TEXT, image2 TEXT, image3 TEXT, image4 TEXT,subject_id INTEGER, FOREIGN KEY (subject_id) REFERENCES subjects(id))');
+
+    db.execute(
+        'CREATE TABLE accept (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, accept TEXT DEFAULT "false")');
   }
 
   static Future<void> insert(String table, Map<String, Object> data) async {

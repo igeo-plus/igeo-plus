@@ -42,4 +42,7 @@ Confirmo que:
 
 9. Compreendo que não guardarei imagens pessoais e sim apenas imagens de paisagens e/ou outros elementos objetos do estudo de um determinado trabalho de campo. Entendo que minha conta poderá ser excluída caso guarde imagens pessoais ou com a presença de pessoas, caso os dados sejam armazenados de forma online.
 
-10. Compreendo que a inserção de dados é de minha responsabilidade e que qualquer conteúdo salvo que não esteja de acordo com a legislação brasileira poderá ser encaminhado para a justiça e autoridades''';
+10. Compreendo que a inserção de dados é de minha total responsabilidade.
+
+11. Compreendo que se eu desinstalar o aplicativo, os dados salvos localmente serão perdidos.
+''';
