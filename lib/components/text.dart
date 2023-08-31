@@ -10,13 +10,9 @@ Não serão compartilhados os dados pessoais com ninguém, de dentro ou fora da 
 
 A Política de Privacidade do aplicativo iGeo segue as diretrizes da LGPD; o inciso X do art. 5º da CF; e os Princípios da Iniciativa de Rede Global (GNI) sobre Liberdade de Expressão e Privacidade (https://globalnetworkinitiative.org/gni-principles/), “Salvo se autorizadas, ou se necessárias à administração da justiça ou à manutenção da ordem pública, a divulgação de escritos, a transmissão da palavra, ou a publicação, a exposição ou a utilização da imagem de uma pessoa poderão ser proibidas, a seu requerimento e sem prejuízo da indenização que couber, se lhe atingirem a honra, a boa fama ou a respeitabilidade, ou se se destinarem a fins comerciais” art. 20 do CCB.
 
-Para obter informações sobre como lidamos com dados pessoais, leia nossa Declaração de Privacidade; Proteção de Dados Pessoais; e Comitê de Ética da UFF (Resolução CNS/MS nº 510, de 07 de abril de 2016 – Trata sobre especificidade da análise ética de pesquisas na área de ciências humanas e sociais; Norma Operacional 001/2013 – Dispõe sobre a organização e funcionamento do Sistema CEP/CONEP e sobre os procedimentos para submissão, avaliação e acompanhamento de pesquisa envolvendo seres humanos no Brasil).
-
 Se o(a) usuário(a) desejar exercer algum dos seus direitos, deverá entrar em contato com a equipe UFF Mobile da Superintendência de Tecnologia da Informação descrevendo a motivação.
 
 Acrescenta-se a possibilidade de informações complementares serem solicitadas como verificação de identidade e medida de segurança para acesso. O tempo máximo de resposta completa aos questionamentos do(a) usuário(a), sobre o uso de seus dados pessoais pelo iGeo, é de 15 (quinze) dias úteis, de acordo com o art. 19 da LGPD.
-
-A segurança dos dados armazenados na nossa base é garantida por meio do acesso restrito às pessoas autorizadas do iGeo, mediante termo de confidencialidade, cujas senhas de acesso são alteradas periodicamente.
 
 ATENÇÃO! O iGeo não solicita dados pessoais de qualquer natureza via WhatsApp ou ligação telefônica. Todos os dados são coletados por formulário eletrônico ou por e-mail institucional.
 
@@ -24,11 +20,11 @@ Obs.: No momento os dados são salvos de forma offline somente no dispositivo m�
 
 Confirmo que:
 
-1. Sei que no momento os dados são salvos de forma offline somente no dispositivo móvel, mas, em versões futuras, o iGeo poderá armazená-los de forma online.
+1. Sei que no momento os dados são salvos de forma offline somente no dispositivo móvel, mas, em versões futuras, o iGeo poderá armazená-los de forma online mediante aviso aos usuários.
 
 2. Sou maior de idade (a partir de 18 anos).
 
-3. Sei que o iGeo pode coletar dados do gmail caso o usuário faça login (nome, e-mail, foto, etc.) por motivos de segurança.
+3. Sei que o iGeo pode coletar dados do gmail caso o usuário faça login (nome, e-mail, foto, etc.) por motivos de segurança, caso os dados sejam armazenados de forma online.
 
 4. Eu concedo ao projeto iGeo da UFF, uma licença exclusiva, sub licenciável consentimento e licença para usar, reproduzir e publicar todos e quaisquer direitos de imagem em qualquer meio/mídia em conexão com os propósitos juntamente com o direito do aplicativo iGeo autorizar outros a fazê-lo, caso os dados sejam armazenados de forma online.
 

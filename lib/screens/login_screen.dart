@@ -382,9 +382,24 @@ class _LoginScreenState extends State<LoginScreen> {
                 ? CircularProgressIndicator(
                     color: Colors.amber,
                   )
-                : SignInButton(
-                    Buttons.GoogleDark,
+                :
+                // : SignInButton(
+                //     Buttons.GoogleDark,
+                //     onPressed: () async {
+                //       await submitForm();
+                //       //await login();
+                //       Navigator.of(context).pushNamed(
+                //         AppRoutes.HOME2,
+                //       ); //arguments: getUserData);
+                //       setState(() {
+                //         isLoading = false;
+                //       });
+                //     },
+                //     text: "Entrar com Google/Gmail",
+                //   ),
+                ElevatedButton(
                     onPressed: () async {
+                      await submitForm();
                       //await login();
                       Navigator.of(context).pushNamed(
                         AppRoutes.HOME2,
@@ -393,8 +408,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         isLoading = false;
                       });
                     },
-                    text: "Login com Google/Gmail",
-                  ),
+                    child: Text("Entrar")),
             const SizedBox(
               height: 30,
             ),
