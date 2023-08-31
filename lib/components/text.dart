@@ -22,23 +22,25 @@ Confirmo que:
 
 1. Sei que no momento os dados são salvos de forma offline somente no dispositivo móvel, mas, em versões futuras, o iGeo poderá armazená-los de forma online em serviço próprio mediante aviso aos usuários.
 
-2. Sou maior de idade (a partir de 18 anos).
+2. No armazenamento offline no próprio dispositivo móvel do usuário, o iGeo não se responsabiliza pelo uso e compartilhamento dos dados.
 
-3. Sei que o iGeo poderá coletar dados do gmail caso o usuário faça login (nome, e-mail, foto, etc.) por motivos de segurança, caso os dados sejam armazenados de forma online em um possível de armazenamento do iGeo.
+3. Sou maior de idade (a partir de 18 anos).
 
-4. Eu concedo ao projeto iGeo da UFF, uma licença exclusiva, sub licenciável consentimento e licença para usar, reproduzir e publicar todos e quaisquer direitos de imagem em qualquer meio/mídia em conexão com os propósitos juntamente com o direito do aplicativo iGeo autorizar outros a fazê-lo, caso os dados sejam armazenados de forma online em um possível serviço de armazenamento do iGeo.
+4. Sei que o iGeo poderá coletar dados do gmail caso o usuário faça login (nome, e-mail, foto, etc.) por motivos de segurança, caso os dados sejam armazenados de forma online em um possível de armazenamento do iGeo.
 
-5. Eu atribuo e transfiro para o iGeo, direitos autorais passados, presentes e futuros, quaisquer direitos dos colaboradores em relação a isso e/ou quaisquer imagens estáticas, textos e dados. Esses direitos, no entanto, podem ser anulados, se estiverem sob os critérios de exceção previstos pela LGPD, caso os dados sejam armazenados de forma online em um possível de armazenamento do iGeo.
+5. Eu concedo ao projeto iGeo da UFF, uma licença exclusiva, sub licenciável consentimento e licença para usar, reproduzir e publicar todos e quaisquer direitos de imagem em qualquer meio/mídia em conexão com os propósitos juntamente com o direito do aplicativo iGeo autorizar outros a fazê-lo, caso os dados sejam armazenados de forma online em um possível serviço de armazenamento do iGeo.
 
-6. Entendo que os materiais podem ser usados em seu formato original ou editados. Isso inclui, mas não se limita a, produzir transcrições ou que acompanhem as descrições escritas dos materiais, caso os dados sejam armazenados de forma online em um possível de armazenamento do iGeo.
+6. Eu atribuo e transfiro para o iGeo, direitos autorais passados, presentes e futuros, quaisquer direitos dos colaboradores em relação a isso e/ou quaisquer imagens estáticas, textos e dados. Esses direitos, no entanto, podem ser anulados, se estiverem sob os critérios de exceção previstos pela LGPD, caso os dados sejam armazenados de forma online em um possível de armazenamento do iGeo.
 
-7. Entendo que os materiais podem ser usados em suas publicações, sites e outros meios de publicidade material, e autoriza-se expressamente tal uso, caso os dados sejam armazenados de forma online em um possível de armazenamento do iGeo.
+7. Entendo que os materiais podem ser usados em seu formato original ou editados. Isso inclui, mas não se limita a, produzir transcrições ou que acompanhem as descrições escritas dos materiais, caso os dados sejam armazenados de forma online em um possível de armazenamento do iGeo.
 
-8. Entendo que os materiais serão mantidos de acordo com os regulamentos de proteção de dados pessoais relevantes. Não me oponho que o iGeo transfira os materiais e/ou armazene-os para fins de pesquisa, ensino e preservação da memória social, caso os dados sejam armazenados de forma online em um possível de armazenamento do iGeo.
+8. Entendo que os materiais podem ser usados em suas publicações, sites e outros meios de publicidade material, e autoriza-se expressamente tal uso, caso os dados sejam armazenados de forma online em um possível de armazenamento do iGeo.
 
-9. Compreendo que não guardarei imagens pessoais e sim apenas imagens de paisagens e/ou outros elementos objetos do estudo de um determinado trabalho de campo. Entendo que minha conta poderá ser excluída caso guarde imagens pessoais ou com a presença de pessoas, caso os dados sejam armazenados de forma online.
+9. Entendo que os materiais serão mantidos de acordo com os regulamentos de proteção de dados pessoais relevantes. Não me oponho que o iGeo transfira os materiais e/ou armazene-os para fins de pesquisa, ensino e preservação da memória social, caso os dados sejam armazenados de forma online em um possível de armazenamento do iGeo.
 
-10. Compreendo que a inserção de dados é de minha total responsabilidade.
+10. Compreendo que não guardarei imagens pessoais e sim apenas imagens de paisagens e/ou outros elementos objetos do estudo de um determinado trabalho de campo. Entendo que minha conta poderá ser excluída caso guarde imagens pessoais ou com a presença de pessoas, caso os dados sejam armazenados de forma online.
 
-11. Compreendo que se eu desinstalar o aplicativo, os dados salvos localmente serão perdidos.
+11. Compreendo que a inserção de dados é de minha total responsabilidade.
+
+12. Compreendo que se eu desinstalar o aplicativo, os dados salvos localmente serão perdidos.
 ''';
