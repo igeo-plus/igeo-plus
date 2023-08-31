@@ -23,7 +23,9 @@ class DbUtil {
         'CREATE TABLE points (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name TEXT, lat REAL, long REAL, date TEXT, time TEXT, description TEXT, is_favorite TEXT DEFAULT "false", image1 TEXT, image2 TEXT, image3 TEXT, image4 TEXT,subject_id INTEGER, FOREIGN KEY (subject_id) REFERENCES subjects(id))');
 
     db.execute(
-        'CREATE TABLE accept (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, accept TEXT DEFAULT "false")');
+        'CREATE TABLE accepts (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, accept TEXT)');
+
+    db.rawInsert('INSERT INTO accepts (accept) VALUES("false")');
   }
 
   static Future<void> insert(String table, Map<String, Object> data) async {
@@ -45,5 +47,22 @@ class DbUtil {
     final db = await DbUtil.database();
     return db.rawQuery('SELECT * FROM points WHERE id=? AND subject_id=?',
         [pointId, subjectId]);
+  }
+
+  static Future<int> updateAccept() async {
+    final db = await DbUtil.database();
+
+    Map<String, String> row = {
+      'accept': 'true',
+    };
+
+    var result = await db.update(
+      'accepts',
+      row,
+      where: 'id = ?',
+      whereArgs: [1],
+    );
+
+    return result;
   }
 }

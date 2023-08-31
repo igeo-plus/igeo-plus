@@ -5,11 +5,14 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:provider/provider.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
+import 'package:flutter/services.dart';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:igeo_flutter/models/auth.dart';
 
 import '../utils/routes.dart';
+import '../utils/db_utils.dart';
+import '../components/text.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -44,6 +47,8 @@ class _LoginScreenState extends State<LoginScreen> {
   //final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   bool isLoading = false;
+
+  bool accept = false;
 
   // Future<UserCredential?> _handleSignIn() async {
   //   GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
@@ -186,6 +191,96 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    submitForm() async {
+      //print(formData);
+      final dataFromAccept = await DbUtil.getData("accepts");
+      print(dataFromAccept);
+
+      if (dataFromAccept[0]['accept'] == 'false') {
+        Widget alert = AlertDialog(
+          title: Row(
+            children: [
+              const Icon(
+                Icons.warning_amber_outlined,
+                color: Colors.amber,
+                size: 12,
+              ),
+              const Expanded(
+                child: Text(
+                  " Termo de Uso",
+                  style: TextStyle(
+                    fontSize: 10,
+                    color: Color.fromARGB(255, 189, 39, 39),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          content: SingleChildScrollView(
+            child: Text(
+              signupText,
+              style: TextStyle(
+                fontSize: 9,
+              ),
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () async {
+                // setState(() {
+                //   accept = true;
+                // });
+                Navigator.of(context).pop();
+                await DbUtil.updateAccept();
+
+                Navigator.of(context).pushNamed(
+                  AppRoutes.HOME2,
+                );
+                ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Você aceitou o termo de responsabilidade'),
+                    duration: Duration(seconds: 2),
+                  ),
+                );
+              },
+              child: const Text("Concordo"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                SystemNavigator.pop();
+                setState(() {
+                  //accept = false;
+                });
+
+                return;
+              },
+              child: const Text("Discordo"),
+            ),
+          ],
+        );
+        await showDialog(context: context, builder: (ctx) => alert);
+
+        // if (accept) {
+        //   await DbUtil.updateAccept();
+
+        //   Navigator.of(context).pushNamed(
+        //     AppRoutes.HOME2,
+        //   );
+        //   ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        //   ScaffoldMessenger.of(context).showSnackBar(
+        //     const SnackBar(
+        //       content: Text('Você aceitou o termo de responsabilidade'),
+        //       duration: Duration(seconds: 2),
+        //     ),
+        //   );
+        // } else {
+        //   return;
+        // }
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("iGeo"),
@@ -305,6 +400,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             TextButton(
               onPressed: () async {
+                await submitForm();
                 //await login();
                 Navigator.of(context).pushNamed(
                   AppRoutes.HOME2,
