@@ -412,28 +412,28 @@ class _LoginScreenState extends State<LoginScreen> {
             const SizedBox(
               height: 30,
             ),
-            TextButton(
-              onPressed: () async {
-                await submitForm();
-                //await login();
-                Navigator.of(context).pushNamed(
-                  AppRoutes.HOME2,
-                ); //arguments: getUserData);
-                setState(() {
-                  isLoading = false;
-                });
-              },
-              child: const Text("Continue sem login"),
-            ),
-            TextButton(
-              onPressed: () {}, //logOut,
-              child: const Text(
-                "Logout",
-                style: TextStyle(
-                  color: Colors.blueGrey,
-                ),
-              ),
-            ),
+            // TextButton(
+            //   onPressed: () async {
+            //     await submitForm();
+            //     //await login();
+            //     Navigator.of(context).pushNamed(
+            //       AppRoutes.HOME2,
+            //     ); //arguments: getUserData);
+            //     setState(() {
+            //       isLoading = false;
+            //     });
+            //   },
+            //   child: const Text("Continue sem login"),
+            // ),
+            // TextButton(
+            //   onPressed: () {}, //logOut,
+            //   child: const Text(
+            //     "Logout",
+            //     style: TextStyle(
+            //       color: Colors.blueGrey,
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),
