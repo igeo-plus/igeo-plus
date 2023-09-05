@@ -18,7 +18,7 @@ import 'models/auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
-import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+//import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 void main() {
   //WidgetsFlutterBinding.ensureInitialized();

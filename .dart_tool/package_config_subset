@@ -402,14 +402,6 @@ sqflite_common
 2.18
 file:///home/pedro/.pub-cache/hosted/pub.dev/sqflite_common-2.4.5+1/
 file:///home/pedro/.pub-cache/hosted/pub.dev/sqflite_common-2.4.5+1/lib/
-sqflite_common_ffi
-2.18
-file:///home/pedro/.pub-cache/hosted/pub.dev/sqflite_common_ffi-2.2.5/
-file:///home/pedro/.pub-cache/hosted/pub.dev/sqflite_common_ffi-2.2.5/lib/
-sqlite3
-3.0
-file:///home/pedro/.pub-cache/hosted/pub.dev/sqlite3-2.0.0/
-file:///home/pedro/.pub-cache/hosted/pub.dev/sqlite3-2.0.0/lib/
 stack_trace
 2.18
 file:///home/pedro/.pub-cache/hosted/pub.dev/stack_trace-1.11.0/
