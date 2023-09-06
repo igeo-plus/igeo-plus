@@ -49,6 +49,33 @@ class DbUtil {
         [pointId, subjectId]);
   }
 
+  static Future<void> favoritePoint(int pointId, int subjectId) async {
+    final db = await DbUtil.database();
+
+    final data = db.rawQuery('SELECT * FROM points WHERE id=? AND subject_id=?',
+        [pointId, subjectId]);
+
+    data.then(
+      (response) {
+        if (response[0]["is_favorite"] == "false") {
+          var result = db.rawUpdate('''
+    UPDATE points
+    SET is_favorite = ?
+    WHERE id = ? AND subject_id = ?
+    ''', ['true', pointId, subjectId]);
+        }
+
+        if (response[0]["is_favorite"] == "true") {
+          var result = db.rawUpdate('''
+    UPDATE points
+    SET is_favorite = ?
+    WHERE id = ? AND subject_id = ?
+    ''', ['false', pointId, subjectId]);
+        }
+      },
+    );
+  }
+
   static Future<int> updateAccept() async {
     final db = await DbUtil.database();
 

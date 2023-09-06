@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:igeo_flutter/utils/db_utils.dart';
 
 import '../models/point.dart';
 
@@ -37,8 +38,10 @@ class PointList with ChangeNotifier {
   void togglePointFavorite(int pointId, int subjectId) {
     if (getPoint(pointId, subjectId).isFavorite == false) {
       getPoint(pointId, subjectId).isFavorite = true;
+      DbUtil.favoritePoint(pointId, subjectId);
     } else {
       getPoint(pointId, subjectId).isFavorite = false;
+      DbUtil.favoritePoint(pointId, subjectId);
     }
     print(getPoint(pointId, subjectId).isFavorite);
     notifyListeners();

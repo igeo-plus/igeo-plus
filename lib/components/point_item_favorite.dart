@@ -11,10 +11,9 @@ import '../utils/routes.dart';
 class PointItemFavorite extends StatelessWidget {
   final Point point;
   final List<Subject> subjects;
-  final Map<String, dynamic> userData;
+  //final Map<String, dynamic> userData;
 
-  const PointItemFavorite(this.point, this.subjects, this.userData,
-      {super.key});
+  const PointItemFavorite(this.point, this.subjects, {super.key});
 
   void _goToPointDetailsScreen(
       BuildContext context, List<Subject> subjects, Point point) {
@@ -24,22 +23,22 @@ class PointItemFavorite extends StatelessWidget {
         arguments: {"subject": subject, "point": point});
   }
 
-  Future favoritePoint(int userId, String token, int pointId) async {
-    final data = {
-      "user_id": userId,
-      "authentication_token": token,
-      "id": pointId
-    };
+  // Future favoritePoint(int userId, String token, int pointId) async {
+  //   final data = {
+  //     "user_id": userId,
+  //     "authentication_token": token,
+  //     "id": pointId
+  //   };
 
-    final http.Response response = await http.post(
-      Uri.parse("https://app.uff.br/umm/api/favorite_point_in_igeo"),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(data),
-    );
-    return response;
-  }
+  //   final http.Response response = await http.post(
+  //     Uri.parse("https://app.uff.br/umm/api/favorite_point_in_igeo"),
+  //     headers: <String, String>{
+  //       'Content-Type': 'application/json; charset=UTF-8',
+  //     },
+  //     body: jsonEncode(data),
+  //   );
+  //   return response;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -57,12 +56,11 @@ class PointItemFavorite extends StatelessWidget {
       ),
       key: ValueKey(point.id),
       onDismissed: (_) {
-        point.toggleFavorite();
-        favoritePoint(
-          userData["id"],
-          userData["token"],
-          point.id!,
-        );
+        //point.toggleFavorite();
+        //favoritePoint(
+        //userData["id"],
+        //userData["token"],
+        //point.id!,
       },
       child: InkWell(
         onTap: () => _goToPointDetailsScreen(context, subjects, point),

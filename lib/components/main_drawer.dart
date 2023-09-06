@@ -5,8 +5,8 @@ import 'package:provider/provider.dart';
 
 import '../models/auth.dart';
 
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+//import 'package:firebase_auth/firebase_auth.dart';
+//import 'package:google_sign_in/google_sign_in.dart';
 
 class MainDrawer extends StatefulWidget {
   const MainDrawer({super.key});
@@ -16,13 +16,13 @@ class MainDrawer extends StatefulWidget {
 }
 
 class _MainDrawerState extends State<MainDrawer> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  //final FirebaseAuth _auth = FirebaseAuth.instance;
+  //final GoogleSignIn _googleSignIn = GoogleSignIn();
 
-  Future<void> logOut() async {
-    Auth auth = Provider.of<Auth>(context, listen: false);
-    await auth.signOut(_auth, _googleSignIn);
-  }
+  // Future<void> logOut() async {
+  //   Auth auth = Provider.of<Auth>(context, listen: false);
+  //   await auth.signOut(_auth, _googleSignIn);
+  // }
 
   Widget _createDrawerItem(IconData icon, String label, Function onTap) {
     return TextButton(
@@ -45,13 +45,13 @@ class _MainDrawerState extends State<MainDrawer> {
             automaticallyImplyLeading: false,
           ),
           //_createDrawerItem(Icons.person, "Editar conta", () => print("ok")),
-          _createDrawerItem(Icons.logout, "Logout", () {
+          _createDrawerItem(Icons.logout, "Home", () {
             Navigator.of(context)
                 .pushNamedAndRemoveUntil(AppRoutes.HOME, (route) => false);
-            logOut();
+            //logOut();
           }),
           _createDrawerItem(Icons.close, "Fechar", () {
-            logOut();
+            //logOut();
             SystemNavigator.pop();
           })
         ],
