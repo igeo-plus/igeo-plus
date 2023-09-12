@@ -76,7 +76,7 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
 
     subjectData.forEach((subject) {
       subjects.add(
-        Subject(id: subject["id"], name: subject["name"]),
+        Subject(id: subject["id"], name: subject["subject_name"]),
       );
     });
     subjects.forEach(
@@ -105,7 +105,7 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
 
   Future postSubject(String name) async {
     await DbUtil.insert('subjects', {
-      'name': name,
+      'subject_name': name,
     });
   }
 
@@ -236,6 +236,10 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    DbUtil.downloadData().then((value) {
+      print("DADOS");
+      print(value);
+    });
     return Scaffold(
       body: FutureBuilder(
         future: getSubjects(),

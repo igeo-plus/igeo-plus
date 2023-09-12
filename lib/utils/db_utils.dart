@@ -1,5 +1,11 @@
 import 'package:sqflite/sqflite.dart' as sql;
 import 'package:path/path.dart' as path;
+import 'package:path_provider/path_provider.dart' as syspaths;
+import 'package:file_picker/file_picker.dart';
+import 'dart:io';
+import 'package:csv/csv.dart';
+import 'package:permission_handler/permission_handler.dart';
+
 import 'package:sqflite/sqlite_api.dart';
 
 class DbUtil {
@@ -17,7 +23,7 @@ class DbUtil {
         'CREATE TABLE users (id INTEGER PRIMARY KEY, first_name TEXT, last_name TEXT, email TEXT, accept_use TEXT)');
 
     db.execute(
-        'CREATE TABLE subjects (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name TEXT, imageUrl TEXT)');
+        'CREATE TABLE subjects (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, subject_name TEXT, subject_imageUrl TEXT)');
 
     db.execute(
         'CREATE TABLE points (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name TEXT, lat REAL, long REAL, date TEXT, time TEXT, description TEXT, is_favorite TEXT DEFAULT "false", image1 TEXT, image2 TEXT, image3 TEXT, image4 TEXT,subject_id INTEGER, FOREIGN KEY (subject_id) REFERENCES subjects(id))');
@@ -91,5 +97,77 @@ class DbUtil {
     );
 
     return result;
+  }
+
+  static void generateCsv(List<List<dynamic>> inputData) async {
+    List<List<dynamic>> data = inputData;
+    print("teste");
+    print(data);
+    String csvData = const ListToCsvConverter().convert(data);
+    print(csvData);
+    final String directory =
+        (await syspaths.getApplicationSupportDirectory()).path;
+    final String documentsDirectory =
+        (await syspaths.getApplicationDocumentsDirectory()).path;
+    final path = "$directory/csv-${DateTime.now()}.csv";
+    //final documentsPath = "$documentsDirectory/csv-${DateTime.now()}.csv";
+    final documentsPath =
+        "/storage/emulated/0/Download/csv-${DateTime.now()}.csv";
+    print(path);
+    print(documentsPath);
+    final File file = File(path);
+    final File downloadedFile = File(documentsPath);
+    await file.writeAsString(csvData);
+    var status = await Permission.storage.request();
+    if (status.isGranted) {
+      await downloadedFile.writeAsString(csvData);
+    }
+  }
+
+  static Future<dynamic> downloadData() async {
+    final db = await DbUtil.database();
+
+    final int dataLength = await db
+        .rawQuery(
+            'SELECT p.long, p.lat, p.id, p.name, p.description, p.date, p.time, s.subject_name FROM points AS p JOIN subjects AS s on p.subject_id = s.id')
+        .then((value) => value.length);
+
+    if (dataLength == 0) {
+      return;
+    }
+
+    List<List<dynamic>> listData = [
+      [
+        "long",
+        "lat",
+        "id",
+        "name",
+        "description",
+        "date",
+        "time",
+        "subject_name"
+      ],
+    ];
+    await db
+        .rawQuery(
+            'SELECT p.long, p.lat, p.id, p.name, p.description, p.date, p.time, s.subject_name FROM points AS p JOIN subjects AS s on p.subject_id = s.id')
+        .then((value) {
+      print("listdata");
+      print(value);
+      value.forEach((element) => listData.add([
+            element["long"],
+            element["lat"],
+            element["id"],
+            element["name"],
+            element["description"],
+            element["date"],
+            element["time"],
+            element["subject_name"],
+          ]));
+      generateCsv(listData);
+    });
+
+    return db.rawQuery(
+        'SELECT p.long, p.lat, p.id, p.name, p.description, p.date, p.time, s.subject_name FROM points AS p JOIN subjects AS s on p.subject_id = s.id');
   }
 }

@@ -50,6 +50,11 @@ class _MainDrawerState extends State<MainDrawer> {
                 .pushNamedAndRemoveUntil(AppRoutes.HOME, (route) => false);
             //logOut();
           }),
+          _createDrawerItem(Icons.download, "Baixar dados", () {
+            Navigator.of(context)
+                .pushNamedAndRemoveUntil(AppRoutes.HOME, (route) => false);
+            //logOut();
+          }),
           _createDrawerItem(Icons.close, "Fechar", () {
             //logOut();
             SystemNavigator.pop();

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
+import 'package:path/path.dart';
 import 'dart:convert';
 import 'dart:math';
 import 'package:provider/provider.dart';
@@ -198,7 +199,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
       if (dataFromAccept[0]['accept'] == 'false') {
         Widget alert = AlertDialog(
-          title: Row(
+          title: const Row(
             children: [
               const Icon(
                 Icons.warning_amber_outlined,
@@ -397,18 +398,39 @@ class _LoginScreenState extends State<LoginScreen> {
                 //     },
                 //     text: "Entrar com Google/Gmail",
                 //   ),
-                ElevatedButton(
-                    onPressed: () async {
-                      await submitForm();
-                      //await login();
-                      Navigator.of(context).pushNamed(
-                        AppRoutes.HOME2,
-                      ); //arguments: getUserData);
-                      setState(() {
-                        isLoading = false;
-                      });
-                    },
-                    child: Text("Entrar")),
+                Padding(
+                    padding: const EdgeInsets.only(left: 50, right: 50),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blueGrey),
+                      onPressed: () async {
+                        await submitForm();
+                        //await login();
+                        Navigator.of(context).pushNamed(
+                          AppRoutes.HOME2,
+                        ); //arguments: getUserData);
+                        setState(() {
+                          isLoading = false;
+                        });
+                      },
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.login,
+                            color: Colors.white,
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            "Entrar",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
             const SizedBox(
               height: 30,
             ),

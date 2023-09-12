@@ -59,6 +59,9 @@ dependencies:
   image_gallery_saver: ^2.0.3
   gallery_saver: ^2.3.2
   image: ^4.0.17
+  csv: ^5.0.2
+  file_picker: ^5.5.0
+  permission_handler: ^11.0.0
 
 dev_dependencies:
   flutter_test:

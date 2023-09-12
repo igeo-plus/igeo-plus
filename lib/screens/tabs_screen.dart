@@ -64,11 +64,11 @@ class _TabsScreenState extends State<TabsScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.of(context)
-                  .pushNamedAndRemoveUntil(AppRoutes.HOME, (route) => false);
+              // Navigator.of(context)
+              //     .pushNamedAndRemoveUntil(AppRoutes.HOME, (route) => false);
               //logOut();
             },
-            icon: const Icon(Icons.logout),
+            icon: const Icon(Icons.download),
           ),
         ],
       ),
