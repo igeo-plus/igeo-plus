@@ -109,10 +109,11 @@ class DbUtil {
         (await syspaths.getApplicationSupportDirectory()).path;
     final String documentsDirectory =
         (await syspaths.getApplicationDocumentsDirectory()).path;
-    final path = "$directory/csv-${DateTime.now()}.csv";
+    final path =
+        "$directory/igeo_csv_${DateTime.now().toString().replaceAll("-", "_").replaceAll(" ", "_").replaceAll(":", "_").replaceAll(".", "_")}.csv";
     //final documentsPath = "$documentsDirectory/csv-${DateTime.now()}.csv";
     final documentsPath =
-        "/storage/emulated/0/Download/csv-${DateTime.now()}.csv";
+        "/storage/emulated/0/Download/igeo_csv_${DateTime.now().toString().replaceAll("-", "_").replaceAll(" ", "_").replaceAll(":", "_").replaceAll(".", "_")}.csv";
     print(path);
     print(documentsPath);
     final File file = File(path);

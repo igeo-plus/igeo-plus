@@ -236,10 +236,10 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    DbUtil.downloadData().then((value) {
-      print("DADOS");
-      print(value);
-    });
+    // DbUtil.downloadData().then((value) {
+    //   print("DADOS");
+    //   print(value);
+    // });
     return Scaffold(
       body: FutureBuilder(
         future: getSubjects(),
@@ -282,12 +282,38 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
                       ),
       ),
       drawer: const MainDrawer(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _openNewSubjectFormModal(context);
-        },
-        backgroundColor: Theme.of(context).primaryColor,
-        child: const Icon(Icons.add),
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            heroTag: "btn1",
+            onPressed: () {
+              _openNewSubjectFormModal(context);
+            },
+            backgroundColor: Theme.of(context).primaryColor,
+            child: const Icon(Icons.add),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 8),
+            child: FloatingActionButton(
+              heroTag: "btn2",
+              onPressed: () {
+                DbUtil.downloadData();
+                ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Dados baixados'),
+                    duration: Duration(seconds: 2),
+                  ),
+                );
+              },
+              backgroundColor: Colors.blueGrey,
+              child: const Icon(
+                Icons.download,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

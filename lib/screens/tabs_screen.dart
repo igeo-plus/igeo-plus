@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:igeo_flutter/utils/db_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
@@ -64,6 +65,15 @@ class _TabsScreenState extends State<TabsScreen> {
         actions: [
           IconButton(
             onPressed: () {
+              DbUtil.downloadData();
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Dados baixados'),
+                  duration: Duration(seconds: 2),
+                ),
+              );
+
               // Navigator.of(context)
               //     .pushNamedAndRemoveUntil(AppRoutes.HOME, (route) => false);
               //logOut();
@@ -81,7 +91,7 @@ class _TabsScreenState extends State<TabsScreen> {
         selectedItemColor: Theme.of(context).primaryColor,
         currentIndex: _selectedScreenIndex,
         items: [
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(Icons.travel_explore),
             label: 'Campos',
           ),
