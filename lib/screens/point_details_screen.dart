@@ -31,21 +31,25 @@ class PointDetailScreen extends StatelessWidget {
       print("OK:" + images.toString());
 
       if (dataList.asMap().containsKey(0) &&
+          dataList[0]['image1'] != null &&
           dataList[0]['image1'].toString().isEmpty == false) {
         images.add(dataList[0]['image1']);
       }
 
       if (dataList.asMap().containsKey(0) &&
+          dataList[0]['image2'] != null &&
           dataList[0]['image2'].toString().isEmpty == false) {
         images.add(dataList[0]['image2']);
       }
 
       if (dataList.asMap().containsKey(0) &&
+          dataList[0]['image3'] != null &&
           dataList[0]['image3'].toString().isEmpty == false) {
         images.add(dataList[0]['image3']);
       }
 
       if (dataList.asMap().containsKey(0) &&
+          dataList[0]['image4'] != null &&
           dataList[0]['image4'].toString().isEmpty == false) {
         images.add(dataList[0]['image4']);
       }

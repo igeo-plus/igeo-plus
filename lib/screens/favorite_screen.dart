@@ -79,14 +79,14 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
 
       subjectData.forEach((subject) {
         subjects.add(
-          Subject(id: subject["id"], name: subject["name"]),
+          Subject(id: subject["id"], name: subject["subject_name"]),
         );
       });
     });
-    subjects.forEach(
-      (subject) => print("${subject.id} - ${subject.name}"),
-    );
-    print(subjects);
+    // subjects.forEach(
+    //   (subject) => print("${subject.id} - ${subject.name}"),
+    // );
+    // print(subjects);
   }
 
   // Future<void> getPoints(int userId, String token) async {
