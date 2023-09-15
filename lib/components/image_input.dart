@@ -81,13 +81,9 @@ class _ImageInputState extends State<ImageInput> {
 
     final decodeImg = img.decodeImage(File(imageFile.path).readAsBytesSync());
 
-    img.drawString(
-      decodeImg!,
-      '${DateFormat('yyyy-MM-dd – kk:mm').format(DateTime.now())} - Lat: $lat - Long: $long',
-      x: 10,
-      y: 10,
-      font: img.arial24,
-    );
+    img.drawString(decodeImg!,
+        '${DateFormat('yyyy-MM-dd – kk:mm').format(DateTime.now())} - Lat: $lat - Long: $long',
+        x: 10, y: 10, font: img.arial24, color: img.ColorRgb8(255, 0, 0));
 
     final encodeImage = img.encodeJpg(decodeImg, quality: 100);
 
