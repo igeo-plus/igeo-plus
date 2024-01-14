@@ -61,11 +61,11 @@ class GoogleSignInHandler {
         debugPrint('googleAuth: $googleAuth');
         userCredential = await auth.signInWithCredential(credential);
 
-        await submitForm();
-
         registered = await userFound();
 
         if (!registered) {
+          await submitForm();
+
           await db.collection("users").doc(auth.currentUser!.uid)
             .set(
             {
@@ -90,78 +90,71 @@ class GoogleSignInHandler {
     }
   }
 
-  Future<bool> checkUserLoggedIn() async {
-    return auth.currentUser != null;
-  }
-
   Future<void> submitForm() async {
-    final dataFromAccept = await DbUtil.getData("accepts");
-    debugPrint(dataFromAccept.toString());
+    // final dataFromAccept = await DbUtil.getData("accepts");
 
-    if (dataFromAccept[0]['accept'] == 'false') {
-      Widget alert = AlertDialog(
-        title: const Row(
-          children: [
-            Icon(
-              Icons.warning_amber_outlined,
-              color: Colors.amber,
-              size: 12,
-            ),
-            Expanded(
-              child: Text(
-                " Termo de Uso",
-                style: TextStyle(
-                  fontSize: 10,
-                  color: Color.fromARGB(255, 189, 39, 39),
-                ),
+    Widget alert = AlertDialog(
+      title: const Row(
+        children: [
+          Icon(
+            Icons.warning_amber_outlined,
+            color: Colors.amber,
+            size: 12,
+          ),
+          Expanded(
+            child: Text(
+              " Termo de Uso",
+              style: TextStyle(
+                fontSize: 10,
+                color: Color.fromARGB(255, 189, 39, 39),
               ),
             ),
-          ],
-        ),
-        content: SingleChildScrollView(
-          child: Text(
-            signupText,
-            style: const TextStyle(
-              fontSize: 9,
-            ),
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () async {
-              Navigator.of(context).pop();
-              await DbUtil.updateAccept();
-              Navigator.of(context).pushNamed(AppRoutes.HOME2,);
-              ScaffoldMessenger.of(context).hideCurrentSnackBar();
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Você aceitou o termo de responsabilidade'),
-                  duration: Duration(seconds: 2),
-                ),
-              );
-            },
-            child: const Text("Concordo"),
-          ),
-          TextButton(
-            onPressed: () async {
-              try {
-                await auth.signOut();
-                await googleSignIn.signOut();
-                debugPrint('Deslogado');
-              } catch(e) {
-                debugPrint("ERRO deslogando:\n$e");
-              }
-
-              Navigator.of(context).pop();
-              SystemNavigator.pop();
-
-              return;
-            },
-            child: const Text("Discordo"),
           ),
         ],
-      );
-      await showDialog(context: context, builder: (ctx) => alert);
-    }
+      ),
+      content: SingleChildScrollView(
+        child: Text(
+          signupText,
+          style: const TextStyle(
+            fontSize: 9,
+          ),
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () async {
+            Navigator.of(context).pop();
+            await DbUtil.updateAccept();
+            Navigator.of(context).pushNamed(AppRoutes.HOME2,);
+            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Você aceitou o termo de responsabilidade'),
+                duration: Duration(seconds: 2),
+              ),
+            );
+          },
+          child: const Text("Concordo"),
+        ),
+        TextButton(
+          onPressed: () async {
+            try {
+              await auth.signOut();
+              await googleSignIn.signOut();
+              debugPrint('Deslogado');
+            } catch(e) {
+              debugPrint("ERRO deslogando:\n$e");
+            }
+
+            Navigator.of(context).pop();
+            SystemNavigator.pop();
+
+            return;
+          },
+          child: const Text("Discordo"),
+        ),
+      ],
+    );
+    await showDialog(context: context, builder: (ctx) => alert);
   }
 }
