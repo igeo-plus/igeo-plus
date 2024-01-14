@@ -44,41 +44,40 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyCpU2GkH69Z-LgA0-dXBsyK8mt_e8Yg99c',
-    appId: '1:234706913921:web:ffbbc0cf26bcd01fe65b80',
-    messagingSenderId: '234706913921',
-    projectId: 'igeo-e6789',
-    authDomain: 'igeo-e6789.firebaseapp.com',
-    storageBucket: 'igeo-e6789.appspot.com',
+    apiKey: 'AIzaSyB54qVXLN_6wSxbCJzjiOz-q8WCAPXInfU',
+    appId: '1:613066548408:web:ee278bc554c4e5b0ca404d',
+    messagingSenderId: '613066548408',
+    projectId: 'igeoplus',
+    authDomain: 'igeoplus.firebaseapp.com',
+    storageBucket: 'igeoplus.appspot.com',
+    measurementId: 'G-T74VB675DM',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCdyaODdBjO4rePiVD3x8wICSRTpBwNE5E',
-    appId: '1:234706913921:android:900f382a3b9b4898e65b80',
-    messagingSenderId: '234706913921',
-    projectId: 'igeo-e6789',
-    storageBucket: 'igeo-e6789.appspot.com',
+    apiKey: 'AIzaSyD2nXwIGMb7zvNkru56v8osTpVglYi_5y4',
+    appId: '1:613066548408:android:42c5f36ff82179deca404d',
+    messagingSenderId: '613066548408',
+    projectId: 'igeoplus',
+    storageBucket: 'igeoplus.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCzhp0u1wHxaEJ_ff1v2baTsT-vQF_CGi8',
-    appId: '1:234706913921:ios:b806d8048c9db45fe65b80',
-    messagingSenderId: '234706913921',
-    projectId: 'igeo-e6789',
-    storageBucket: 'igeo-e6789.appspot.com',
-    iosClientId:
-        '234706913921-4k83cb660t3sm8t00mmkbo4q9tlc04rc.apps.googleusercontent.com',
+    apiKey: 'AIzaSyDtnyLGBHpRfm2E7ExqEjvlfPQ7SPEveGA',
+    appId: '1:613066548408:ios:38da9d5c2a0af279ca404d',
+    messagingSenderId: '613066548408',
+    projectId: 'igeoplus',
+    storageBucket: 'igeoplus.appspot.com',
+    iosClientId: '613066548408-72emt5rfbb4t8jnr70vlhm9vdav82423.apps.googleusercontent.com',
     iosBundleId: 'com.example.igeoFlutter',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyCzhp0u1wHxaEJ_ff1v2baTsT-vQF_CGi8',
-    appId: '1:234706913921:ios:b806d8048c9db45fe65b80',
-    messagingSenderId: '234706913921',
-    projectId: 'igeo-e6789',
-    storageBucket: 'igeo-e6789.appspot.com',
-    iosClientId:
-        '234706913921-4k83cb660t3sm8t00mmkbo4q9tlc04rc.apps.googleusercontent.com',
+    apiKey: 'AIzaSyDtnyLGBHpRfm2E7ExqEjvlfPQ7SPEveGA',
+    appId: '1:613066548408:ios:38da9d5c2a0af279ca404d',
+    messagingSenderId: '613066548408',
+    projectId: 'igeoplus',
+    storageBucket: 'igeoplus.appspot.com',
+    iosClientId: '613066548408-72emt5rfbb4t8jnr70vlhm9vdav82423.apps.googleusercontent.com',
     iosBundleId: 'com.example.igeoFlutter',
   );
 }

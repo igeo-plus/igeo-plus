@@ -1,65 +1,34 @@
 {
   "project_info": {
-    "project_number": "234706913921",
-    "project_id": "igeo-e6789",
-    "storage_bucket": "igeo-e6789.appspot.com"
+    "project_number": "613066548408",
+    "project_id": "igeoplus",
+    "storage_bucket": "igeoplus.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:234706913921:android:900f382a3b9b4898e65b80",
+        "mobilesdk_app_id": "1:613066548408:android:42c5f36ff82179deca404d",
         "android_client_info": {
           "package_name": "br.uff.igeo"
         }
       },
       "oauth_client": [
         {
-          "client_id": "234706913921-3m3de06nvofdes5thuopqitfm0hl2alv.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "br.uff.igeo",
-            "certificate_hash": "b7751885ba7d51ced38b0cbbdcc30de9775b1fc6"
-          }
-        },
-        {
-          "client_id": "234706913921-frrmc119lpbl1gr148mqi4hg1qu7oh7i.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "br.uff.igeo",
-            "certificate_hash": "f406ec05d4daae188d7275c8d796e5bc0333469e"
-          }
-        },
-        {
-          "client_id": "234706913921-klm69t5poqfpovv5ldf6nc48h2u3ngp0.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "br.uff.igeo",
-            "certificate_hash": "df0a31c8e104a263182c5953d4bf73490d4d1ee0"
-          }
-        },
-        {
-          "client_id": "234706913921-13la681esjka7spim2vkt0r2ec7hndlb.apps.googleusercontent.com",
+          "client_id": "613066548408-2v5kdikuuvmpt7v946avh9qh443go058.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCdyaODdBjO4rePiVD3x8wICSRTpBwNE5E"
+          "current_key": "AIzaSyD2nXwIGMb7zvNkru56v8osTpVglYi_5y4"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "234706913921-13la681esjka7spim2vkt0r2ec7hndlb.apps.googleusercontent.com",
+              "client_id": "613066548408-2v5kdikuuvmpt7v946avh9qh443go058.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "234706913921-4k83cb660t3sm8t00mmkbo4q9tlc04rc.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.example.igeoFlutter"
-              }
             }
           ]
         }

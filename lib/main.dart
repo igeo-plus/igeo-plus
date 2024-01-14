@@ -1,34 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import 'utils/routes.dart';
-
 import 'screens/new_point_form_screen.dart';
 import 'screens/login_screen.dart';
 import 'screens/tabs_screen.dart';
-import 'screens/subject_points_screen.dart';
 import 'screens/point_details_screen.dart';
-import 'screens/favorite_screen.dart';
 import 'screens/new_user_screen.dart';
-
 import 'models/point_list.dart';
-import 'models/subject.dart';
-import 'models/auth.dart';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
 //import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
-void main() {
-  //WidgetsFlutterBinding.ensureInitialized();
-  //await Firebase.initializeApp(
-  //  options: DefaultFirebaseOptions.currentPlatform,
-  // );
-  //sqfliteFfiInit();
-
-  //databaseFactory = databaseFactoryFfi;
-  runApp(MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  // sqfliteFfiInit();
+  //
+  // databaseFactory = databaseFactoryFfi;
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -43,7 +35,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'iGeo',
+        title: 'iGeoPus',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSwatch().copyWith(
             primary: Color.fromARGB(255, 7, 163, 221),
