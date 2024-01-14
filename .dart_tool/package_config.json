@@ -249,7 +249,7 @@
     },
     {
       "name": "flutter_svg",
-      "rootUri": "file:///home/marcos/.pub-cache/hosted/pub.dev/flutter_svg-2.0.7",
+      "rootUri": "file:///home/marcos/.pub-cache/hosted/pub.dev/flutter_svg-2.0.9",
       "packageUri": "lib/",
       "languageVersion": "2.19"
     },
@@ -753,19 +753,19 @@
     },
     {
       "name": "vector_graphics",
-      "rootUri": "file:///home/marcos/.pub-cache/hosted/pub.dev/vector_graphics-1.1.7",
+      "rootUri": "file:///home/marcos/.pub-cache/hosted/pub.dev/vector_graphics-1.1.9+2",
       "packageUri": "lib/",
       "languageVersion": "2.17"
     },
     {
       "name": "vector_graphics_codec",
-      "rootUri": "file:///home/marcos/.pub-cache/hosted/pub.dev/vector_graphics_codec-1.1.7",
+      "rootUri": "file:///home/marcos/.pub-cache/hosted/pub.dev/vector_graphics_codec-1.1.9+2",
       "packageUri": "lib/",
       "languageVersion": "2.17"
     },
     {
       "name": "vector_graphics_compiler",
-      "rootUri": "file:///home/marcos/.pub-cache/hosted/pub.dev/vector_graphics_compiler-1.1.7",
+      "rootUri": "file:///home/marcos/.pub-cache/hosted/pub.dev/vector_graphics_compiler-1.1.9+2",
       "packageUri": "lib/",
       "languageVersion": "2.19"
     },
@@ -818,7 +818,7 @@
       "languageVersion": "2.18"
     }
   ],
-  "generated": "2024-01-13T22:30:57.827519Z",
+  "generated": "2024-01-14T17:50:48.163958Z",
   "generator": "pub",
   "generatorVersion": "3.2.2"
 }

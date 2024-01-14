@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:igeo_flutter/services/google_sign_in.dart';
 
@@ -22,23 +23,24 @@ class _LoginButtonState extends State<GoogleLoginButton> {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.white,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.0), // Define o raio das bordas
+          borderRadius: BorderRadius.circular(8.0),
         ),
       ),
       onPressed: _googleSignInHandler.signInWithGoogle,
-      child: const SizedBox(
-        height: 50,
-        width: double.infinity,
+      child: SizedBox(
+        width: 180,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Icon(FontAwesomeIcons.google),
-            SizedBox(width: 15,),
-            Text("Login with Google",
+            SvgPicture.asset(
+              "assets/images/google_logo.svg",
+            ),
+            const SizedBox(width: 15,),
+            const Text("Entrar com o Google",
               style: TextStyle(
-                color: Colors.white,
+                color: Colors.black54,
                 fontSize: 15,
                 fontWeight: FontWeight.w500
               )

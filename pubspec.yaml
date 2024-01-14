@@ -54,7 +54,7 @@ dependencies:
   firebase_core: ^2.14.0
   google_sign_in: ^6.1.4
   flutter_signin_button: ^2.0.0
-  flutter_svg: ^2.0.7
+  flutter_svg: ^2.0.9
   sqflite: ^2.2.8+4
   image_gallery_saver: ^2.0.3
   gallery_saver: ^2.3.2
@@ -91,6 +91,7 @@ flutter:
     - assets/images/logo-login.png
     - assets/images/logo.png
     - assets/images/subject_item_image.png
+    - assets/images/google_logo.svg
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
