@@ -25,7 +25,10 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        return macos;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -45,17 +48,17 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions web = FirebaseOptions(
     apiKey: 'AIzaSyB54qVXLN_6wSxbCJzjiOz-q8WCAPXInfU',
-    appId: '1:613066548408:web:ee278bc554c4e5b0ca404d',
+    appId: '1:613066548408:web:bb04c5ec23a53f16ca404d',
     messagingSenderId: '613066548408',
     projectId: 'igeoplus',
     authDomain: 'igeoplus.firebaseapp.com',
     storageBucket: 'igeoplus.appspot.com',
-    measurementId: 'G-T74VB675DM',
+    measurementId: 'G-2K92NCNC27',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyD2nXwIGMb7zvNkru56v8osTpVglYi_5y4',
-    appId: '1:613066548408:android:42c5f36ff82179deca404d',
+    appId: '1:613066548408:android:7d371e7a2205d0cdca404d',
     messagingSenderId: '613066548408',
     projectId: 'igeoplus',
     storageBucket: 'igeoplus.appspot.com',
@@ -63,21 +66,12 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyDtnyLGBHpRfm2E7ExqEjvlfPQ7SPEveGA',
-    appId: '1:613066548408:ios:38da9d5c2a0af279ca404d',
+    appId: '1:613066548408:ios:720e7c9c6d534954ca404d',
     messagingSenderId: '613066548408',
     projectId: 'igeoplus',
     storageBucket: 'igeoplus.appspot.com',
-    iosClientId: '613066548408-72emt5rfbb4t8jnr70vlhm9vdav82423.apps.googleusercontent.com',
-    iosBundleId: 'com.example.igeoFlutter',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyDtnyLGBHpRfm2E7ExqEjvlfPQ7SPEveGA',
-    appId: '1:613066548408:ios:38da9d5c2a0af279ca404d',
-    messagingSenderId: '613066548408',
-    projectId: 'igeoplus',
-    storageBucket: 'igeoplus.appspot.com',
-    iosClientId: '613066548408-72emt5rfbb4t8jnr70vlhm9vdav82423.apps.googleusercontent.com',
-    iosBundleId: 'com.example.igeoFlutter',
+    androidClientId: '613066548408-pfkt1vea0g6ledb2mr3c7oks63rt2icd.apps.googleusercontent.com',
+    iosClientId: '613066548408-0dpqvorb2b02hnhgiomqm99aoe6hk82b.apps.googleusercontent.com',
+    iosBundleId: 'br.uff.igeoplus',
   );
 }

@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:613066548408:android:42c5f36ff82179deca404d",
+        "mobilesdk_app_id": "1:613066548408:android:7d371e7a2205d0cdca404d",
         "android_client_info": {
-          "package_name": "br.uff.igeo"
+          "package_name": "br.uff.igeoplus"
         }
       },
       "oauth_client": [
@@ -29,6 +29,13 @@
             {
               "client_id": "613066548408-2v5kdikuuvmpt7v946avh9qh443go058.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "613066548408-0dpqvorb2b02hnhgiomqm99aoe6hk82b.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "br.uff.igeoplus"
+              }
             }
           ]
         }

@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="br.uff.igeo">
    <application
-        android:label="iGeo"
+        android:label="IGeoPlus"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon"
         android:requestLegacyExternalStorage="true">

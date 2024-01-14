@@ -500,6 +500,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "logger",
+      "rootUri": "file:///home/marcos/.pub-cache/hosted/pub.dev/logger-2.0.2+1",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
       "name": "matcher",
       "rootUri": "file:///home/marcos/.pub-cache/hosted/pub.dev/matcher-0.12.16",
       "packageUri": "lib/",
@@ -668,6 +674,12 @@
       "languageVersion": "2.17"
     },
     {
+      "name": "rename",
+      "rootUri": "file:///home/marcos/.pub-cache/hosted/pub.dev/rename-3.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "sky_engine",
       "rootUri": "file:///home/marcos/snap/flutter/common/flutter/bin/cache/pkg/sky_engine",
       "packageUri": "lib/",
@@ -818,7 +830,7 @@
       "languageVersion": "2.18"
     }
   ],
-  "generated": "2024-01-14T17:50:48.163958Z",
+  "generated": "2024-01-14T18:59:14.315750Z",
   "generator": "pub",
   "generatorVersion": "3.2.2"
 }
