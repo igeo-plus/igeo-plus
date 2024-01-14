@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:igeo_flutter/services/google_sign_in.dart';
 import 'package:igeo_flutter/utils/routes.dart';
 import 'package:provider/provider.dart';
 
@@ -16,13 +17,13 @@ class MainDrawer extends StatefulWidget {
 }
 
 class _MainDrawerState extends State<MainDrawer> {
-  //final FirebaseAuth _auth = FirebaseAuth.instance;
-  //final GoogleSignIn _googleSignIn = GoogleSignIn();
+  late GoogleSignInHandler _googleSignInHandler;
 
-  // Future<void> logOut() async {
-  //   Auth auth = Provider.of<Auth>(context, listen: false);
-  //   await auth.signOut(_auth, _googleSignIn);
-  // }
+  @override
+  void initState() {
+    super.initState();
+    _googleSignInHandler = GoogleSignInHandler(context);
+  }
 
   Widget _createDrawerItem(IconData icon, String label, Function onTap) {
     return TextButton(
@@ -45,13 +46,10 @@ class _MainDrawerState extends State<MainDrawer> {
             automaticallyImplyLeading: false,
           ),
           //_createDrawerItem(Icons.person, "Editar conta", () => print("ok")),
-          _createDrawerItem(Icons.logout, "Home", () {
-            Navigator.of(context)
-                .pushNamedAndRemoveUntil(AppRoutes.HOME, (route) => false);
-            //logOut();
+          _createDrawerItem(Icons.logout, "Logout", () {
+            _googleSignInHandler.signInWithGoogle();
           }),
           _createDrawerItem(Icons.close, "Fechar", () {
-            //logOut();
             SystemNavigator.pop();
           })
         ],
