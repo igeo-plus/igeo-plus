@@ -39,21 +39,24 @@ class _NewSubjectFormState extends State<NewSubjectForm> {
                 keyboardType: TextInputType.text,
                 onSubmitted: (_) => _submitForm(),
                 controller: _nameController,
-                decoration: InputDecoration(labelText: "Nome"),
+                decoration: const InputDecoration(labelText: "Nome"),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
                   onPressed: _submitForm,
-                  child: Text(
-                    "Novo campo",
-                    style: TextStyle(fontFamily: 'Roboto'),
-                  ),
                   style: ElevatedButton.styleFrom(
-                    primary: Theme.of(context).primaryColor,
+                    backgroundColor: Theme.of(context).primaryColor,
+                  ),
+                  child: const Text(
+                    "Novo campo",
+                    style: TextStyle(
+                      fontFamily: 'Roboto',
+                      color: Colors.white
+                    ),
                   ),
                 ),
               )
