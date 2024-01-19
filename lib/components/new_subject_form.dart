@@ -35,24 +35,12 @@ class _NewSubjectFormState extends State<NewSubjectForm> {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              // TextField(
-              //   keyboardType: TextInputType.text,
-              //   onSubmitted: (_) => _submitForm(),
-              //   controller: _idController,
-              //   decoration: InputDecoration(labelText: "ID"),
-              // ),
               TextField(
                 keyboardType: TextInputType.text,
                 onSubmitted: (_) => _submitForm(),
                 controller: _nameController,
                 decoration: InputDecoration(labelText: "Nome"),
               ),
-              // TextField(
-              //   keyboardType: TextInputType.text,
-              //   onSubmitted: (_) => _submitForm(),
-              //   controller: _teacherController,
-              //   decoration: InputDecoration(labelText: "Professor"),
-              // ),
               SizedBox(
                 height: 10,
               ),

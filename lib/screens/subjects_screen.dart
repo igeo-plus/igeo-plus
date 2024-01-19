@@ -104,43 +104,42 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
     return Scaffold(
       body: FutureBuilder(
         future: getSubjects(),
-        builder: (context, snapshot) =>
-            snapshot.connectionState == ConnectionState.waiting
-                ? const Center(
-                    child: CircularProgressIndicator(
-                      color: Colors.amber,
+        builder: (context, snapshot) => snapshot.connectionState == ConnectionState.waiting
+          ? const Center(
+              child: CircularProgressIndicator(
+                color: Colors.amber,
+              ),
+            )
+          : subjects.isNotEmpty
+            ? ListView.builder(
+                controller: controller,
+                itemCount: subjects.length,
+                itemBuilder: (ctx, index) {
+                  return SubjectItem(
+                    subjects[index],
+                    //widget.userData,
+                    deleteSubjectDef,
+                  );
+                },
+              )
+            : Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.beach_access,
+                      color: Theme.of(context).primaryColor,
                     ),
-                  )
-                : subjects.isNotEmpty
-                    ? ListView.builder(
-                        controller: controller,
-                        itemCount: subjects.length,
-                        itemBuilder: (ctx, index) {
-                          return SubjectItem(
-                            subjects[index],
-                            //widget.userData,
-                            deleteSubjectDef,
-                          );
-                        },
-                      )
-                    : Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.beach_access,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            const Text(
-                              'Nenhum trabalho de campo criado',
-                              style: TextStyle(color: Colors.grey),
-                            ),
-                          ],
-                        ),
-                      ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    const Text(
+                      'Nenhum trabalho de campo criado',
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                  ],
+                ),
+              ),
       ),
       drawer: const MainDrawer(),
       floatingActionButton: Column(
