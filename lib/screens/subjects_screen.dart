@@ -1,6 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 import '../models/subject.dart';
 import '../components/subject_item.dart';
 import '../components/new_subject_form.dart';
@@ -16,43 +15,21 @@ class SubjectsScreen extends StatefulWidget {
 }
 
 class _SubjectsScreenState extends State<SubjectsScreen> {
+  final auth = FirebaseAuth.instance;
   List<Subject> subjects = [];
 
   dynamic subjectData;
 
   ScrollController controller = ScrollController();
 
-  getSubjects() async {
-    subjects = [];
-    subjectData = await DbUtil.getData("subjects");
-    if (subjectData.length == 0) {
-      print("vazio");
-      return;
-    }
-
-    subjectData.forEach((subject) {
-      subjects.add(
-        Subject(id: subject["id"], name: subject["subject_name"]),
-      );
-    });
-    subjects.forEach(
-      (subject) => print("${subject.id} - ${subject.name}"),
-    );
-  }
-
+  // TODO: salvar subject no firebase
   Future postSubject(String name) async {
-    await DbUtil.insert('subjects', {
-      'subject_name': name,
-    });
-  }
+    String uid = auth.currentUser!.uid;
+    DateTime registrationDate = DateTime.now();
+    String millisecondsTimeStamp = registrationDate.millisecondsSinceEpoch.toString();
+    String subjectId = "$uid$millisecondsTimeStamp";
 
-  void _addSubject(String name) {
-    postSubject(name).then((value) => setState(() {
-          subjects.add(Subject(
-            id: subjects.isEmpty ? 0 : subjects.last.id + 1,
-            name: name,
-          ));
-        }));
+    // TODO: salvar
 
     Navigator.of(context).pop();
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
@@ -64,6 +41,16 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
     );
   }
 
+  // TODO: pegar subjects do firebase
+  getSubjects() async {
+
+  }
+
+  // TODO: apagar subject do firebase
+  deleteSubject(String subjectId) async {
+
+  }
+
   _openNewSubjectFormModal(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -73,31 +60,12 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
           child: Container(
             padding: EdgeInsets.only(
             bottom: MediaQuery.of(context).viewInsets.bottom),
-            child: NewSubjectForm(_addSubject),
+            child: NewSubjectForm(postSubject),
           )
         );
       }
     );
   }
-
-  deleteSubject(int userId, String token, int subjectId) async {
-    final data = {
-      "user_id": userId,
-      "authentication_token": token,
-      "id": subjectId
-    };
-
-    final http.Response response = await http.post(
-      Uri.parse("https://app.uff.br/api/delete_subject_in_igeo"),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(data),
-    );
-    print("AQUI:" + response.body.toString());
-    return response;
-  }
-  deleteSubjectDef(int subjectId) async {}
 
   @override
   Widget build(BuildContext context) {
@@ -118,7 +86,7 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
                   return SubjectItem(
                     subjects[index],
                     //widget.userData,
-                    deleteSubjectDef,
+                    deleteSubject,
                   );
                 },
               )

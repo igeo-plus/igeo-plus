@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:igeo_flutter/components/image_input.dart';
 import 'package:provider/provider.dart';
@@ -20,6 +21,7 @@ class NewPointFormScreen extends StatefulWidget {
 }
 
 class _NewPointFormScreenState extends State<NewPointFormScreen> {
+  final auth = FirebaseAuth.instance;
   //final _idController = TextEditingController();
   final _nameController = TextEditingController();
   final _descriptionController = TextEditingController();
@@ -31,7 +33,7 @@ class _NewPointFormScreenState extends State<NewPointFormScreen> {
   String time = DateTime.now().toString().substring(10, 19);
   String description = "asaousoaisj";
   int user_id = 1;
-  int? subject_id;
+  String? subject_id;
 
   List<File> pickedImages = [];
 
@@ -49,7 +51,12 @@ class _NewPointFormScreenState extends State<NewPointFormScreen> {
   // }
 
   void sendBackData(BuildContext context, Point newPoint, Subject subject) {
-    newPoint.id = 1;
+    String uid = auth.currentUser!.uid;
+    DateTime registrationDate = DateTime.now();
+    String millisecondsTimeStamp = registrationDate.millisecondsSinceEpoch.toString();
+    String pointId = "$uid$millisecondsTimeStamp";
+
+    newPoint.id = pointId;
     newPoint.name = name;
     newPoint.date = date;
     newPoint.time = time;

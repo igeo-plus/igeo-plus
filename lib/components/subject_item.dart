@@ -11,7 +11,7 @@ class SubjectItem extends StatelessWidget {
   final Subject subject;
   //final Map<String, dynamic> userData;
   //final Function(int, String, int) onDeleteSubject;
-  final Function(int) onDeleteSubject;
+  final Function(String) onDeleteSubject;
 
   const SubjectItem(this.subject, this.onDeleteSubject, {super.key});
 

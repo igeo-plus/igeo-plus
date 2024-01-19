@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'dart:io';
 
 class Point with ChangeNotifier {
-  int? id;
+  String? id;
   String? name;
   double? lat;
   double? long;
@@ -10,7 +10,7 @@ class Point with ChangeNotifier {
   String? time;
   String? description;
   int? user_id;
-  int? subject_id;
+  String? subject_id;
   bool isFavorite;
   List<String> image = [];
   List<File>? pickedImages = [];

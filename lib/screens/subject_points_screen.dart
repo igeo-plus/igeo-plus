@@ -179,7 +179,7 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
   }
 
   Future postPoint(
-      int subjectId,
+      String subjectId,
       String name,
       double latitude,
       double longitude,
@@ -278,7 +278,7 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
     print(pointData);
   }
 
-  void changeFavorite(int pointId, int subjectId) {
+  void changeFavorite(String pointId, String subjectId) {
     pointList.togglePointFavorite(pointId, subjectId);
   }
 
