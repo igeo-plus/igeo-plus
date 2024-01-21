@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:igeo_flutter/utils/routes.dart';
 import '../models/subject.dart';
 import '../components/subject_item.dart';
 import '../components/new_subject_form.dart';
@@ -15,21 +17,35 @@ class SubjectsScreen extends StatefulWidget {
 }
 
 class _SubjectsScreenState extends State<SubjectsScreen> {
+  final db = FirebaseFirestore.instance;
   final auth = FirebaseAuth.instance;
-  List<Subject> subjects = [];
 
-  dynamic subjectData;
+  late Map<String, dynamic> subject;
+  List<Subject> subjects = [];
 
   ScrollController controller = ScrollController();
 
-  // TODO: salvar subject no firebase
   Future postSubject(String name) async {
     String uid = auth.currentUser!.uid;
     DateTime registrationDate = DateTime.now();
     String millisecondsTimeStamp = registrationDate.millisecondsSinceEpoch.toString();
     String subjectId = "$uid$millisecondsTimeStamp";
 
-    // TODO: salvar
+    Map<String, dynamic> subject = {
+      "id": subjectId,
+      "name": name,
+      "provider_id": uid,
+      "img_id": "", // TODO: adicionar opção de inserir imagem
+    };
+
+    await db.collection("subjects").doc(subjectId).set(subject).then((_) {
+      debugPrint("New subject saved");
+      // TODO: recarregar subjects
+      // Navigator.pushNamedAndRemoveUntil(context, AppRoutes.SUBJECTS, (route) => false);
+    }
+    ).onError((e, _) {
+      debugPrint("Error saving sample: $e");
+    });
 
     Navigator.of(context).pop();
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
@@ -39,11 +55,35 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
         duration: Duration(seconds: 2),
       ),
     );
+
+    getSubjects();
   }
 
-  // TODO: pegar subjects do firebase
-  getSubjects() async {
-
+  Future<void> getSubjects() async {
+    String uid = auth.currentUser!.uid;
+    setState(() {
+      subjects = [];
+    });
+    try {
+      await db.collection("subjects").where("provider_id", isEqualTo: uid).get().then((querySnapshot) async {
+        late Subject subjectData;
+        final subjects = querySnapshot.docs;
+        for (var subject in subjects) {
+          // TODO: criar subject model
+          subjectData = Subject (
+              id: subject.data()["id"],
+              name: subject.data()["name"],
+              providerId: subject.data()["provider_id"],
+              imgId: subject.data()["img_id"],
+          );
+          this.subjects.add(subjectData);
+        }
+      }, onError: (e) {
+        debugPrint("Error completing: $e");
+      });
+    } catch (e) {
+      debugPrint('error in getSubjects(): $e');
+    }
   }
 
   // TODO: apagar subject do firebase

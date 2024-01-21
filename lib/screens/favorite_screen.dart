@@ -69,24 +69,24 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   //   return response;
   // }
   getSubjects() async {
-    subjects = [];
-    subjectData = await DbUtil.getData("subjects");
-    setState(() {
-      if (subjectData.length == 0) {
-        print("vazio");
-        return;
-      }
-
-      subjectData.forEach((subject) {
-        subjects.add(
-          Subject(id: subject["id"], name: subject["subject_name"]),
-        );
-      });
-    });
-    // subjects.forEach(
-    //   (subject) => print("${subject.id} - ${subject.name}"),
-    // );
-    // print(subjects);
+    // subjects = [];
+    // subjectData = await DbUtil.getData("subjects");
+    // setState(() {
+    //   if (subjectData.length == 0) {
+    //     print("vazio");
+    //     return;
+    //   }
+    //
+    //   subjectData.forEach((subject) {
+    //     subjects.add(
+    //       Subject(id: subject["id"], name: subject["subject_name"]),
+    //     );
+    //   });
+    // });
+    // // subjects.forEach(
+    // //   (subject) => print("${subject.id} - ${subject.name}"),
+    // // );
+    // // print(subjects);
   }
 
   // Future<void> getPoints(int userId, String token) async {

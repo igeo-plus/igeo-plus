@@ -6,6 +6,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:igeo_flutter/components/text.dart';
 import 'package:igeo_flutter/utils/db_utils.dart';
 import 'package:igeo_flutter/utils/routes.dart';
+import '../models/user.dart';
 
 class GoogleSignInHandler {
   BuildContext context;
@@ -66,14 +67,20 @@ class GoogleSignInHandler {
         if (!registered) {
           await submitForm();
 
+          AppUser userdata = AppUser(
+            id: auth.currentUser!.uid,
+            name: auth.currentUser!.displayName!,
+            email: auth.currentUser!.email!,
+            favoritePointsIds: []
+          );
+
           await db.collection("users").doc(auth.currentUser!.uid)
             .set(
             {
               "id": auth.currentUser!.uid,
               "name": auth.currentUser!.displayName,
               "email": auth.currentUser!.email,
-              "subjects_ids": [],
-              "points_ids": []
+              "favorite_points_ids": []
             }
           ).then((_) {
             debugPrint("New user saved");
