@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:igeo_flutter/utils/routes.dart';
 import '../models/subject.dart';
 import '../components/subject_item.dart';
 import '../components/new_subject_form.dart';
@@ -20,6 +19,7 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
   final db = FirebaseFirestore.instance;
   final auth = FirebaseAuth.instance;
 
+  bool isLoading = true;
   late Map<String, dynamic> subject;
   List<Subject> subjects = [];
 
@@ -34,50 +34,49 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
     Map<String, dynamic> subject = {
       "id": subjectId,
       "name": name,
-      "provider_id": uid,
-      "img_id": "", // TODO: adicionar opção de inserir imagem
+      "providerId": uid,
+      "imgId": "", // TODO: adicionar opção de inserir imagem
     };
 
     await db.collection("subjects").doc(subjectId).set(subject).then((_) {
       debugPrint("New subject saved");
-      // TODO: recarregar subjects
-      // Navigator.pushNamedAndRemoveUntil(context, AppRoutes.SUBJECTS, (route) => false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Campo adicionado'),
+          duration: Duration(seconds: 2),
+        ),
+      );
     }
     ).onError((e, _) {
       debugPrint("Error saving sample: $e");
     });
 
     Navigator.of(context).pop();
-    ScaffoldMessenger.of(context).hideCurrentSnackBar();
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Campo adicionado'),
-        duration: Duration(seconds: 2),
-      ),
-    );
-
     getSubjects();
   }
 
   Future<void> getSubjects() async {
     String uid = auth.currentUser!.uid;
-    setState(() {
-      subjects = [];
-    });
+     setState(() {
+       isLoading = true;
+       subjects = [];
+     });
     try {
-      await db.collection("subjects").where("provider_id", isEqualTo: uid).get().then((querySnapshot) async {
+      await db.collection("subjects").where("providerId", isEqualTo: uid).get().then((querySnapshot) async {
         late Subject subjectData;
         final subjects = querySnapshot.docs;
         for (var subject in subjects) {
-          // TODO: criar subject model
           subjectData = Subject (
-              id: subject.data()["id"],
-              name: subject.data()["name"],
-              providerId: subject.data()["provider_id"],
-              imgId: subject.data()["img_id"],
+            id: subject.data()["id"],
+            name: subject.data()["name"],
+            providerId: subject.data()["providerId"],
+            imgId: subject.data()["imgId"],
           );
-          this.subjects.add(subjectData);
+          setState(() {
+            this.subjects.add(subjectData);
+          });
         }
+        isLoading = false;
       }, onError: (e) {
         debugPrint("Error completing: $e");
       });
@@ -108,47 +107,44 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    getSubjects();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FutureBuilder(
-        future: getSubjects(),
-        builder: (context, snapshot) => snapshot.connectionState == ConnectionState.waiting
-          ? const Center(
-              child: CircularProgressIndicator(
-                color: Colors.amber,
+      body: isLoading ? const Center(child: CircularProgressIndicator()) : subjects.isNotEmpty
+        ? ListView.builder(
+          controller: controller,
+          itemCount: subjects.length,
+          itemBuilder: (ctx, index) {
+            return SubjectItem(
+              subjects[index],
+              //widget.userData,
+              deleteSubject,
+            );
+          },
+        )
+        : Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.beach_access,
+                color: Theme.of(context).primaryColor,
               ),
-            )
-          : subjects.isNotEmpty
-            ? ListView.builder(
-                controller: controller,
-                itemCount: subjects.length,
-                itemBuilder: (ctx, index) {
-                  return SubjectItem(
-                    subjects[index],
-                    //widget.userData,
-                    deleteSubject,
-                  );
-                },
-              )
-            : Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.beach_access,
-                      color: Theme.of(context).primaryColor,
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    const Text(
-                      'Nenhum trabalho de campo criado',
-                      style: TextStyle(color: Colors.grey),
-                    ),
-                  ],
-                ),
+              const SizedBox(
+                width: 5,
               ),
-      ),
+              const Text(
+                'Nenhum trabalho de campo criado',
+                style: TextStyle(color: Colors.grey),
+              ),
+            ],
+          ),
+        ),
       drawer: const MainDrawer(),
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
