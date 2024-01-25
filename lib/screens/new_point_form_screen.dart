@@ -69,17 +69,6 @@ class _NewPointFormScreenState extends State<NewPointFormScreen> {
     newPoint.description = description;
     newPoint.pickedImages = []; // TODO: Mandar pro storage e salvar os ids na lista
 
-    await db.collection("subjects")
-        .doc(subject.id)
-        .collection("points")
-        .doc(pointId)
-        .set(newPoint.toMap()).then((_) {
-      debugPrint("New point saved");
-    }
-    ).onError((e, _) {
-      debugPrint("Error saving point: $e");
-    });
-
     Navigator.pop(context, newPoint);
   }
 
