@@ -9,11 +9,11 @@ class Point with ChangeNotifier {
   String? date;
   String? time;
   String? description;
-  int? user_id;
+  String? user_id;
   String? subject_id;
   bool isFavorite;
   List<String> image = [];
-  List<File>? pickedImages = [];
+  List<String>? pickedImages = [];
 
   Point({
     this.id,
@@ -27,6 +27,21 @@ class Point with ChangeNotifier {
     this.subject_id,
     this.isFavorite = false,
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'name': name,
+      "lat": lat,
+      "long": long,
+      "date": date,
+      "time": time,
+      "description": description,
+      "user_id": user_id,
+      "subject_id": subject_id,
+      "isFavorite": isFavorite = false,
+    };
+  }
 
   void toggleFavorite() {
     isFavorite = !isFavorite;

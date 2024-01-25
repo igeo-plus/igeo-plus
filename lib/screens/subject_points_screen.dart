@@ -187,7 +187,7 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
       String time,
       String description,
       //int userId,
-      List<File> photos) async {
+      List<String> photos) async {
     // var request = http.MultipartRequest(
     //   "POST",
     //   Uri.parse("https://app.uff.br/igeo-retaguarda/api/post_point"),
@@ -215,10 +215,10 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
           'date': date,
           'time': time,
           'description': description,
-          'image1': photos.asMap().containsKey(0) ? photos[0].path : '',
-          'image2': photos.asMap().containsKey(1) ? photos[1].path : '',
-          'image3': photos.asMap().containsKey(2) ? photos[2].path : '',
-          'image4': photos.asMap().containsKey(3) ? photos[3].path : ''
+          // 'image1': photos.asMap().containsKey(0) ? photos[0].path : '',
+          // 'image2': photos.asMap().containsKey(1) ? photos[1].path : '',
+          // 'image3': photos.asMap().containsKey(2) ? photos[2].path : '',
+          // 'image4': photos.asMap().containsKey(3) ? photos[3].path : ''
         },
       );
     } else {

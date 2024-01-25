@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:igeo_flutter/components/image_input.dart';
@@ -43,6 +44,8 @@ class _NewPointFormScreenState extends State<NewPointFormScreen> {
       return;
     }
     pickedImages.add(pickedImage);
+    // TODO: Criar pasta com o nome igual ao id do subject para guardar as imagens
+    // TODO: Nomear imagens com o timestamp
   }
 
   // void removeImage(File pickedImage) {
@@ -50,8 +53,9 @@ class _NewPointFormScreenState extends State<NewPointFormScreen> {
   //   pickedImages.remove(pickedImage);
   // }
 
-  void sendBackData(BuildContext context, Point newPoint, Subject subject) {
+  Future<void> sendBackData(BuildContext context, Point newPoint, Subject subject) async {
     String uid = auth.currentUser!.uid;
+    final db = FirebaseFirestore.instance;
     DateTime registrationDate = DateTime.now();
     String millisecondsTimeStamp = registrationDate.millisecondsSinceEpoch.toString();
     String pointId = "$uid$millisecondsTimeStamp";
@@ -60,10 +64,21 @@ class _NewPointFormScreenState extends State<NewPointFormScreen> {
     newPoint.name = name;
     newPoint.date = date;
     newPoint.time = time;
-    newPoint.user_id = user_id;
+    newPoint.user_id = uid;
     newPoint.subject_id = subject.id;
     newPoint.description = description;
-    newPoint.pickedImages = pickedImages;
+    newPoint.pickedImages = []; // TODO: Mandar pro storage e salvar os ids na lista
+
+    await db.collection("subjects")
+        .doc(subject.id)
+        .collection("points")
+        .doc(pointId)
+        .set(newPoint.toMap()).then((_) {
+      debugPrint("New point saved");
+    }
+    ).onError((e, _) {
+      debugPrint("Error saving point: $e");
+    });
 
     Navigator.pop(context, newPoint);
   }
