@@ -99,7 +99,7 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
 
     pointList.clear();
     setState(() {
-      pointList = PointList();
+      points = [];
     });
 
     try {
@@ -114,29 +114,27 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
 
       for (String subjectId in subjectIds) {
         await db.collection("subjects").doc(subjectId).collection("points").get().then((querySnapshot) {
-          for (var doc in querySnapshot.docs) {
+          for (var point in querySnapshot.docs) {
             late Point pointData;
-            final points = querySnapshot.docs;
-            for (var point in points) {
-              pointData = Point(
-                id: point["id"],
-                user_id: point["user_id"],
-                subject_id: point["subject_id"],
-                name: point["name"],
-                lat: point["lat"],
-                long: point["long"],
-                date: point["date"],
-                time: point["time"],
-                description: point["description"],
-              );
-              setState(() {
-                this.points.add(pointData);
-              });
-            }
-            isLoading = false;
-            print(doc.data());
+            pointData = Point(
+              id: point["id"],
+              user_id: point["user_id"],
+              subject_id: point["subject_id"],
+              name: point["name"],
+              lat: point["lat"],
+              long: point["long"],
+              date: point["date"],
+              time: point["time"],
+              description: point["description"],
+            );
+            setState(() {
+              this.points.add(pointData);
+            });
           }
-        },onError: (e) {
+          setState(() {
+            isLoading = false;
+          });
+        }, onError: (e) {
           debugPrint("Error completing: $e");
         });
       }
