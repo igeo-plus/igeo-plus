@@ -1,16 +1,22 @@
+import 'dart:typed_data';
+
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'dart:io';
 
 import '../models/point.dart';
 import '../models/subject.dart';
 import '../utils/location_util.dart';
-import '../utils/db_utils.dart';
 
 import '../components/image_item.dart';
 
-class PointDetailScreen extends StatelessWidget {
+class PointDetailScreen extends StatefulWidget {
   const PointDetailScreen({super.key});
 
+  @override
+  State<PointDetailScreen> createState() => _PointDetailScreenState();
+}
+
+class _PointDetailScreenState extends State<PointDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final arguments = (ModalRoute.of(context)?.settings.arguments ??
@@ -19,7 +25,7 @@ class PointDetailScreen extends StatelessWidget {
     final point = arguments["point"] as Point;
     final subject = arguments["subject"] as Subject;
 
-    List<String> images = [];
+    List<Uint8List> images = [];
 
     final imageUrl = LocationUtil.generateLocationPreviewImage(
       latitude: point.lat!.toDouble(),
@@ -27,37 +33,15 @@ class PointDetailScreen extends StatelessWidget {
     );
 
     Future<void> loadData() async {
-      final dataList = await DbUtil.queryImages(point.id!, point.subject_id!);
-      print("OK:" + images.toString());
+      var storageRef = FirebaseStorage.instance.ref().child(point.id!);
+      var result = await storageRef.listAll();
 
-      if (dataList.asMap().containsKey(0) &&
-          dataList[0]['image1'] != null &&
-          dataList[0]['image1'].toString().isEmpty == false) {
-        images.add(dataList[0]['image1']);
+      late Uint8List image;
+
+      for (var imageRef in result.items) {
+        image = (await imageRef.getData())!;
+        images.add(image);
       }
-
-      if (dataList.asMap().containsKey(0) &&
-          dataList[0]['image2'] != null &&
-          dataList[0]['image2'].toString().isEmpty == false) {
-        images.add(dataList[0]['image2']);
-      }
-
-      if (dataList.asMap().containsKey(0) &&
-          dataList[0]['image3'] != null &&
-          dataList[0]['image3'].toString().isEmpty == false) {
-        images.add(dataList[0]['image3']);
-      }
-
-      if (dataList.asMap().containsKey(0) &&
-          dataList[0]['image4'] != null &&
-          dataList[0]['image4'].toString().isEmpty == false) {
-        images.add(dataList[0]['image4']);
-      }
-
-      // dataList[1] != '' ? images.add(File(dataList[1]['image2'])) : null;
-      // dataList[2] != '' ? images.add(File(dataList[2]['image3'])) : null;
-      // dataList[3] != '' ? images.add(File(dataList[3]['image4'])) : null;
-      print(dataList);
     }
 
     //loadData();
@@ -229,8 +213,7 @@ class PointDetailScreen extends StatelessWidget {
                                           itemBuilder:
                                               (BuildContext context, index) =>
                                                   //Image.file(images[index]),
-                                                  ImageItem(
-                                                      imageUrl: images[index]),
+                                                  ImageItem(image: images[index]),
                                         ),
                                       ),
                               ],

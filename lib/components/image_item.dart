@@ -1,12 +1,13 @@
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import '../screens/image_screen.dart';
 
 class ImageItem extends StatelessWidget {
-  final String imageUrl;
-  const ImageItem({required this.imageUrl, super.key});
+  final Uint8List image;
+  const ImageItem({required this.image, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,8 +18,9 @@ class ImageItem extends StatelessWidget {
         splashColor: Colors.amber,
         hoverColor: Color.fromARGB(255, 181, 220, 238),
         onTap: () {
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => ImageScreen(imageUrl: imageUrl)));
+          // TODO: mostrar imagem grande
+          // Navigator.of(context).push(MaterialPageRoute(
+          //     builder: (context) => ImageScreen(image: image)));
           print("teste");
         },
         child: Padding(
@@ -37,8 +39,8 @@ class ImageItem extends StatelessWidget {
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10),
-                child: Image.file(
-                  File(imageUrl),
+                child: Image.memory(
+                  image,
                   height: 200,
                   width: 200,
                 ),
