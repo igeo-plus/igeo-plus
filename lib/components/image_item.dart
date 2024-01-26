@@ -19,9 +19,8 @@ class ImageItem extends StatelessWidget {
         hoverColor: Color.fromARGB(255, 181, 220, 238),
         onTap: () {
           // TODO: mostrar imagem grande
-          // Navigator.of(context).push(MaterialPageRoute(
-          //     builder: (context) => ImageScreen(image: image)));
-          print("teste");
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => ImageScreen(image: image)));
         },
         child: Padding(
           padding: const EdgeInsets.all(3.0),
