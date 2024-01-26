@@ -128,6 +128,7 @@ class _NewPointFormScreenState extends State<NewPointFormScreen> {
                       } else {
                         //printIps();
                         sendBackData(context, locationInput.point!, subject);
+
                       }
                     },
                     style: ElevatedButton.styleFrom(
@@ -135,7 +136,10 @@ class _NewPointFormScreenState extends State<NewPointFormScreen> {
                     ),
                     child: const Text(
                       "Novo ponto",
-                      style: TextStyle(fontFamily: 'Roboto'),
+                      style: TextStyle(
+                        fontFamily: 'Roboto',
+                        color: Colors.white
+                      ),
                     ),
                   ),
                 )

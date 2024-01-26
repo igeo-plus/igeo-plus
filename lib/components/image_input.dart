@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:intl/intl.dart';
@@ -21,6 +23,9 @@ class ImageInput extends StatefulWidget {
 }
 
 class _ImageInputState extends State<ImageInput> {
+  final storage = FirebaseStorage.instance;
+  final auth = FirebaseAuth.instance;
+
   List<File> storedImage = [];
 
   double? lat;
@@ -97,6 +102,7 @@ class _ImageInputState extends State<ImageInput> {
     String fileName = path.basename(storedImage.last.path);
     final savedImage = await storedImage.last.copy('${appDir.path}/$fileName');
 
+    // TODO: Salvar imagem no Storage
     await GallerySaver.saveImage(savedImage.path);
 
     widget.onSelectImage(savedImage);
@@ -107,6 +113,16 @@ class _ImageInputState extends State<ImageInput> {
     setState(() {
       storedImage.remove(file);
     });
+  }
+
+  Future<void> saveImagesInFirebaseStorage(String subjectId, List<File> storedImagePaths) async {
+    for (File path in storedImagePaths) {
+      String uid = auth.currentUser!.uid;
+      String millisecondsTimeStamp = DateTime.now().millisecondsSinceEpoch.toString();
+      String fileName = "$uid$millisecondsTimeStamp";
+      final ref = storage.ref().child(fileName);
+      await ref.putFile(path);
+    }
   }
 
   @override
@@ -154,7 +170,7 @@ class _ImageInputState extends State<ImageInput> {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(10),
                           child: GridTile(
-                            footer: GridTileBar(
+                            footer: const GridTileBar(
                               backgroundColor: Colors.black54,
                               // leading: Center(
                               //   child: IconButton(
