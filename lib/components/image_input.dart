@@ -1,5 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:intl/intl.dart';
@@ -12,8 +10,6 @@ import 'package:gallery_saver/gallery_saver.dart';
 import 'package:image/image.dart' as img;
 import 'package:geolocator/geolocator.dart';
 
-import 'package:igeo_flutter/models/point.dart';
-
 class ImageInput extends StatefulWidget {
   final Function onSelectImage;
   ImageInput(this.onSelectImage);
@@ -23,9 +19,6 @@ class ImageInput extends StatefulWidget {
 }
 
 class _ImageInputState extends State<ImageInput> {
-  final storage = FirebaseStorage.instance;
-  final auth = FirebaseAuth.instance;
-
   List<File> storedImage = [];
 
   double? lat;
@@ -113,16 +106,6 @@ class _ImageInputState extends State<ImageInput> {
     setState(() {
       storedImage.remove(file);
     });
-  }
-
-  Future<void> saveImagesInFirebaseStorage(String subjectId, List<File> storedImagePaths) async {
-    for (File path in storedImagePaths) {
-      String uid = auth.currentUser!.uid;
-      String millisecondsTimeStamp = DateTime.now().millisecondsSinceEpoch.toString();
-      String fileName = "$uid$millisecondsTimeStamp";
-      final ref = storage.ref().child(fileName);
-      await ref.putFile(path);
-    }
   }
 
   @override

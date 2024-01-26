@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:igeo_flutter/components/image_input.dart';
 import 'package:provider/provider.dart';
@@ -22,6 +23,7 @@ class NewPointFormScreen extends StatefulWidget {
 }
 
 class _NewPointFormScreenState extends State<NewPointFormScreen> {
+  final storage = FirebaseStorage.instance;
   final auth = FirebaseAuth.instance;
   //final _idController = TextEditingController();
   final _nameController = TextEditingController();
@@ -55,7 +57,6 @@ class _NewPointFormScreenState extends State<NewPointFormScreen> {
 
   Future<void> sendBackData(BuildContext context, Point newPoint, Subject subject) async {
     String uid = auth.currentUser!.uid;
-    final db = FirebaseFirestore.instance;
     DateTime registrationDate = DateTime.now();
     String millisecondsTimeStamp = registrationDate.millisecondsSinceEpoch.toString();
     String pointId = "$uid$millisecondsTimeStamp";
@@ -67,9 +68,31 @@ class _NewPointFormScreenState extends State<NewPointFormScreen> {
     newPoint.user_id = uid;
     newPoint.subject_id = subject.id;
     newPoint.description = description;
-    newPoint.pickedImages = []; // TODO: Mandar pro storage e salvar os ids na lista
+    newPoint.pickedImages = pickedImages; // TODO: Salvar imagens no storage em um pasta cmo o mesmo id do subject
 
     Navigator.pop(context, newPoint);
+  }
+
+  // Future<void> saveImagesInFirebaseStorage(String subjectId, List<File> storedImagePaths) async {
+  //   for (File path in storedImagePaths) {
+  //     String uid = auth.currentUser!.uid;
+  //     String millisecondsTimeStamp = DateTime.now().millisecondsSinceEpoch.toString();
+  //     String fileName = "$uid$millisecondsTimeStamp";
+  //     final ref = storage.ref().child("$subjectId/$fileName.jpg");
+  //     await ref.putFile(path);
+  //   }
+  // }
+
+  Future<void> saveImagesInFirebaseStorage(String subjectId, List<File> storedImagePaths) async {
+    List<Future<void>> uploadFutures = [];
+    for (File path in storedImagePaths) {
+      String uid = auth.currentUser!.uid;
+      String millisecondsTimeStamp = DateTime.now().millisecondsSinceEpoch.toString();
+      String fileName = "$uid$millisecondsTimeStamp";
+      final ref = storage.ref().child('$subjectId/$fileName');
+      uploadFutures.add(ref.putFile(path));
+    }
+    await Future.wait(uploadFutures);
   }
 
   @override
@@ -128,7 +151,7 @@ class _NewPointFormScreenState extends State<NewPointFormScreen> {
                       } else {
                         //printIps();
                         sendBackData(context, locationInput.point!, subject);
-
+                        saveImagesInFirebaseStorage(subject.id, pickedImages);
                       }
                     },
                     style: ElevatedButton.styleFrom(
