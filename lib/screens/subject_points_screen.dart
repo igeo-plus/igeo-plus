@@ -99,6 +99,7 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
 
     pointList.clear();
     setState(() {
+      isLoading = true;
       points = [];
     });
 

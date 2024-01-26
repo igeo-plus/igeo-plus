@@ -70,26 +70,18 @@ class _NewPointFormScreenState extends State<NewPointFormScreen> {
     newPoint.description = description;
     newPoint.pickedImages = pickedImages; // TODO: Salvar imagens no storage em um pasta cmo o mesmo id do subject
 
+    saveImagesInFirebaseStorage(pointId, pickedImages);
+
     Navigator.pop(context, newPoint);
   }
 
-  // Future<void> saveImagesInFirebaseStorage(String subjectId, List<File> storedImagePaths) async {
-  //   for (File path in storedImagePaths) {
-  //     String uid = auth.currentUser!.uid;
-  //     String millisecondsTimeStamp = DateTime.now().millisecondsSinceEpoch.toString();
-  //     String fileName = "$uid$millisecondsTimeStamp";
-  //     final ref = storage.ref().child("$subjectId/$fileName.jpg");
-  //     await ref.putFile(path);
-  //   }
-  // }
-
-  Future<void> saveImagesInFirebaseStorage(String subjectId, List<File> storedImagePaths) async {
+  Future<void> saveImagesInFirebaseStorage(String pointId, List<File> storedImagePaths) async {
     List<Future<void>> uploadFutures = [];
     for (File path in storedImagePaths) {
       String uid = auth.currentUser!.uid;
       String millisecondsTimeStamp = DateTime.now().millisecondsSinceEpoch.toString();
       String fileName = "$uid$millisecondsTimeStamp";
-      final ref = storage.ref().child('$subjectId/$fileName');
+      final ref = storage.ref().child('$pointId/$fileName');
       uploadFutures.add(ref.putFile(path));
     }
     await Future.wait(uploadFutures);
@@ -151,7 +143,6 @@ class _NewPointFormScreenState extends State<NewPointFormScreen> {
                       } else {
                         //printIps();
                         sendBackData(context, locationInput.point!, subject);
-                        saveImagesInFirebaseStorage(subject.id, pickedImages);
                       }
                     },
                     style: ElevatedButton.styleFrom(
