@@ -104,7 +104,7 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
 
     try {
       List<String> subjectIds = [];
-      await db.collection("subjects").where("providerId", isEqualTo: uid).get().then((querySnapshot) {
+      await db.collection("subjects").where("id", isEqualTo: widget.subject.id).get().then((querySnapshot) {
         for (var doc in querySnapshot.docs) {
           subjectIds.add(doc.id);
         }
