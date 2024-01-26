@@ -89,7 +89,11 @@ class _NewPointFormScreenState extends State<NewPointFormScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final subject = ModalRoute.of(context)!.settings.arguments as Subject;
+    final Map<String, dynamic> args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+
+    var subject = args['subject'] as Subject;
+    var reloadPoints = args['reloadPoints'];
+
     final locationInput = LocationInput();
 
     return MultiProvider(
