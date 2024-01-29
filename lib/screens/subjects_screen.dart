@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import '../models/subject.dart';
 import '../components/subject_item.dart';
@@ -17,6 +18,7 @@ class SubjectsScreen extends StatefulWidget {
 
 class _SubjectsScreenState extends State<SubjectsScreen> {
   final db = FirebaseFirestore.instance;
+  final storage = FirebaseStorage.instance;
   final auth = FirebaseAuth.instance;
 
   bool isLoading = true;
@@ -76,7 +78,9 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
             this.subjects.add(subjectData);
           });
         }
-        isLoading = false;
+        setState(() {
+          isLoading = false;
+        });
       }, onError: (e) {
         debugPrint("Error completing: $e");
       });
@@ -85,9 +89,27 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
     }
   }
 
-  // TODO: apagar subject do firebase
   deleteSubject(String subjectId) async {
+    try {
+        await db.collection("subjects").doc(subjectId).collection("points").get().then((querySnapshot) async {
+          for (var point in querySnapshot.docs) {
+            final desertRef = storage.ref().child(point["id"]);
+            await desertRef.delete().then(
+              (doc) => debugPrint("Subject deleted"),
+              onError: (e) => debugPrint("Error updating document $e"),
+            );
+          }
+        }, onError: (e) {
+          debugPrint("Error completing: $e");
+        });
 
+        db.collection("subjects").doc(subjectId).delete().then(
+              (doc) => debugPrint("Subject deleted"),
+          onError: (e) => debugPrint("Error updating document $e"),
+        );
+    } catch (e) {
+      debugPrint('error in deleteSubject(): $e');
+    }
   }
 
   _openNewSubjectFormModal(BuildContext context) {

@@ -39,10 +39,7 @@ class SubjectItem extends StatelessWidget {
       ),
       key: ValueKey(subject.id),
       onDismissed: (_) {
-        onDeleteSubject(
-            //userData["id"],
-            //userData["token"],
-            subject.id);
+        onDeleteSubject(subject.id);
       },
       child: Padding(
         padding: const EdgeInsets.all(2.0),
