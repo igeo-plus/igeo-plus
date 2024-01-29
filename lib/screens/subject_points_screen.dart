@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -25,29 +26,28 @@ class SubjectPointsScreen extends StatefulWidget {
 
 class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
   final db = FirebaseFirestore.instance;
+  final storage = FirebaseStorage.instance;
   final auth = FirebaseAuth.instance;
   PointList pointList = PointList();
   List<Point> points = [];
   bool isLoading = true;
 
-  deletePoint(int userId, String token, int pointId) async {
-    final data = {
-      "user_id": userId,
-      "authentication_token": token,
-      "id": pointId
-    };
+  deletePoint(String subjectId, String pointId) async {
+    final Reference folderRef = storage.ref().child(pointId);
+    final ListResult result = await folderRef.listAll();
 
-    final http.Response response = await http.post(
-      Uri.parse("https://app.uff.br/umm/api/delete_point_in_igeo"),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(data),
+    // apagando as imagens do ponto
+    for (final Reference ref in result.items) {
+      await ref.delete();
+    }
+
+    await db.collection("subjects").doc(subjectId).collection("points").doc(pointId).delete().then(
+      (doc) => debugPrint("Point deleted"),
+      onError: (e) => debugPrint("Error updating document $e"),
     );
-    return response;
   }
 
-  deletePointDef(int userId, String token, int pointId) async {
+  deletePointDef(String subjectId, String pointId) async {
     Widget alert = AlertDialog(
       title: const Text("Deletar ponto?",
           style: TextStyle(
@@ -58,7 +58,7 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
           onPressed: () async {
             Navigator.of(context).pop();
             pointList.removePoint(pointId);
-            await deletePoint(userId, token, pointId);
+            await deletePoint(subjectId, pointId);
 
             ScaffoldMessenger.of(context).hideCurrentSnackBar();
             ScaffoldMessenger.of(context).showSnackBar(
@@ -95,8 +95,6 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
   }
 
   Future<void> getSubjectPoints() async {
-    String uid = auth.currentUser!.uid;
-
     setState(() {
       isLoading = true;
       points = [];

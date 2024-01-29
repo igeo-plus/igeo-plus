@@ -12,7 +12,7 @@ class PointItem extends StatefulWidget {
   final Point point;
   final Subject subject;
   //final Map<String, dynamic> userData;
-  final Function(int, String, int) onDeletePoint;
+  final Function(String, String) onDeletePoint;
   final void Function(String, String) onToggleFavorite;
   final bool isFavorite;
 
@@ -73,8 +73,7 @@ class _PointItemState extends State<PointItem> {
       child: Dismissible(
         key: ValueKey(widget.point.id),
         onDismissed: (_) {
-          //widget.onDeletePoint(widget.userData["id"], widget.userData["token"],
-          //widget.point.id!);
+          widget.onDeletePoint(widget.subject.id, widget.point.id!);
         },
         direction: DismissDirection.horizontal,
         background: Container(

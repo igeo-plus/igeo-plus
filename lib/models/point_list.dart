@@ -24,7 +24,7 @@ class PointList with ChangeNotifier {
     notifyListeners();
   }
 
-  void removePoint(int id) {
+  void removePoint(String id) {
     points.removeWhere((element) => element.id == id);
     notifyListeners();
   }
