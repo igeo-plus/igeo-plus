@@ -1,16 +1,31 @@
-class User {
+class AppUser {
   final String id;
-  final String first_name;
-  final String last_name;
+  final String name;
   final String email;
-  final String password;
-  String? acceptUse;
+  final List<String> favoritePointsIds;
 
-  User({
+  AppUser({
     required this.id,
-    required this.first_name,
-    required this.last_name,
+    required this.name,
     required this.email,
-    required this.password,
+    required this.favoritePointsIds
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'name': name,
+      'email': email,
+      'favoritePointsIds': favoritePointsIds
+    };
+  }
+
+  factory AppUser.fromMap(Map<String, dynamic> map) {
+    return AppUser(
+      id: map['id'] as String,
+      name: map['name'] as String,
+      email: map['name'] as String,
+      favoritePointsIds: map['favoritePointsIds'] as List<String>
+    );
+  }
 }

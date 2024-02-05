@@ -1,7 +1,6 @@
 import 'package:sqflite/sqflite.dart' as sql;
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart' as syspaths;
-import 'package:file_picker/file_picker.dart';
 import 'dart:io';
 import 'package:csv/csv.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -49,13 +48,13 @@ class DbUtil {
   }
 
   static Future<List<Map<String, dynamic>>> queryImages(
-      int pointId, int subjectId) async {
+      String pointId, String subjectId) async {
     final db = await DbUtil.database();
     return db.rawQuery('SELECT * FROM points WHERE id=? AND subject_id=?',
         [pointId, subjectId]);
   }
 
-  static Future<void> favoritePoint(int pointId, int subjectId) async {
+  static Future<void> favoritePoint(String pointId, String subjectId) async {
     final db = await DbUtil.database();
 
     final data = db.rawQuery('SELECT * FROM points WHERE id=? AND subject_id=?',

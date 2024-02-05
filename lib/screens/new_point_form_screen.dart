@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:igeo_flutter/components/image_input.dart';
 import 'package:provider/provider.dart';
@@ -20,6 +22,7 @@ class NewPointFormScreen extends StatefulWidget {
 }
 
 class _NewPointFormScreenState extends State<NewPointFormScreen> {
+  final auth = FirebaseAuth.instance;
   //final _idController = TextEditingController();
   final _nameController = TextEditingController();
   final _descriptionController = TextEditingController();
@@ -31,7 +34,7 @@ class _NewPointFormScreenState extends State<NewPointFormScreen> {
   String time = DateTime.now().toString().substring(10, 19);
   String description = "asaousoaisj";
   int user_id = 1;
-  int? subject_id;
+  String? subject_id;
 
   List<File> pickedImages = [];
 
@@ -41,6 +44,8 @@ class _NewPointFormScreenState extends State<NewPointFormScreen> {
       return;
     }
     pickedImages.add(pickedImage);
+    // TODO: Criar pasta com o nome igual ao id do subject para guardar as imagens
+    // TODO: Nomear imagens com o timestamp
   }
 
   // void removeImage(File pickedImage) {
@@ -48,15 +53,21 @@ class _NewPointFormScreenState extends State<NewPointFormScreen> {
   //   pickedImages.remove(pickedImage);
   // }
 
-  void sendBackData(BuildContext context, Point newPoint, Subject subject) {
-    newPoint.id = 1;
+  Future<void> sendBackData(BuildContext context, Point newPoint, Subject subject) async {
+    String uid = auth.currentUser!.uid;
+    final db = FirebaseFirestore.instance;
+    DateTime registrationDate = DateTime.now();
+    String millisecondsTimeStamp = registrationDate.millisecondsSinceEpoch.toString();
+    String pointId = "$uid$millisecondsTimeStamp";
+
+    newPoint.id = pointId;
     newPoint.name = name;
     newPoint.date = date;
     newPoint.time = time;
-    newPoint.user_id = user_id;
+    newPoint.user_id = uid;
     newPoint.subject_id = subject.id;
     newPoint.description = description;
-    newPoint.pickedImages = pickedImages;
+    newPoint.pickedImages = []; // TODO: Mandar pro storage e salvar os ids na lista
 
     Navigator.pop(context, newPoint);
   }

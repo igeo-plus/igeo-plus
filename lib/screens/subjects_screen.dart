@@ -1,15 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-import 'package:http/http.dart' as http;
-import 'package:get/get.dart';
-import 'dart:convert';
-
 import '../models/subject.dart';
-
 import '../components/subject_item.dart';
 import '../components/new_subject_form.dart';
 import '../components/main_drawer.dart';
-
 import '../utils/db_utils.dart';
 
 class SubjectsScreen extends StatefulWidget {
@@ -21,266 +16,135 @@ class SubjectsScreen extends StatefulWidget {
 }
 
 class _SubjectsScreenState extends State<SubjectsScreen> {
-  List<Subject> subjects = [];
+  final db = FirebaseFirestore.instance;
+  final auth = FirebaseAuth.instance;
 
-  dynamic subjectData;
+  bool isLoading = true;
+  late Map<String, dynamic> subject;
+  List<Subject> subjects = [];
 
   ScrollController controller = ScrollController();
 
-  // Future getSubjects(int userId, String token) async {
-  //   subjects = [];
-  //   final dataUser = {"user_id": userId, "authentication_token": token};
-
-  //   final http.Response response = await http.post(
-  //     Uri.parse('https://app.uff.br/umm/api/get_subjects_from_igeo'),
-  //     headers: <String, String>{
-  //       'Content-Type': 'application/json; charset=UTF-8',
-  //     },
-  //     body: jsonEncode(dataUser),
-  //   );
-
-  //   var data = jsonDecode(response.body);
-  //   subjectData = await data;
-
-  //   print(data);
-
-  //   if (subjectData.length == 0) {
-  //     print("Vazio");
-  //     return;
-  //   }
-  //   subjectData.forEach((subject) {
-  //     subjects.add(
-  //       Subject(
-  //         id: subject["id"],
-  //         name: subject["name"],
-  //       ),
-  //     );
-  //   });
-
-  // controller.animateTo(
-  //   controller.position.maxScrollExtent,
-  //   curve: Curves.easeOut,
-  //   duration: const Duration(milliseconds: 300),
-  // );
-
-  //   return response;
-  // }
-
-  getSubjects() async {
-    subjects = [];
-    subjectData = await DbUtil.getData("subjects");
-    if (subjectData.length == 0) {
-      print("vazio");
-      return;
-    }
-
-    subjectData.forEach((subject) {
-      subjects.add(
-        Subject(id: subject["id"], name: subject["subject_name"]),
-      );
-    });
-    subjects.forEach(
-      (subject) => print("${subject.id} - ${subject.name}"),
-    );
-  }
-
-  // Future<http.Response> postSubject(
-  //     int subjectId, String name, int userId, String token) async {
-  //   final data = {
-  //     "user_id": userId,
-  //     "authentication_token": token,
-  //     "name": name
-  //   };
-
-  //   final http.Response response = await http.post(
-  //     Uri.parse('https://app.uff.br/umm/api/post_subject_in_igeo'),
-  //     headers: <String, String>{
-  //       'Content-Type': 'application/json; charset=UTF-8',
-  //     },
-  //     body: jsonEncode(data),
-  //   );
-
-  //   return response;
-  // }
-
   Future postSubject(String name) async {
-    await DbUtil.insert('subjects', {
-      'subject_name': name,
+    String uid = auth.currentUser!.uid;
+    DateTime registrationDate = DateTime.now();
+    String millisecondsTimeStamp = registrationDate.millisecondsSinceEpoch.toString();
+    String subjectId = "$uid$millisecondsTimeStamp";
+
+    Map<String, dynamic> subject = {
+      "id": subjectId,
+      "name": name,
+      "providerId": uid,
+      "imgId": "", // TODO: adicionar opção de inserir imagem
+    };
+
+    await db.collection("subjects").doc(subjectId).set(subject).then((_) {
+      debugPrint("New subject saved");
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Campo adicionado'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    }
+    ).onError((e, _) {
+      debugPrint("Error saving sample: $e");
     });
-  }
-
-  // void _addSubject(String name) {
-  //   postSubject(subjects.isEmpty ? 0 : subjects.last.id + 1, name,
-  //           widget.userData["id"], widget.userData["token"])
-  //       .then((value) => setState(() {
-  //             subjects.add(Subject(
-  //               id: subjects.isEmpty ? 0 : subjects.last.id + 1,
-  //               name: name,
-  //             ));
-  //             //getSubjects(widget.userData["id"], widget.userData["token"]);
-  //           }));
-
-  //   Navigator.of(context).pop();
-  //   ScaffoldMessenger.of(context).hideCurrentSnackBar();
-  //   ScaffoldMessenger.of(context).showSnackBar(
-  //     const SnackBar(
-  //       content: Text('Campo adicionado'),
-  //       duration: Duration(seconds: 2),
-  //       // action: SnackBarAction(
-  //       //   label: 'DESFAZER',
-  //       //   onPressed: () {
-  //       //     cart.removeSingleItem(product.id);
-  //       //   },
-  //     ),
-  //   );
-
-  //   //getSubjects(widget.userData["id"], widget.userData["token"]);
-  // }
-
-  void _addSubject(String name) {
-    postSubject(name).then((value) => setState(() {
-          subjects.add(Subject(
-            id: subjects.isEmpty ? 0 : subjects.last.id + 1,
-            name: name,
-          ));
-        }));
 
     Navigator.of(context).pop();
-    ScaffoldMessenger.of(context).hideCurrentSnackBar();
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Campo adicionado'),
-        duration: Duration(seconds: 2),
-      ),
-    );
+    getSubjects();
+  }
+
+  Future<void> getSubjects() async {
+    String uid = auth.currentUser!.uid;
+     setState(() {
+       isLoading = true;
+       subjects = [];
+     });
+    try {
+      await db.collection("subjects").where("providerId", isEqualTo: uid).get().then((querySnapshot) async {
+        late Subject subjectData;
+        final subjects = querySnapshot.docs;
+        for (var subject in subjects) {
+          subjectData = Subject (
+            id: subject.data()["id"],
+            name: subject.data()["name"],
+            providerId: subject.data()["providerId"],
+            imgId: subject.data()["imgId"],
+          );
+          setState(() {
+            this.subjects.add(subjectData);
+          });
+        }
+        isLoading = false;
+      }, onError: (e) {
+        debugPrint("Error completing: $e");
+      });
+    } catch (e) {
+      debugPrint('error in getSubjects(): $e');
+    }
+  }
+
+  // TODO: apagar subject do firebase
+  deleteSubject(String subjectId) async {
+
   }
 
   _openNewSubjectFormModal(BuildContext context) {
     showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        builder: (BuildContext context) {
-          return SingleChildScrollView(
-              child: Container(
+      context: context,
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return SingleChildScrollView(
+          child: Container(
             padding: EdgeInsets.only(
-                bottom: MediaQuery.of(context).viewInsets.bottom),
-            child: NewSubjectForm(_addSubject),
-          ));
-        });
-  }
-
-  deleteSubject(int userId, String token, int subjectId) async {
-    final data = {
-      "user_id": userId,
-      "authentication_token": token,
-      "id": subjectId
-    };
-
-    final http.Response response = await http.post(
-      Uri.parse("https://app.uff.br/api/delete_subject_in_igeo"),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(data),
+            bottom: MediaQuery.of(context).viewInsets.bottom),
+            child: NewSubjectForm(postSubject),
+          )
+        );
+      }
     );
-    print("AQUI:" + response.body.toString());
-    return response;
   }
 
-  // deleteSubjectDef(int userId, String token, int subjectId) async {
-  //   Widget alert = AlertDialog(
-  //     title: const Text("Deletar campo?",
-  //         style: TextStyle(
-  //           color: Color.fromARGB(255, 189, 39, 39),
-  //         )),
-  //     content: Text("Todos os pontos serão perdidos!"),
-  //     actions: [
-  //       TextButton(
-  //         onPressed: () async {
-  //           Navigator.of(context).pop();
-  //           subjects.removeWhere((element) => element.id == subjectId);
-  //           await deleteSubject(userId, token, subjectId);
-
-  //           ScaffoldMessenger.of(context).hideCurrentSnackBar();
-  //           ScaffoldMessenger.of(context).showSnackBar(
-  //             SnackBar(
-  //               content: const Text('Campo deletado'),
-  //               duration: const Duration(seconds: 2),
-  //             ),
-  //           );
-  //         },
-  //         child: const Text("Sim"),
-  //       ),
-  //       TextButton(
-  //         onPressed: () {
-  //           Navigator.of(context).pop();
-  //           setState(() {});
-  //         },
-  //         child: const Text("Não"),
-  //       ),
-  //     ],
-  //   );
-  //   showDialog(context: context, builder: (ctx) => alert);
-  // }
-  deleteSubjectDef(int subjectId) async {}
-
-  // Future<void> refresh(BuildContext context) {
-  //   return getSubjects(widget.userData["id"], widget.userData["token"]);
-  // }
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   getSubjects(widget.userData["id"], widget.userData["token"]);
-  // }
+  @override
+  void initState() {
+    super.initState();
+    getSubjects();
+  }
 
   @override
   Widget build(BuildContext context) {
-    // DbUtil.downloadData().then((value) {
-    //   print("DADOS");
-    //   print(value);
-    // });
     return Scaffold(
-      body: FutureBuilder(
-        future: getSubjects(),
-        builder: (context, snapshot) =>
-            snapshot.connectionState == ConnectionState.waiting
-                ? const Center(
-                    child: CircularProgressIndicator(
-                      color: Colors.amber,
-                    ),
-                  )
-                : subjects.isNotEmpty
-                    ? ListView.builder(
-                        controller: controller,
-                        itemCount: subjects.length,
-                        itemBuilder: (ctx, index) {
-                          return SubjectItem(
-                            subjects[index],
-                            //widget.userData,
-                            deleteSubjectDef,
-                          );
-                        },
-                      )
-                    : Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.beach_access,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            const Text(
-                              'Nenhum trabalho de campo criado',
-                              style: TextStyle(color: Colors.grey),
-                            ),
-                          ],
-                        ),
-                      ),
-      ),
+      body: isLoading ? const Center(child: CircularProgressIndicator()) : subjects.isNotEmpty
+        ? ListView.builder(
+          controller: controller,
+          itemCount: subjects.length,
+          itemBuilder: (ctx, index) {
+            return SubjectItem(
+              subjects[index],
+              //widget.userData,
+              deleteSubject,
+            );
+          },
+        )
+        : Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.beach_access,
+                color: Theme.of(context).primaryColor,
+              ),
+              const SizedBox(
+                width: 5,
+              ),
+              const Text(
+                'Nenhum trabalho de campo criado',
+                style: TextStyle(color: Colors.grey),
+              ),
+            ],
+          ),
+        ),
       drawer: const MainDrawer(),
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,

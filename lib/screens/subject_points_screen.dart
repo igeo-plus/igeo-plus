@@ -1,10 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
-import 'package:get/get.dart';
 import 'dart:convert';
-import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:igeo_flutter/models/subject.dart';
 import 'package:igeo_flutter/models/point.dart';
@@ -26,9 +24,11 @@ class SubjectPointsScreen extends StatefulWidget {
 }
 
 class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
-  Point? newPoint;
-  dynamic pointData;
+  final db = FirebaseFirestore.instance;
+  final auth = FirebaseAuth.instance;
   PointList pointList = PointList();
+  List<Point> points = [];
+  bool isLoading = true;
 
   deletePoint(int userId, String token, int pointId) async {
     final data = {
@@ -62,9 +62,9 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
 
             ScaffoldMessenger.of(context).hideCurrentSnackBar();
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: const Text('Ponto deletado'),
-                duration: const Duration(seconds: 2),
+              const SnackBar(
+                content: Text('Ponto deletado'),
+                duration: Duration(seconds: 2),
                 // action: SnackBarAction(
                 //   label: 'DESFAZER',
                 //   onPressed: () {
@@ -87,55 +87,6 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
     showDialog(context: context, builder: (ctx) => alert);
   }
 
-  // Future<void> getPoints() async {
-  //   //int userId, String token) async {
-  //   pointList.clear();
-  //   setState(() {
-  //     pointList = PointList();
-  //   });
-  //   final dataUser = {"user_id": userId, "authentication_token": token};
-
-  //   final http.Response response = await http.post(
-  //     Uri.parse('https://app.uff.br/umm/api/get_points_from_igeo'),
-  //     headers: <String, String>{
-  //       'Content-Type': 'application/json; charset=UTF-8',
-  //     },
-  //     body: jsonEncode(dataUser),
-  //   );
-
-  //   var data = jsonDecode(response.body);
-
-  //   print(data);
-
-  //   pointData = data;
-  //   if (pointData.length == 0) {
-  //     return;
-  //   }
-
-  //   pointData.forEach((point) {
-  //     Point newPoint = Point(
-  //       id: point["id"],
-  //       user_id: point["user_id"],
-  //       subject_id: point["subject_id"],
-  //       name: point["name"],
-  //       lat: point["latitude"],
-  //       long: point["longitude"],
-  //       date: point["date"],
-  //       time: point["time"],
-  //       description: point["description"],
-  //       isFavorite: point["favorite"] as bool,
-  //     );
-
-  //     if (point["image"] is List && point["image"].length > 0) {
-  //       for (var url in point["image"]) {
-  //         newPoint.addUrlToImageList(url);
-  //       }
-  //     }
-  //     pointList.addPoint(newPoint);
-
-  //     //print(newPoint.image);
-  //   });
-  // }
   bool toBoolean(String str, [bool strict = false]) {
     if (strict == true) {
       return str == '1' || str == 'true';
@@ -143,142 +94,57 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
     return str != '0' && str != 'false' && str != '';
   }
 
-  getPoints() async {
+  Future<void> getSubjectPoints() async {
+    String uid = auth.currentUser!.uid;
+
     pointList.clear();
     setState(() {
-      pointList = PointList();
+      points = [];
     });
-    pointData = await DbUtil.getData("points");
-    if (pointData.length == 0) {
-      print("vazio");
-      return;
-    }
-    pointData.forEach((point) {
-      Point newPoint = Point(
-        id: point["id"],
-        user_id: point["user_id"],
-        subject_id: point["subject_id"],
-        name: point["name"],
-        lat: point["lat"],
-        long: point["long"],
-        date: point["date"],
-        time: point["time"],
-        description: point["description"],
-        isFavorite: toBoolean(point["is_favorite"]),
-      );
 
-      if (point["image"] is List && point["image"].length > 0) {
-        for (var url in point["image"]) {
-          newPoint.addUrlToImageList(url);
+    try {
+      List<String> subjectIds = [];
+      await db.collection("subjects").where("providerId", isEqualTo: uid).get().then((querySnapshot) {
+        for (var doc in querySnapshot.docs) {
+          subjectIds.add(doc.id);
         }
-      }
-      pointList.addPoint(newPoint);
-    });
-    print(await DbUtil.getData("points"));
-    return await DbUtil.getData("points");
-  }
-
-  Future postPoint(
-      int subjectId,
-      String name,
-      double latitude,
-      double longitude,
-      String date,
-      String time,
-      String description,
-      //int userId,
-      List<File> photos) async {
-    // var request = http.MultipartRequest(
-    //   "POST",
-    //   Uri.parse("https://app.uff.br/igeo-retaguarda/api/post_point"),
-    // );
-
-    // request.fields["authentication_token"] = widget.userData["token"];
-    // request.fields["user_id"] = '${widget.userData["id"]}';
-    // request.fields["point[user_id]"] = '${widget.userData["id"]}';
-    // request.fields["point[subject_id]"] = "$subjectId";
-    // request.fields["point[name]"] = name;
-    // request.fields["point[latitude]"] = "$latitude";
-    // request.fields["point[longitude]"] = "$longitude";
-    // request.fields["point[date]"] = date;
-    // request.fields["point[time]"] = time;
-    // request.fields["point[description]"] = description;
-
-    if (photos.isNotEmpty) {
-      DbUtil.insert(
-        'points',
-        {
-          'subject_id': subjectId,
-          'name': name,
-          'lat': latitude,
-          'long': longitude,
-          'date': date,
-          'time': time,
-          'description': description,
-          'image1': photos.asMap().containsKey(0) ? photos[0].path : '',
-          'image2': photos.asMap().containsKey(1) ? photos[1].path : '',
-          'image3': photos.asMap().containsKey(2) ? photos[2].path : '',
-          'image4': photos.asMap().containsKey(3) ? photos[3].path : ''
-        },
-      );
-    } else {
-      DbUtil.insert(
-        'points',
-        {
-          'subject_id': subjectId,
-          'name': name,
-          'lat': latitude,
-          'long': longitude,
-          'date': date,
-          'time': time,
-          'description': description,
-        },
-      );
-    }
-
-    // final http.Response response2 = await http.post(
-    //   Uri.parse('https://app.uff.br/umm/api/get_points_from_igeo'),
-    //   headers: <String, String>{
-    //     'Content-Type': 'application/json; charset=UTF-8',
-    //   },
-    //   body: jsonEncode(dataUser),
-    // );
-
-    List data = await getPoints();
-
-    pointData = data;
-    if (pointData.length == 0) {
-      return;
-    }
-
-    setState(() {
-      pointData.forEach((point) {
-        Point newPoint = Point(
-          id: point["id"],
-          user_id: point["user_id"],
-          subject_id: point["subject_id"],
-          name: point["name"],
-          lat: point["lat"],
-          long: point["long"],
-          date: point["date"],
-          time: point["time"],
-          description: point["description"],
-          isFavorite: toBoolean(point["is_favorite"]),
-        );
-
-        if (point["image"] is List && point["image"].length > 0) {
-          for (var url in point["image"]) {
-            newPoint.addUrlToImageList(url);
-          }
-        }
-        pointList.addPoint(newPoint);
+      }, onError: (e) {
+        debugPrint("Error completing: $e");
       });
-    });
 
-    print(pointData);
+      for (String subjectId in subjectIds) {
+        await db.collection("subjects").doc(subjectId).collection("points").get().then((querySnapshot) {
+          for (var point in querySnapshot.docs) {
+            late Point pointData;
+            pointData = Point(
+              id: point["id"],
+              user_id: point["user_id"],
+              subject_id: point["subject_id"],
+              name: point["name"],
+              lat: point["lat"],
+              long: point["long"],
+              date: point["date"],
+              time: point["time"],
+              description: point["description"],
+            );
+            setState(() {
+              this.points.add(pointData);
+            });
+          }
+          setState(() {
+            isLoading = false;
+          });
+        }, onError: (e) {
+          debugPrint("Error completing: $e");
+        });
+      }
+
+    } catch (e) {
+      debugPrint('error in getSubjects(): $e');
+    }
   }
 
-  void changeFavorite(int pointId, int subjectId) {
+  void changeFavorite(String pointId, String subjectId) {
     pointList.togglePointFavorite(pointId, subjectId);
   }
 
@@ -291,6 +157,12 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
     setState(() {
       pointList = PointList();
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getSubjectPoints();
   }
 
   @override
@@ -310,23 +182,24 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
         return;
       }
 
-      newPoint = result as Point;
-      postPoint(
-          subject.id,
-          result.name!,
-          result.lat!,
-          result.long!,
-          result.date!,
-          result.time!,
-          result.description!,
-          result.pickedImages!);
+      Point newPoint = result as Point;
+      await db.collection("subjects")
+          .doc(subject.id)
+          .collection("points")
+          .doc(newPoint.id)
+          .set(newPoint.toMap()).then((_) {
+        debugPrint("New point saved");
+      }
+      ).onError((e, _) {
+        debugPrint("Error saving point: $e");
+      });
 
       //getPoints(widget.userData["id"], widget.userData["token"]);
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: const Text('Ponto adicionado'),
-          duration: const Duration(seconds: 2),
+        const SnackBar(
+          content: Text('Ponto adicionado'),
+          duration: Duration(seconds: 2),
           // action: SnackBarAction(
           //   label: 'DESFAZER',
           //   onPressed: () {
@@ -347,58 +220,51 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
           ),
         ],
       ),
-      body: RefreshIndicator(
-        onRefresh: () => refresh(context),
-        child: FutureBuilder(
-          future: getPoints(),
-          builder: (context, snapshot) => snapshot.connectionState ==
-                  ConnectionState.waiting
-              ? const Center(
-                  child: CircularProgressIndicator(
-                    color: Colors.amber,
-                  ),
-                )
-              : pointList.getPointsForSubject(subject.id).isNotEmpty
-                  ? ListView.builder(
-                      padding: const EdgeInsets.only(bottom: 50),
-                      itemCount:
-                          pointList.getPointsForSubject(subject.id).length,
-                      itemBuilder: (ctx, index) {
-                        return Column(
-                          children: [
-                            //Text("OK"),
-                            PointItem(
-                              pointList.getPointsForSubject(subject.id)[index],
-                              subject,
-                              //widget.userData,
-                              deletePointDef,
-                              changeFavorite,
-                              false,
-                            )
-                          ],
-                        );
-                      },
-                    )
-                  : Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+      body: isLoading
+            ? const Center(
+                child: CircularProgressIndicator(
+                  color: Colors.amber,
+                ),
+              )
+            : points.isNotEmpty
+                ? ListView.builder(
+                    padding: const EdgeInsets.only(bottom: 50),
+                    itemCount:
+                        points.length,
+                    itemBuilder: (ctx, index) {
+                      return Column(
                         children: [
-                          Icon(
-                            Icons.gps_fixed,
-                            color: Theme.of(context).colorScheme.error,
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          const Text(
-                            'Adicione seu primeiro ponto',
-                            style: TextStyle(color: Colors.grey),
-                          ),
+                          //Text("OK"),
+                          PointItem(
+                            points[index],
+                            subject,
+                            //widget.userData,
+                            deletePointDef,
+                            changeFavorite,
+                            false,
+                          )
                         ],
-                      ),
+                      );
+                    },
+                  )
+                : Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.gps_fixed,
+                          color: Theme.of(context).colorScheme.error,
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        const Text(
+                          'Adicione seu primeiro ponto',
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                      ],
                     ),
-        ),
-      ),
+                  ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => awaitResultFromNewPointScreen(context),
         backgroundColor: Theme.of(context).primaryColor,

@@ -530,6 +530,10 @@ yaml
 2.19
 file:///home/marcos/.pub-cache/hosted/pub.dev/yaml-3.1.2/
 file:///home/marcos/.pub-cache/hosted/pub.dev/yaml-3.1.2/lib/
+igeo_flutter
+2.18
+file:///home/marcos/StudioProjects/igeo-plus/
+file:///home/marcos/StudioProjects/igeo-plus/lib/
 sky_engine
 3.2
 file:///home/marcos/snap/flutter/common/flutter/bin/cache/pkg/sky_engine/
@@ -546,8 +550,4 @@ flutter_web_plugins
 3.2
 file:///home/marcos/snap/flutter/common/flutter/packages/flutter_web_plugins/
 file:///home/marcos/snap/flutter/common/flutter/packages/flutter_web_plugins/lib/
-igeo_flutter
-2.18
-file:///media/marcos/539C037F28D5CC03/Ubuntu/Trabalho/igeo-plus/
-file:///media/marcos/539C037F28D5CC03/Ubuntu/Trabalho/igeo-plus/lib/
 2
