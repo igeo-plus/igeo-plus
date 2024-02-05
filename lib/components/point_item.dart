@@ -12,7 +12,7 @@ class PointItem extends StatefulWidget {
   final Point point;
   final Subject subject;
   //final Map<String, dynamic> userData;
-  final Function(int, String, int) onDeletePoint;
+  final Function(String, String) onDeletePoint;
   final void Function(String, String) onToggleFavorite;
   final bool isFavorite;
 
@@ -71,10 +71,9 @@ class _PointItemState extends State<PointItem> {
       splashColor: Colors.amber,
       hoverColor: const Color.fromARGB(255, 181, 220, 238),
       child: Dismissible(
-        key: ValueKey(widget.point.id),
+        key: UniqueKey(),
         onDismissed: (_) {
-          //widget.onDeletePoint(widget.userData["id"], widget.userData["token"],
-          //widget.point.id!);
+          widget.onDeletePoint(widget.subject.id, widget.point.id!);
         },
         direction: DismissDirection.horizontal,
         background: Container(
