@@ -97,14 +97,14 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
   Future<void> getSubjectPoints() async {
     String uid = auth.currentUser!.uid;
 
-    pointList.clear();
     setState(() {
+      isLoading = true;
       points = [];
     });
 
     try {
       List<String> subjectIds = [];
-      await db.collection("subjects").where("providerId", isEqualTo: uid).get().then((querySnapshot) {
+      await db.collection("subjects").where("id", isEqualTo: widget.subject.id).get().then((querySnapshot) {
         for (var doc in querySnapshot.docs) {
           subjectIds.add(doc.id);
         }
@@ -128,17 +128,16 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
               description: point["description"],
             );
             setState(() {
-              this.points.add(pointData);
+              points.add(pointData);
             });
           }
-          setState(() {
-            isLoading = false;
-          });
         }, onError: (e) {
           debugPrint("Error completing: $e");
         });
       }
-
+      setState(() {
+        isLoading = false;
+      });
     } catch (e) {
       debugPrint('error in getSubjects(): $e');
     }
@@ -174,9 +173,9 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
     //print(widget.userData);
     print(subject.name);
 
-    void awaitResultFromNewPointScreen(BuildContext context) async {
+    void awaitResultFromNewPointScreen(BuildContext context, Function reloadPoints) async {
       final result = await Navigator.pushNamed(context, AppRoutes.NEW_POINT,
-          arguments: subject);
+          arguments: {"subject": subject, "reloadPoints": reloadPoints});
 
       if (result == null) {
         return;
@@ -208,6 +207,8 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
           // ),
         ),
       );
+
+      reloadPoints();
     }
 
     return Scaffold(
@@ -215,7 +216,7 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
         title: Text(subject.name),
         actions: [
           IconButton(
-            onPressed: () => awaitResultFromNewPointScreen(context),
+            onPressed: () => awaitResultFromNewPointScreen(context, getSubjectPoints),
             icon: const Icon(Icons.add),
           ),
         ],
@@ -266,7 +267,7 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
                     ),
                   ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => awaitResultFromNewPointScreen(context),
+        onPressed: () => awaitResultFromNewPointScreen(context, getSubjectPoints),
         backgroundColor: Theme.of(context).primaryColor,
         child: const Icon(Icons.add),
       ),

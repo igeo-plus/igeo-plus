@@ -13,7 +13,7 @@ class Point with ChangeNotifier {
   String? subject_id;
   bool isFavorite;
   List<String> image = [];
-  List<String>? pickedImages = [];
+  List<File>? pickedImages = [];
 
   Point({
     this.id,

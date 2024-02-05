@@ -10,8 +10,6 @@ import 'package:gallery_saver/gallery_saver.dart';
 import 'package:image/image.dart' as img;
 import 'package:geolocator/geolocator.dart';
 
-import 'package:igeo_flutter/models/point.dart';
-
 class ImageInput extends StatefulWidget {
   final Function onSelectImage;
   ImageInput(this.onSelectImage);
@@ -97,6 +95,7 @@ class _ImageInputState extends State<ImageInput> {
     String fileName = path.basename(storedImage.last.path);
     final savedImage = await storedImage.last.copy('${appDir.path}/$fileName');
 
+    // TODO: Salvar imagem no Storage
     await GallerySaver.saveImage(savedImage.path);
 
     widget.onSelectImage(savedImage);
@@ -154,7 +153,7 @@ class _ImageInputState extends State<ImageInput> {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(10),
                           child: GridTile(
-                            footer: GridTileBar(
+                            footer: const GridTileBar(
                               backgroundColor: Colors.black54,
                               // leading: Center(
                               //   child: IconButton(
