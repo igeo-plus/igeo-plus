@@ -59,7 +59,6 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
             Navigator.of(context).pop();
             pointList.removePoint(pointId);
             await deletePoint(subjectId, pointId);
-
             ScaffoldMessenger.of(context).hideCurrentSnackBar();
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
@@ -72,12 +71,14 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
                 //   },
               ),
             );
+            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SubjectPointsScreen(widget.subject)));
           },
           child: const Text("Sim"),
         ),
         TextButton(
           onPressed: () {
             Navigator.of(context).pop();
+            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SubjectPointsScreen(widget.subject)));
             setState(() {});
           },
           child: const Text("Não"),

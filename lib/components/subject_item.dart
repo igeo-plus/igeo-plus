@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:igeo_flutter/screens/subject_points_screen.dart';
+import 'package:igeo_flutter/screens/subjects_screen.dart';
+import 'package:igeo_flutter/screens/tabs_screen.dart';
 
 import '../models/subject.dart';
 import '../utils/routes.dart';
@@ -37,9 +39,10 @@ class SubjectItem extends StatelessWidget {
           ),
         ),
       ),
-      key: ValueKey(subject.id),
-      onDismissed: (_) {
-        onDeleteSubject(subject.id);
+      key: UniqueKey(),
+      onDismissed: (_) async {
+        await onDeleteSubject(subject.id);
+        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const TabsScreen()));
       },
       child: Padding(
         padding: const EdgeInsets.all(2.0),

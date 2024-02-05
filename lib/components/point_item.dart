@@ -71,7 +71,7 @@ class _PointItemState extends State<PointItem> {
       splashColor: Colors.amber,
       hoverColor: const Color.fromARGB(255, 181, 220, 238),
       child: Dismissible(
-        key: ValueKey(widget.point.id),
+        key: UniqueKey(),
         onDismissed: (_) {
           widget.onDeletePoint(widget.subject.id, widget.point.id!);
         },
