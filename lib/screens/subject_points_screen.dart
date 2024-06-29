@@ -188,17 +188,16 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
 
       Point newPoint = result as Point;
 
-      // TODO: descomentar
-      // // Save to Firebase
-      // await db.collection("subjects")
-      //     .doc(subject.id)
-      //     .collection("points")
-      //     .doc(newPoint.id)
-      //     .set(newPoint.toMap()).then((_) {
-      //   debugPrint("New point saved to Firebase");
-      // }).onError((e, _) {
-      //   debugPrint("Error saving point to Firebase: $e");
-      // });
+      // Save to Firebase
+      await db.collection("subjects")
+          .doc(subject.id)
+          .collection("points")
+          .doc(newPoint.id)
+          .set(newPoint.toMap()).then((_) {
+        debugPrint("New point saved to Firebase");
+      }).onError((e, _) {
+        debugPrint("Error saving point to Firebase: $e");
+      });
 
       // Save to local database
       try {
@@ -217,8 +216,7 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
         ),
       );
 
-      // TODO: descomentar
-      // reloadPoints();
+      reloadPoints();
     }
 
     return Scaffold(
