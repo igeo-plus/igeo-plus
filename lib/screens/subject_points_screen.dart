@@ -7,6 +7,7 @@ import 'dart:convert';
 
 import 'package:igeo_flutter/models/subject.dart';
 import 'package:igeo_flutter/models/point.dart';
+import 'package:sqflite/sqflite.dart';
 import '../models/point_list.dart';
 
 import '../utils/routes.dart';
@@ -31,6 +32,21 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
   PointList pointList = PointList();
   List<Point> points = [];
   bool isLoading = true;
+
+  Future<Database> initializePointsDatabase() async {
+    final databasePath = await getDatabasesPath();
+    final path = '$databasePath/points.db';
+
+    return await openDatabase(
+      path,
+      version: 1,
+      onCreate: (db, version) {
+        return db.execute(
+          'CREATE TABLE points(id TEXT PRIMARY KEY, name TEXT, otherFields TEXT)', // Adapt 'otherFields' to match your Point class structure
+        );
+      },
+    );
+  }
 
   deletePoint(String subjectId, String pointId) async {
     final Reference folderRef = storage.ref().child(pointId);
@@ -171,33 +187,38 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
       }
 
       Point newPoint = result as Point;
-      await db.collection("subjects")
-          .doc(subject.id)
-          .collection("points")
-          .doc(newPoint.id)
-          .set(newPoint.toMap()).then((_) {
-        debugPrint("New point saved");
-      }
-      ).onError((e, _) {
-        debugPrint("Error saving point: $e");
-      });
 
-      //getPoints(widget.userData["id"], widget.userData["token"]);
+      // TODO: descomentar
+      // // Save to Firebase
+      // await db.collection("subjects")
+      //     .doc(subject.id)
+      //     .collection("points")
+      //     .doc(newPoint.id)
+      //     .set(newPoint.toMap()).then((_) {
+      //   debugPrint("New point saved to Firebase");
+      // }).onError((e, _) {
+      //   debugPrint("Error saving point to Firebase: $e");
+      // });
+
+      // Save to local database
+      try {
+        final localDb = await initializePointsDatabase();
+        await localDb.insert('points', newPoint.toMap()); // Assuming toMap() provides a suitable map for local storage
+        debugPrint("New point saved to local database");
+      } catch (e) {
+        debugPrint("Error saving point to local database: $e");
+      }
+
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Ponto adicionado'),
           duration: Duration(seconds: 2),
-          // action: SnackBarAction(
-          //   label: 'DESFAZER',
-          //   onPressed: () {
-          //     cart.removeSingleItem(product.id);
-          //   },
-          // ),
         ),
       );
 
-      reloadPoints();
+      // TODO: descomentar
+      // reloadPoints();
     }
 
     return Scaffold(
