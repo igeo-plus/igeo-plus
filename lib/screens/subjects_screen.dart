@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:sqflite/sqflite.dart';
 import '../models/subject.dart';
 import '../components/subject_item.dart';
 import '../components/new_subject_form.dart';
@@ -27,7 +28,22 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
 
   ScrollController controller = ScrollController();
 
-  Future postSubject(String name) async {
+  Future<Database> initializeDatabase() async {
+    final databasePath = await getDatabasesPath();
+    final path = '$databasePath/subjects.db';
+
+    return await openDatabase(
+      path,
+      version: 1,
+      onCreate: (db, version) {
+        return db.execute(
+          'CREATE TABLE subjects(id TEXT PRIMARY KEY, name TEXT, providerId TEXT, imgId TEXT)',
+        );
+      },
+    );
+  }
+
+  Future<void> postSubject(String name) async {
     String uid = auth.currentUser!.uid;
     DateTime registrationDate = DateTime.now();
     String millisecondsTimeStamp = registrationDate.millisecondsSinceEpoch.toString();
@@ -40,21 +56,32 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
       "imgId": "", // TODO: adicionar opção de inserir imagem
     };
 
-    await db.collection("subjects").doc(subjectId).set(subject).then((_) {
-      debugPrint("New subject saved");
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Campo adicionado'),
-          duration: Duration(seconds: 2),
-        ),
-      );
+    // TODO: descomentar
+    // Save to Firebase
+    // await db.collection("subjects").doc(subjectId).set(subject).then((_) {
+    //   debugPrint("New subject saved to Firebase");
+    //   ScaffoldMessenger.of(context).showSnackBar(
+    //     const SnackBar(
+    //       content: Text('Campo adicionado'),
+    //       duration: Duration(seconds: 2),
+    //     ),
+    //   );
+    // }).onError((e, _) {
+    //   debugPrint("Error saving to Firebase: $e");
+    // });
+
+    // Save to local database
+    try {
+      final localDb = await initializeDatabase();
+      await localDb.insert('subjects', subject);
+      debugPrint("New subject saved to local database");
+    } catch (e) {
+      debugPrint("Error saving to local database: $e");
     }
-    ).onError((e, _) {
-      debugPrint("Error saving sample: $e");
-    });
 
     Navigator.of(context).pop();
-    getSubjects();
+    // TODO: descomentar
+    // getSubjects(); // Assuming this function fetches data from Firebase
   }
 
   Future<void> getSubjects() async {

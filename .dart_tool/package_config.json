@@ -729,15 +729,15 @@
     },
     {
       "name": "sqflite",
-      "rootUri": "file:///home/marcos/.pub-cache/hosted/pub.dev/sqflite-2.2.8+4",
+      "rootUri": "file:///home/marcos/.pub-cache/hosted/pub.dev/sqflite-2.3.3+1",
       "packageUri": "lib/",
-      "languageVersion": "2.18"
+      "languageVersion": "3.3"
     },
     {
       "name": "sqflite_common",
-      "rootUri": "file:///home/marcos/.pub-cache/hosted/pub.dev/sqflite_common-2.4.5+1",
+      "rootUri": "file:///home/marcos/.pub-cache/hosted/pub.dev/sqflite_common-2.5.4",
       "packageUri": "lib/",
-      "languageVersion": "2.18"
+      "languageVersion": "3.3"
     },
     {
       "name": "stack_trace",
@@ -866,7 +866,7 @@
       "languageVersion": "2.18"
     }
   ],
-  "generated": "2024-06-29T17:56:01.619997Z",
+  "generated": "2024-06-29T21:09:35.034725Z",
   "generator": "pub",
   "generatorVersion": "3.3.4"
 }
