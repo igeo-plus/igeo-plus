@@ -80,6 +80,7 @@ class GoogleSignInHandler {
               "id": auth.currentUser!.uid,
               "name": auth.currentUser!.displayName,
               "email": auth.currentUser!.email,
+              "points_ids": [],
               "favorite_points_ids": []
             }
           ).then((_) {

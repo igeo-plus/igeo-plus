@@ -150,7 +150,7 @@ class _NewPointFormScreenState extends State<NewPointFormScreen> {
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: Theme.of(context).primaryColor,
+                      backgroundColor: Theme.of(context).primaryColor,
                     ),
                     child: const Text(
                       "Novo ponto",
