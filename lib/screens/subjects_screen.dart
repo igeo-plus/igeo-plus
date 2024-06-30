@@ -193,40 +193,46 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
 
   deleteSubject(String subjectId) async {
     // Delete from local databases
-    final subjectsDb = await initializeSubjectsDatabase();
-    await subjectsDb.delete('subjects', where: 'id = ?', whereArgs: [subjectId]);
-    debugPrint("Subject deleted from local database");
-
-    final pointsDb = await initializePointsDatabase();
-    await pointsDb.delete('points', where: 'subjectId = ?', whereArgs: [subjectId]); // Assuming you have a subjectId field in your points table
-    debugPrint("Related points deleted from local database");
-
     try {
-      // Delete from firebase
+      final subjectsDb = await initializeSubjectsDatabase();
+      await subjectsDb
+          .delete('subjects', where: 'id = ?', whereArgs: [subjectId]);
+      debugPrint("Subject deleted from local database");
+
+      final pointsDb = await initializePointsDatabase();
+      await pointsDb
+          .delete('points', where: 'subjectId = ?', whereArgs: [subjectId]);
+      debugPrint("Related points deleted from local database");
+    } catch(e) {
+      debugPrint("Error trying to delete subject or point from local database: $e");
+    }
+
+    // Attempt to delete from Firebase (if online)
+    try {
       await db.collection("subjects").doc(subjectId).collection("points").get().then((querySnapshot) async {
-          for (var point in querySnapshot.docs) {
-            final Reference folderRef = storage.ref().child(point["id"]); // pega pasta de cada ponto
-            final ListResult result = await folderRef.listAll(); // lista as imagens de cada pasta
+        for (var point in querySnapshot.docs) {
+          final Reference folderRef = storage.ref().child(point["id"]);
+          final ListResult result = await folderRef.listAll();
 
-            for (final Reference ref in result.items) {
-              await ref.delete(); // apaga as imagens
-            }
-
-            await db.collection("subjects").doc(subjectId).collection("points").doc(point["id"]).delete().then(
-              (doc) => debugPrint("Point deleted"),
-              onError: (e) => debugPrint("Error updating document $e"),
-            );
+          for (final Reference ref in result.items) {
+            await ref.delete();
           }
-        }, onError: (e) {
-          debugPrint("Error completing: $e");
-        });
 
-        await db.collection("subjects").doc(subjectId).delete().then(
-              (doc) => debugPrint("Subject deleted"),
-          onError: (e) => debugPrint("Error updating document $e"),
-        );
+          await db.collection("subjects").doc(subjectId).collection("points").doc(point["id"]).delete().then(
+                (doc) => debugPrint("Point deleted"),
+            onError: (e) => debugPrint("Error deleting point: $e"),
+          );
+        }
+      }, onError: (e) {
+        debugPrint("Error fetching points: $e");
+      });
+
+      await db.collection("subjects").doc(subjectId).delete().then(
+            (doc) => debugPrint("Subject deleted"),
+        onError: (e) => debugPrint("Error deleting subject: $e"),
+      );
     } catch (e) {
-      debugPrint('error in deleteSubject(): $e');
+      debugPrint('Error in deleteSubject() (likely offline): $e');
     }
   }
 
