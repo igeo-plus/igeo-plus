@@ -42,7 +42,7 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
       version: 1,
       onCreate: (db, version) {
         return db.execute(
-          'CREATE TABLE points(id TEXT PRIMARY KEY, name TEXT, otherFields TEXT)', // Adapt 'otherFields' to match your Point class structure
+          'CREATE TABLE points(id TEXT PRIMARY KEY, name TEXT, date TEXT, time TEXT, user_id TEXT, subject_id TEXT, description TEXT, pickedImages TEXT)',
         );
       },
     );

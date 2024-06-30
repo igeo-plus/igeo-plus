@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +37,7 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
       version: 1,
       onCreate: (db, version) {
         return db.execute(
-          'CREATE TABLE subjects(id TEXT PRIMARY KEY, name TEXT, providerId TEXT, imgId TEXT)',
+          'CREATE TABLE points(id TEXT PRIMARY KEY, name TEXT, date TEXT, time TEXT, user_id TEXT, subject_id TEXT, description TEXT, pickedImages TEXT)',
         );
       },
     );
@@ -72,6 +71,17 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
       "imgId": "", // TODO: adicionar opção de inserir imagem
     };
 
+    // Save to local database
+    try {
+      final localDb = await initializeSubjectsDatabase();
+      await localDb.insert('subjects', subject);
+      debugPrint("New subject saved to local database");
+    } catch (e) {
+      debugPrint("Error saving to local database: $e");
+    }
+
+    getSubjects();
+
     // Save to Firebase
     try{
       await db.collection("subjects").doc(subjectId).set(subject).then((_) {
@@ -89,24 +99,17 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
     catch(e){
       debugPrint("Error saving to Firebase: $e");
     }
-
-    // Save to local database
-    try {
-      final localDb = await initializeSubjectsDatabase();
-      await localDb.insert('subjects', subject);
-      debugPrint("New subject saved to local database");
-    } catch (e) {
-      debugPrint("Error saving to local database: $e");
-    }
-
+    debugPrint("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
     Navigator.of(context).pop();
+    debugPrint("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
     getSubjects();
+    debugPrint("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
   }
 
   Future<void> getSubjects() async {
     String uid = auth.currentUser!.uid;
     setState(() {
-      isLoading = true;
+      isLoading = true; // Start loading
       subjects = [];
     });
 
@@ -126,17 +129,23 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
         });
 
         // Check if this subject exists in Firebase (for initial sync)
-        final firebaseDoc = await db.collection("subjects").doc(subjectData.id).get();
-        if (!firebaseDoc.exists) {
-          await db.collection("subjects").doc(subjectData.id).set(subjectData.toMap());
-          debugPrint("New subject synced to Firebase");
+        try{
+          final firebaseDoc = await db.collection("subjects").doc(subjectData.id).get();
+          if (!firebaseDoc.exists) {
+            await db.collection("subjects").doc(subjectData.id).set(subjectData.toMap());
+            debugPrint("New subject synced to Firebase");
+          }
+        } catch(e) {
+          debugPrint("Error trying to sync subjects");
         }
       }
 
-      // Check for internet connectivity
-      var connectivityResult = await (Connectivity().checkConnectivity());
-      if (connectivityResult == ConnectivityResult.mobile || connectivityResult == ConnectivityResult.wifi) {
-        // Fetch updates from Firebase (only if online)
+      setState(() {
+        isLoading = false; // End loading after both local and Firebase fetches
+      });
+
+      // Then fetch updates from Firebase (if online)
+      try {
         await db.collection("subjects").where("providerId", isEqualTo: uid).get().then((querySnapshot) async {
           final firebaseSubjects = querySnapshot.docs;
           for (var subject in firebaseSubjects) {
@@ -154,37 +163,46 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
               setState(() {
                 subjects[existingIndex] = subjectData;
               });
-              // Update local database as well (using sqflite's update method)
+              // Update local database
               await localDb.update('subjects', subjectData.toMap(), where: 'id = ?', whereArgs: [subjectData.id]);
+              debugPrint("Subject updated in local database");
             } else {
               // Add new subject
               setState(() {
                 subjects.add(subjectData);
               });
-              // Insert into local database (using sqflite's insert method)
+              // Insert into local database
               await localDb.insert('subjects', subjectData.toMap());
+              debugPrint("New subject inserted into local database");
             }
           }
         }, onError: (e) {
           debugPrint("Error completing Firebase fetch: $e");
         });
-      } else {
-        debugPrint("No internet connection, skipping Firebase fetch.");
-        // Optionally display a message to the user indicating offline mode
+      } catch (e) {
+        debugPrint('Error getting online subjects: $e');
       }
-
     } catch (e) {
       debugPrint('Error in getSubjects(): $e');
     } finally {
       setState(() {
-        isLoading = false;
+        isLoading = false; // End loading after both local and Firebase fetches
       });
     }
   }
 
   deleteSubject(String subjectId) async {
+    // Delete from local databases
+    final subjectsDb = await initializeSubjectsDatabase();
+    await subjectsDb.delete('subjects', where: 'id = ?', whereArgs: [subjectId]);
+    debugPrint("Subject deleted from local database");
+
+    final pointsDb = await initializePointsDatabase();
+    await pointsDb.delete('points', where: 'subjectId = ?', whereArgs: [subjectId]); // Assuming you have a subjectId field in your points table
+    debugPrint("Related points deleted from local database");
+
     try {
-      // Delete from local databases
+      // Delete from firebase
       await db.collection("subjects").doc(subjectId).collection("points").get().then((querySnapshot) async {
           for (var point in querySnapshot.docs) {
             final Reference folderRef = storage.ref().child(point["id"]); // pega pasta de cada ponto
@@ -210,15 +228,6 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
     } catch (e) {
       debugPrint('error in deleteSubject(): $e');
     }
-
-    // Delete from local databases
-    final subjectsDb = await initializeSubjectsDatabase();
-    await subjectsDb.delete('subjects', where: 'id = ?', whereArgs: [subjectId]);
-    debugPrint("Subject deleted from local database");
-
-    final pointsDb = await initializePointsDatabase();
-    await pointsDb.delete('points', where: 'subjectId = ?', whereArgs: [subjectId]); // Assuming you have a subjectId field in your points table
-    debugPrint("Related points deleted from local database");
   }
 
   _openNewSubjectFormModal(BuildContext context) {
@@ -239,8 +248,8 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
 
   @override
   void initState() {
-    super.initState();
     getSubjects();
+    super.initState();
   }
 
   @override

@@ -37,7 +37,6 @@ class _NewSubjectFormState extends State<NewSubjectForm> {
             children: [
               TextField(
                 keyboardType: TextInputType.text,
-                onSubmitted: (_) => _submitForm(),
                 controller: _nameController,
                 decoration: const InputDecoration(labelText: "Nome"),
               ),

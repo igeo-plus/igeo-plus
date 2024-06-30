@@ -184,9 +184,9 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
 
   @override
   void initState() {
-    super.initState();
     getSubjects();
     getPoints();
+    super.initState();
   }
 
   @override
