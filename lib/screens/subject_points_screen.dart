@@ -49,17 +49,28 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
   }
 
   deletePoint(String subjectId, String pointId) async {
+    // Delete from Firebase Storage
     final Reference folderRef = storage.ref().child(pointId);
     final ListResult result = await folderRef.listAll();
 
-    // apagando as imagens do ponto
     for (final Reference ref in result.items) {
       await ref.delete();
     }
 
+    // Delete from local database
+    try {
+      final localDb = await initializePointsDatabase();
+      await localDb.delete('points', where: 'id = ?', whereArgs: [pointId]);
+      debugPrint("Point deleted from local database");
+    } catch (e) {
+      debugPrint("Error deleting point from local database: $e");
+      // Handle the error, potentially by queuing the deletion for later
+    }
+
+    // Delete from Firebase Firestore
     await db.collection("subjects").doc(subjectId).collection("points").doc(pointId).delete().then(
-      (doc) => debugPrint("Point deleted"),
-      onError: (e) => debugPrint("Error updating document $e"),
+          (doc) => debugPrint("Point deleted from Firebase"),
+      onError: (e) => debugPrint("Error deleting point from Firebase: $e"),
     );
   }
 
@@ -118,7 +129,41 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
     });
 
     try {
-      await db.collection("subjects").doc(widget.subject.id).collection("points").get().then((querySnapshot) {
+      // Load points from local database
+      final localDb = await initializePointsDatabase();
+      final localPoints = await localDb.query('points', where: 'subject_id = ?', whereArgs: [widget.subject.id]);
+      for (var pointMap in localPoints) {
+        final pointData = Point(
+          id: pointMap['id'] as String,
+          user_id: pointMap['user_id'] as String,
+          subject_id: pointMap['subject_id'] as String,
+          name: pointMap['name'] as String,
+          lat: pointMap['lat'] as double,
+          long: pointMap['long'] as double,
+          date: pointMap['date'] as String,
+          time: pointMap['time'] as String,
+          description: pointMap['description'] as String,
+          // ... other fields as needed
+        );
+        setState(() {
+          points.add(pointData);
+        });
+      }
+
+      // Attempt to synchronize with Firebase (if online)
+      try {
+        final querySnapshot = await db.collection("subjects").doc(widget.subject.id).collection("points").get();
+        final firebasePointIds = querySnapshot.docs.map((doc) => doc.id).toList();
+
+        // Save local points to Firebase if they don't exist there
+        for (var point in points) {
+          if (!firebasePointIds.contains(point.id)) {
+            await db.collection("subjects").doc(widget.subject.id).collection("points").doc(point.id).set(point.toMap());
+            debugPrint("Local point ${point.id} saved to Firebase");
+          }
+        }
+
+        // Load new points from Firebase
         for (var point in querySnapshot.docs) {
           late Point pointData;
           pointData = Point(
@@ -132,19 +177,25 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
             time: point["time"],
             description: point["description"],
           );
-          setState(() {
-            points.add(pointData);
-          });
-        }
-      }, onError: (e) {
-        debugPrint("Error completing: $e");
-      });
 
+          // Check if point already exists in local list
+          if (!points.any((p) => p.id == pointData.id)) {
+            setState(() {
+              points.add(pointData);
+            });
+          }
+        }
+
+      } catch (e) {
+        debugPrint('Error getting online points (likely offline): $e');
+      }
+
+    } catch (e) {
+      debugPrint('Error in getSubjectPoints(): $e');
+    } finally {
       setState(() {
         isLoading = false;
       });
-    } catch (e) {
-      debugPrint('error in getSubjects(): $e');
     }
   }
 
@@ -188,6 +239,15 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
 
       Point newPoint = result as Point;
 
+      // Save to local database
+      try {
+        final localDb = await initializePointsDatabase();
+        await localDb.insert('points', newPoint.toMap());
+        debugPrint("New point saved to local database");
+      } catch (e) {
+        debugPrint("Error saving point to local database: $e");
+      }
+
       // Save to Firebase
       await db.collection("subjects")
           .doc(subject.id)
@@ -198,15 +258,6 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
       }).onError((e, _) {
         debugPrint("Error saving point to Firebase: $e");
       });
-
-      // Save to local database
-      try {
-        final localDb = await initializePointsDatabase();
-        await localDb.insert('points', newPoint.toMap()); // Assuming toMap() provides a suitable map for local storage
-        debugPrint("New point saved to local database");
-      } catch (e) {
-        debugPrint("Error saving point to local database: $e");
-      }
 
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
