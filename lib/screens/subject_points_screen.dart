@@ -49,14 +49,6 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
   }
 
   deletePoint(String subjectId, String pointId) async {
-    // Delete from Firebase Storage
-    final Reference folderRef = storage.ref().child(pointId);
-    final ListResult result = await folderRef.listAll();
-
-    for (final Reference ref in result.items) {
-      await ref.delete();
-    }
-
     // Delete from local database
     try {
       final localDb = await initializePointsDatabase();
@@ -68,10 +60,26 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
     }
 
     // Delete from Firebase Firestore
-    await db.collection("subjects").doc(subjectId).collection("points").doc(pointId).delete().then(
-          (doc) => debugPrint("Point deleted from Firebase"),
-      onError: (e) => debugPrint("Error deleting point from Firebase: $e"),
-    );
+    try {
+      await db.collection("subjects").doc(subjectId).collection("points").doc(pointId).delete().then(
+            (doc) => debugPrint("Point deleted from Firebase"),
+        onError: (e) => debugPrint("Error deleting point from Firebase: $e"),
+      );
+    } catch(e) {
+      debugPrint("Error trying to delete point from firestore");
+    }
+
+    // Delete from Firebase Storage
+    try {
+      final Reference folderRef = storage.ref().child(pointId);
+      final ListResult result = await folderRef.listAll();
+
+      for (final Reference ref in result.items) {
+        await ref.delete();
+      }
+    } catch(e) {
+      debugPrint("Error deleting imge from storage");
+    }
   }
 
   deletePointDef(String subjectId, String pointId) async {
@@ -83,21 +91,26 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
       actions: [
         TextButton(
           onPressed: () async {
-            Navigator.of(context).pop();
-            pointList.removePoint(pointId);
+            Navigator.of(context).pop(); // Close the dialog
+
+            // 1. Delete point from all sources
             await deletePoint(subjectId, pointId);
+
+            // 2. Update UI by removing point from the list and rebuilding
+            setState(() {
+              points.removeWhere((point) => point.id == pointId);
+            });
+
+            // 3. Show SnackBar
             ScaffoldMessenger.of(context).hideCurrentSnackBar();
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
                 content: Text('Ponto deletado'),
                 duration: Duration(seconds: 2),
-                // action: SnackBarAction(
-                //   label: 'DESFAZER',
-                //   onPressed: () {
-                //     cart.removeSingleItem(product.id);
-                //   },
               ),
             );
+
+            // 4. Navigate
             Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SubjectPointsScreen(widget.subject)));
           },
           child: const Text("Sim"),
