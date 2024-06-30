@@ -42,7 +42,7 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
       version: 1,
       onCreate: (db, version) {
         return db.execute(
-          'CREATE TABLE points(id TEXT PRIMARY KEY, name TEXT, date TEXT, time TEXT, user_id TEXT, subject_id TEXT, description TEXT, pickedImages TEXT)',
+          'CREATE TABLE points(id TEXT PRIMARY KEY, name TEXT, date TEXT, time TEXT, user_id TEXT, subject_id TEXT, description TEXT, pickedImages TEXT, lat REAL, long REAL, isFavorite INTEGER)',
         );
       },
     );
@@ -156,12 +156,14 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
           date: pointMap['date'] as String,
           time: pointMap['time'] as String,
           description: pointMap['description'] as String,
-          // ... other fields as needed
         );
         setState(() {
           points.add(pointData);
         });
       }
+      setState(() {
+        isLoading = false;
+      });
 
       // Attempt to synchronize with Firebase (if online)
       try {
@@ -200,11 +202,14 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
         }
 
       } catch (e) {
-        debugPrint('Error getting online points (likely offline): $e');
+        debugPrint('Error getting online points: $e');
       }
 
     } catch (e) {
       debugPrint('Error in getSubjectPoints(): $e');
+      setState(() {
+        isLoading = false;
+      });
     } finally {
       setState(() {
         isLoading = false;
@@ -261,16 +266,7 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
         debugPrint("Error saving point to local database: $e");
       }
 
-      // Save to Firebase
-      await db.collection("subjects")
-          .doc(subject.id)
-          .collection("points")
-          .doc(newPoint.id)
-          .set(newPoint.toMap()).then((_) {
-        debugPrint("New point saved to Firebase");
-      }).onError((e, _) {
-        debugPrint("Error saving point to Firebase: $e");
-      });
+      getSubjectPoints();
 
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
@@ -279,8 +275,6 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
           duration: Duration(seconds: 2),
         ),
       );
-
-      reloadPoints();
     }
 
     return Scaffold(

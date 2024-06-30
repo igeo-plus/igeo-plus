@@ -37,7 +37,7 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
       version: 1,
       onCreate: (db, version) {
         return db.execute(
-          'CREATE TABLE points(id TEXT PRIMARY KEY, name TEXT, date TEXT, time TEXT, user_id TEXT, subject_id TEXT, description TEXT, pickedImages TEXT)',
+          'CREATE TABLE points(id TEXT PRIMARY KEY, name TEXT, date TEXT, time TEXT, user_id TEXT, subject_id TEXT, description TEXT, pickedImages TEXT, lat REAL, long REAL, isFavorite INTEGER)',
         );
       },
     );
@@ -141,7 +141,7 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
       }
 
       setState(() {
-        isLoading = false; // End loading after both local and Firebase fetches
+        isLoading = false;
       });
 
       // Then fetch updates from Firebase (if online)
