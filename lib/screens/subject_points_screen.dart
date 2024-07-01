@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -60,25 +63,29 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
     }
 
     // Delete from Firebase Firestore
-    try {
-      await db.collection("subjects").doc(subjectId).collection("points").doc(pointId).delete().then(
-            (doc) => debugPrint("Point deleted from Firebase"),
-        onError: (e) => debugPrint("Error deleting point from Firebase: $e"),
-      );
-    } catch(e) {
-      debugPrint("Error trying to delete point from firestore");
-    }
+    final List<ConnectivityResult> connectivityResult = await (Connectivity().checkConnectivity());
 
-    // Delete from Firebase Storage
-    try {
-      final Reference folderRef = storage.ref().child(pointId);
-      final ListResult result = await folderRef.listAll();
-
-      for (final Reference ref in result.items) {
-        await ref.delete();
+    if (!connectivityResult.contains(ConnectivityResult.none)) {
+      try {
+        await db.collection("subjects").doc(subjectId).collection("points").doc(pointId).delete().then(
+              (doc) => debugPrint("Point deleted from Firebase"),
+          onError: (e) => debugPrint("Error deleting point from Firebase: $e"),
+        );
+      } catch(e) {
+        debugPrint("Error trying to delete point from firestore");
       }
-    } catch(e) {
-      debugPrint("Error deleting imge from storage");
+
+      // Delete from Firebase Storage
+      try {
+        final Reference folderRef = storage.ref().child(pointId);
+        final ListResult result = await folderRef.listAll();
+
+        for (final Reference ref in result.items) {
+          await ref.delete();
+        }
+      } catch(e) {
+        debugPrint("Error deleting imge from storage");
+      }
     }
   }
 
@@ -156,6 +163,7 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
           date: pointMap['date'] as String,
           time: pointMap['time'] as String,
           description: pointMap['description'] as String,
+          // TODO: pegar imagens locais
         );
         setState(() {
           points.add(pointData);
@@ -166,45 +174,48 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
       });
 
       // Attempt to synchronize with Firebase (if online)
-      try {
-        final querySnapshot = await db.collection("subjects").doc(widget.subject.id).collection("points").get();
-        final firebasePointIds = querySnapshot.docs.map((doc) => doc.id).toList();
+      final List<ConnectivityResult> connectivityResult = await (Connectivity().checkConnectivity());
 
-        // Save local points to Firebase if they don't exist there
-        for (var point in points) {
-          if (!firebasePointIds.contains(point.id)) {
-            await db.collection("subjects").doc(widget.subject.id).collection("points").doc(point.id).set(point.toMap());
-            debugPrint("Local point ${point.id} saved to Firebase");
+      if (!connectivityResult.contains(ConnectivityResult.none)) {
+        try {
+          final querySnapshot = await db.collection("subjects").doc(widget.subject.id).collection("points").get();
+          final firebasePointIds = querySnapshot.docs.map((doc) => doc.id).toList();
+
+          // Save local points to Firebase if they don't exist there
+          for (var point in points) {
+            if (!firebasePointIds.contains(point.id)) {
+              await db.collection("subjects").doc(widget.subject.id).collection("points").doc(point.id).set(point.toMap());
+              debugPrint("Local point ${point.id} saved to Firebase");
+            }
           }
-        }
 
-        // Load new points from Firebase
-        for (var point in querySnapshot.docs) {
-          late Point pointData;
-          pointData = Point(
-            id: point["id"],
-            user_id: point["user_id"],
-            subject_id: point["subject_id"],
-            name: point["name"],
-            lat: point["lat"],
-            long: point["long"],
-            date: point["date"],
-            time: point["time"],
-            description: point["description"],
-          );
+          // Load new points from Firebase
+          for (var point in querySnapshot.docs) {
+            late Point pointData;
+            pointData = Point(
+              id: point["id"],
+              user_id: point["user_id"],
+              subject_id: point["subject_id"],
+              name: point["name"],
+              lat: point["lat"],
+              long: point["long"],
+              date: point["date"],
+              time: point["time"],
+              description: point["description"],
+            );
 
-          // Check if point already exists in local list
-          if (!points.any((p) => p.id == pointData.id)) {
-            setState(() {
-              points.add(pointData);
-            });
+            // Check if point already exists in local list
+            if (!points.any((p) => p.id == pointData.id)) {
+              setState(() {
+                points.add(pointData);
+              });
+            }
           }
-        }
 
-      } catch (e) {
-        debugPrint('Error getting online points: $e');
+        } catch (e) {
+          debugPrint('Error getting online points: $e');
+        }
       }
-
     } catch (e) {
       debugPrint('Error in getSubjectPoints(): $e');
       setState(() {
@@ -230,6 +241,18 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
     setState(() {
       pointList = PointList();
     });
+  }
+
+  Future<void> saveImagesInFirebaseStorage(String pointId, List<File> storedImagePaths) async {
+    List<Future<void>> uploadFutures = [];
+    for (File path in storedImagePaths) {
+      String uid = auth.currentUser!.uid;
+      String millisecondsTimeStamp = DateTime.now().millisecondsSinceEpoch.toString();
+      String fileName = "$uid$millisecondsTimeStamp";
+      final ref = storage.ref().child('$pointId/$fileName');
+      uploadFutures.add(ref.putFile(path));
+    }
+    await Future.wait(uploadFutures);
   }
 
   @override
@@ -264,6 +287,23 @@ class _SubjectPointsScreenState extends State<SubjectPointsScreen> {
         debugPrint("New point saved to local database");
       } catch (e) {
         debugPrint("Error saving point to local database: $e");
+      }
+      // TODO: salvar imagem localmente
+
+      // Save to Firebase
+      final List<ConnectivityResult> connectivityResult = await (Connectivity().checkConnectivity());
+
+      if (!connectivityResult.contains(ConnectivityResult.none)) {
+        await db.collection("subjects")
+            .doc(subject.id)
+            .collection("points")
+            .doc(newPoint.id)
+            .set(newPoint.toMap()).then((_) {
+          debugPrint("New point saved to Firebase");
+        }).onError((e, _) {
+          debugPrint("Error saving point to Firebase: $e");
+        });
+        await saveImagesInFirebaseStorage(newPoint.id!, newPoint.pickedImages!);
       }
 
       getSubjectPoints();

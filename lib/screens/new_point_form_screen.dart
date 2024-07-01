@@ -70,8 +70,6 @@ class _NewPointFormScreenState extends State<NewPointFormScreen> {
     newPoint.description = description;
     newPoint.pickedImages = pickedImages; // TODO: Salvar imagens no storage em um pasta cmo o mesmo id do subject
 
-    saveImagesInFirebaseStorage(pointId, pickedImages);
-
     Navigator.pop(context, newPoint);
   }
 
